@@ -22,7 +22,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/user")
 public class UserController {
 	private final RegistrationService registrationService;
+	private final AuthService authService;
 
+	@PostMapping("/login")
+	public CustomResponse<UserLoginResponse> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
+		UserLoginResponse userLoginResponse = authService.login(userLoginRequest);
+		return new CustomResponse<>(HttpStatus.OK.value(),userLoginResponse,"성공적으로 로그인이 되었습니다");
+	}
 
 	@PostMapping("/register/profile")
 	public CustomResponse<UserRegistrationResponse> register(@RequestBody @Valid UserRegistrationRequest userRegistrationRequest){
