@@ -19,7 +19,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(schema = "users")
+@Table(name = "users")
 @Data
 @Entity
 @Builder
@@ -32,7 +32,7 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "refregerator_id",nullable = false)
+	@Column(name = "refrigerator_id",nullable = false)
 	private Long refrigeratorId;
 
 	@Column(name = "email",nullable = false)
@@ -42,7 +42,7 @@ public class User implements UserDetails {
 	private String password;
 
 	@Column(name = "nickname",nullable = false,unique = true)
-	private String nickName;
+	private String nickname;
 
 	@UpdateTimestamp
 	@Column(name = "update_time",nullable = false)
