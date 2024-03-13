@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,35 +30,44 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails {
 
 	@Id
-	@Column(name = "id",nullable = false)
+	@NotNull
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "refrigerator_id",nullable = false)
+	@NotNull
+	@Column(name = "refrigerator_id")
 	private Long refrigeratorId;
 
-	@Column(name = "email",nullable = false)
+	@NotNull
+	@Column(name = "email")
 	private String username;
 
-	@Column(name = "password",nullable = false)
+	@NotNull
+	@Column(name = "password")
 	private String password;
 
-	@Column(name = "nickname",nullable = false,unique = true)
+	@NotNull
+	@Column(name = "nickname",unique = true)
 	private String nickname;
 
 	@UpdateTimestamp
-	@Column(name = "update_time",nullable = false)
+	@NotNull
+	@Column(name = "update_time")
 	private LocalDateTime updateTime;
 
 	@CreationTimestamp
-	@Column(name = "create_time",nullable = false)
+	@NotNull
+	@Column(name = "create_time")
 	private LocalDateTime createTime;
 
+	@NotNull
 	@Column(name = "delete_time")
 	private LocalDateTime deleteTime;
 
 	@ColumnDefault("false")
-	@Column(name = "deleted",nullable = false,columnDefinition = "TINYINT(1)")
+	@NotNull
+	@Column(name = "deleted",columnDefinition = "TINYINT(1)")
 	private boolean deleted;
 
 	@Override
