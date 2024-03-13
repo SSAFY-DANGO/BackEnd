@@ -3,6 +3,7 @@ package com.dango.dango.domain.user.entity;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,7 +56,8 @@ public class User implements UserDetails {
 	@Column(name = "delete_time")
 	private LocalDateTime deleteTime;
 
-	@Column(name = "deleted",nullable = false)
+	@ColumnDefault("false")
+	@Column(name = "deleted",nullable = false,columnDefinition = "TINYINT(1)")
 	private boolean deleted;
 
 	@Override
