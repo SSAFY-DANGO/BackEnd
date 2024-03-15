@@ -1,10 +1,7 @@
 package com.dango.dango.global.common.util;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,16 +11,24 @@ import com.dango.dango.domain.user.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class JwtTokenUtil {
-	private static final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24 * 8;
+	private static final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24; // access token 의 기한은 하루
+	private static final long REFRESH_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24 * 7; // refresh token의 기한은 일주일
 
-	static private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+	private static Key key;
+
+	public JwtTokenUtil(@Value("${jwt.secret}")String secretKey) {
+		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+		this.key = Keys.hmacShaKeyFor(keyBytes);
+	}
 
 	public static String createToken(User user) {
 		Claims claims = Jwts.claims();
@@ -33,7 +38,7 @@ public class JwtTokenUtil {
 			.setClaims(claims)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_PERIOD))
-			.signWith(key)
+			.signWith(key, SignatureAlgorithm.HS256)
 			.compact();
 	}
 
@@ -42,8 +47,8 @@ public class JwtTokenUtil {
 		return Jwts.builder()
 			.setClaims(claims)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
-			.setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_PERIOD))
-			.signWith(key)
+			.setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_PERIOD))
+			.signWith(key,SignatureAlgorithm.HS256)
 			.compact();
 	}
 
@@ -69,7 +74,17 @@ public class JwtTokenUtil {
 		return true;
 	}
 
-	public static Claims extractClaims(String token) {
-		return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+	public static Claims extractClaims(String token) throws SignatureException {
+		try {
+			return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+		} catch (SignatureException e) {
+			log.error("SignatureException occurred while extracting claims from token: {}", e.getMessage());
+			throw e;
+		}
+	}
+
+	public static String extractUsername(String token){
+		Claims claims = extractClaims(token);
+		return (String)claims.get("username");
 	}
 }
