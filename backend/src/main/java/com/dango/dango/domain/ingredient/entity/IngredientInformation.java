@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.time.LocalDateTime;
 
 @Data
+@DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,6 +26,7 @@ public class IngredientInformation {
     @Column(unique = true)
     private String name;
 
+    @NotNull
     private String type;
 
     @UpdateTimestamp
@@ -44,6 +46,7 @@ public class IngredientInformation {
 
     private double carbs;
 
+    @ColumnDefault("100")
     private int amount;
 
 }

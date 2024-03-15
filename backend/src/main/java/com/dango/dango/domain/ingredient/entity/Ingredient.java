@@ -19,10 +19,10 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @Column(name = "refrigerator_id", nullable = false)
-    @JoinColumn(name = "id")
-    private Refrigerator refrigeratorId;
+//    @ManyToOne
+//    @Column(name = "refrigerator_id", nullable = false)
+//    @JoinColumn(name = "id")
+//    private Refrigerator refrigeratorId;
 
     @NotNull
     private String name;
