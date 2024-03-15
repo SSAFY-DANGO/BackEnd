@@ -1,7 +1,6 @@
 package com.dango.dango.domain.user.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 	private final UserService userService;
+	private final RefreshTokenService refreshTokenService;
 	private final PasswordEncoder passwordEncoder;
 
 	@Value("${jwt.secret}")
@@ -29,9 +29,17 @@ public class AuthServiceImpl implements AuthService{
 		passwordEncoder.matches(user.getPassword(),user.getPassword());
 		// 패스워드가 일치하는지 확인한다
 
+		String accessToken = JwtTokenUtil.createToken(user);
+		String refreshToken = JwtTokenUtil.createRefreshToken();
+		// 토큰 추가
+
+		refreshTokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
+		// refresh token 을 추가한다
+
 		UserLoginResponse userLoginResponse = UserLoginResponse.builder()
 			.nickname(user.getNickname())
-			.token(JwtTokenUtil.createToken(user,key))
+			.refreshToken(refreshToken)
+			.accessToken(accessToken)
 			.build();
 
 		return userLoginResponse;
