@@ -22,7 +22,7 @@ public class ReissueServiceImpl implements ReissueService{
 	@Override
 	public UserReissueResponse reissueAccessToken(String refreshToken) throws SignatureException {
 
-		RefreshToken token = refreshTokenService.findByRefreshToken(refreshToken);
+		RefreshToken token = refreshTokenService.findByRefreshTokenAndDelete(refreshToken);
 		// redis에 저장된 정보를 가져온 다음
 
 		String username = jwtTokenUtil.extractUsername(token.getAccessToken());
@@ -37,6 +37,8 @@ public class ReissueServiceImpl implements ReissueService{
 
 		String newRefreshToken = jwtTokenUtil.createRefreshToken();
 
+		refreshTokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
+
 		UserReissueResponse newToken = TokenMapper.INSTANCE.RefreshTokenToUserReissue(
 			RefreshToken.builder()
 			.accessToken(accessToken)
@@ -44,9 +46,6 @@ public class ReissueServiceImpl implements ReissueService{
 			.userId(String.valueOf(user.getId()))
 			.build()
 		);
-
-
-
 		return newToken;
 	}
 }
