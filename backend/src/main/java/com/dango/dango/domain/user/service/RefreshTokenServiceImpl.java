@@ -35,11 +35,27 @@ public class RefreshTokenServiceImpl implements RefreshTokenService{
 
 	@Override
 	public RefreshToken findByRefreshToken(String refreshToken) {
-		return refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new EntityNotFoundException(
+		return refreshTokenRepository.findByRefreshToken(refreshToken)
+			.orElseThrow(
+				()-> new EntityNotFoundException(
 			"해당하는 토큰이 없습니다"
 		));
 	}
 	// 리프레시 토큰을 기준으로 토큰을 찾습니다
 
+	@Override
+	public void deleteByRefreshToken(String refreshToken){
+		refreshTokenRepository.findByRefreshToken(refreshToken)
+			.ifPresent(
+				token -> refreshTokenRepository.delete(token)
+			);
+	}
+
+	@Override
+	public RefreshToken findByRefreshTokenAndDelete(String refreshToken) {
+		RefreshToken token = findByRefreshToken(refreshToken);
+		deleteByRefreshToken(refreshToken);
+		return token;
+	}
 
 }
