@@ -1,10 +1,9 @@
 package com.dango.dango.domain.ingredient.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class IngredientInformationUpdateDTO {
+public class IngredientInformationUpdateRequest {
     private String name;
     private String type;
     private Double calorie;

@@ -1,6 +1,6 @@
 package com.dango.dango.domain.ingredient.service;
 
-import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateDTO;
+import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateRequest;
 import com.dango.dango.domain.ingredient.entity.IngredientInformation;
 
 public interface IngredientInformationService {
@@ -18,5 +18,5 @@ public interface IngredientInformationService {
     void deleteIngredientInformation(Long id);
 
     // 식재료 정보 업데이트
-    int updateIngredientInformation(Long id, IngredientInformationUpdateDTO ingredientInformationUpdateDTO);
+    int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest);
 }

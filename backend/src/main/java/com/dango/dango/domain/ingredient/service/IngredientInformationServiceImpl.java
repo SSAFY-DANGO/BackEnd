@@ -1,6 +1,6 @@
 package com.dango.dango.domain.ingredient.service;
 
-import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateDTO;
+import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateRequest;
 import com.dango.dango.domain.ingredient.entity.IngredientInformation;
 import com.dango.dango.domain.ingredient.exception.IngredientInformationNotFoundException;
 import com.dango.dango.domain.ingredient.repository.IngredientInformationRepository;
@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,16 +44,16 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
 
     @Override
     @Transactional
-    public int updateIngredientInformation(Long id, IngredientInformationUpdateDTO ingredientInformationUpdateDTO) {
+    public int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest) {
         IngredientInformation ingredientInformation = findIngredientInformationById(id);
 
-        Class<?> dtoClass = ingredientInformationUpdateDTO.getClass();
+        Class<?> dtoClass = ingredientInformationUpdateRequest.getClass();
         Field[] fields = dtoClass.getDeclaredFields();
 
         for(Field field : fields ) {
             try {
                 // 필드값이 null이 아니면
-                Object value = field.get(ingredientInformationUpdateDTO);
+                Object value = field.get(ingredientInformationUpdateRequest);
                 if (value != null) {
                     // dto 클래스의 필드이름이랑 같은 필드 타입 찾기
                     Field entryField = IngredientInformation.class.getDeclaredField(field.getName());
@@ -71,22 +70,22 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
         return 1;
         // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
 //
-//        String name = ingredientInformationUpdateDTO.getName();
+//        String name = ingredientInformationUpdateRequest.getName();
 //        if (name != null) {
 //            ingredientInformation.setName(name);
 //        }
 //
-//        String type = ingredientInformationUpdateDTO.getType();
+//        String type = ingredientInformationUpdateRequest.getType();
 //        if (type != null) {
 //            ingredientInformation.setType(type);
 //        }
 //
-//        Double calorie = ingredientInformationUpdateDTO.getCalorie();
+//        Double calorie = ingredientInformationUpdateRequest.getCalorie();
 //        if (calorie != null) {
 //            ingredientInformation.setCalorie(calorie);
 //        }
 //
-//        Double calorie = ingredientInformationUpdateDTO.getCalorie();
+//        Double calorie = ingredientInformationUpdateRequest.getCalorie();
 //        if (calorie != null) {
 //            ingredientInformation.setCalorie(calorie);
 //        }
