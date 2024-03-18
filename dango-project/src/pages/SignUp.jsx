@@ -10,20 +10,21 @@ export default function SignUp() {
   return (
     <>
       <div className='landing-background flex flex-col justify-center items-center h-screen'>
-        <div> &lt;&lt; 회원가입 </div>
-        <div>
-          <div>이메일 주소</div>
-          <input />
+        <div
+          className='text-5xl font-bold font-noto-sans-kr p-10'
+          style={{ position: 'absolute', top: '20px', left: '20px' }}
+        >
+          {' '}
+          &lt; 회원가입{' '}
         </div>
-        <div>
-          <div>이메일 주소</div>
-          <input />
-        </div>
-        <div>
-          <div>이메일 주소</div>
-          <input />
-        </div>
-        <button onClick={navigateConnectFridge}> 가입하기 </button>
+        <form className='text-3xl'>
+          <div className='p-10'>
+            <div>이메일 주소</div>
+            <input />
+          </div>
+
+          <button onClick={navigateConnectFridge}> 가입하기 </button>
+        </form>
       </div>
     </>
   );
