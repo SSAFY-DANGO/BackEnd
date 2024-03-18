@@ -42,32 +42,32 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
         ingredientInformationRepository.deleteById(id);
     }
 
-    @Override
-    @Transactional
-    public int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest) {
-        IngredientInformation ingredientInformation = findIngredientInformationById(id);
-
-        Class<?> dtoClass = ingredientInformationUpdateRequest.getClass();
-        Field[] fields = dtoClass.getDeclaredFields();
-
-        for(Field field : fields ) {
-            try {
-                // 필드값이 null이 아니면
-                Object value = field.get(ingredientInformationUpdateRequest);
-                if (value != null) {
-                    // dto 클래스의 필드이름이랑 같은 필드 타입 찾기
-                    Field entryField = IngredientInformation.class.getDeclaredField(field.getName());
-                    // reflection 접근 가능하게 수정하기
-                    entryField.setAccessible(true);
-                    entryField.set(ingredientInformation, value);
-                }
-            } catch (Throwable e) {
-                // 필드가 없거나 접근 불가능한 경우?
-                e.printStackTrace();
-            }
-
-        }
-        return 1;
+//    @Override
+//    @Transactional
+//    public int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest) {
+//        IngredientInformation ingredientInformation = findIngredientInformationById(id);
+//
+//        Class<?> dtoClass = ingredientInformationUpdateRequest.getClass();
+//        Field[] fields = dtoClass.getDeclaredFields();
+//
+//        for(Field field : fields ) {
+//            try {
+//                // 필드값이 null이 아니면
+//                Object value = field.get(ingredientInformationUpdateRequest);
+//                if (value != null) {
+//                    // dto 클래스의 필드이름이랑 같은 필드 타입 찾기
+//                    Field entryField = IngredientInformation.class.getDeclaredField(field.getName());
+//                    // reflection 접근 가능하게 수정하기
+//                    entryField.setAccessible(true);
+//                    entryField.set(ingredientInformation, value);
+//                }
+//            } catch (Throwable e) {
+//                // 필드가 없거나 접근 불가능한 경우?
+//                e.printStackTrace();
+//            }
+//
+//        }
+//        return 1;
         // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
 //
 //        String name = ingredientInformationUpdateRequest.getName();
@@ -89,7 +89,7 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
 //        if (calorie != null) {
 //            ingredientInformation.setCalorie(calorie);
 //        }
-    }
+//    }
 
 
 }

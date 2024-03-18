@@ -18,5 +18,5 @@ public interface IngredientInformationService {
     void deleteIngredientInformation(Long id);
 
     // 식재료 정보 업데이트
-    int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest);
+//    int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest);
 }
