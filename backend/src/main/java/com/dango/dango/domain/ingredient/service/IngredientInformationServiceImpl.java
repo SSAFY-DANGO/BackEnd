@@ -8,6 +8,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class IngredientInformationServiceImpl implements IngredientInformationService {
@@ -41,8 +44,52 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
     }
 
     @Override
+    @Transactional
     public int updateIngredientInformation(Long id, IngredientInformationUpdateDTO ingredientInformationUpdateDTO) {
-        return 0;
+        IngredientInformation ingredientInformation = findIngredientInformationById(id);
+
+        Class<?> dtoClass = ingredientInformationUpdateDTO.getClass();
+        Field[] fields = dtoClass.getDeclaredFields();
+
+        for(Field field : fields ) {
+            try {
+                // 필드값이 null이 아니면
+                Object value = field.get(ingredientInformationUpdateDTO);
+                if (value != null) {
+                    // dto 클래스의 필드이름이랑 같은 필드 타입 찾기
+                    Field entryField = IngredientInformation.class.getDeclaredField(field.getName());
+                    // reflection 접근 가능하게 수정하기
+                    entryField.setAccessible(true);
+                    entryField.set(ingredientInformation, value);
+                }
+            } catch (Throwable e) {
+                // 필드가 없거나 접근 불가능한 경우?
+                e.printStackTrace();
+            }
+
+        }
+        return 1;
+        // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
+//
+//        String name = ingredientInformationUpdateDTO.getName();
+//        if (name != null) {
+//            ingredientInformation.setName(name);
+//        }
+//
+//        String type = ingredientInformationUpdateDTO.getType();
+//        if (type != null) {
+//            ingredientInformation.setType(type);
+//        }
+//
+//        Double calorie = ingredientInformationUpdateDTO.getCalorie();
+//        if (calorie != null) {
+//            ingredientInformation.setCalorie(calorie);
+//        }
+//
+//        Double calorie = ingredientInformationUpdateDTO.getCalorie();
+//        if (calorie != null) {
+//            ingredientInformation.setCalorie(calorie);
+//        }
     }
 
 
