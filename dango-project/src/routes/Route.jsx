@@ -5,6 +5,7 @@ import ConnectFridge from '../pages/ConnectFridge';
 import Cart from '../pages/Cart';
 import FridegeInside from '../pages/FridegeInside';
 import Mypage from '../pages/Mypage';
+import FridgeExterior from '../pages/FridgeExterior';
 
 const routes = createBrowserRouter([
   { path: '', element: <Login></Login> }, // 첫 시작화면-> 무조건 로그인 화면으로
