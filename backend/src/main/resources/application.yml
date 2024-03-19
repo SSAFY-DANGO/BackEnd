@@ -14,15 +14,15 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
-  data:
-    redis:
-      host: ##host
-      port: ##port
+#  data:
+#    redis:
+#      host: ##host
+#      port: ##port
 
-elastic:
-  host: ##host
-  username: ##username
-  password: ##password
+#elastic:
+#  host: ##host
+#  username: ##username
+#  password: ##password
 
 logging:
   level:
@@ -31,4 +31,7 @@ logging:
         security:
           DEBUG
 jwt:
-  secret: ##secret-key
+  secret: ${jwt.secret}
+
+server:
+  port: 8081
