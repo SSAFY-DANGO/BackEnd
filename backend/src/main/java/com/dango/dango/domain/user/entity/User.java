@@ -60,8 +60,7 @@ public class User implements UserDetails {
 	@NotNull
 	@Column(name = "create_time")
 	private LocalDateTime createTime;
-
-	@NotNull
+	
 	@Column(name = "delete_time")
 	private LocalDateTime deleteTime;
 
