@@ -7,9 +7,10 @@
     rgba(202, 249, 249, 0.42),
     rgba(203, 149, 182, 0.21)
   );
-  overflow: hidden;
-  align-items: flex-start;
-  padding: 119px 0 0.5px 28px;
-  gap: 86px;
-  letter-spacing: normal;
+  overflow: auto;
+  /* align-items: flex-start; */
+  /* padding: 119px 0 0.5px 28px; */
+  padding: 110px 10px 50px 10px;
+  /* gap: 86px; */
+  /* letter-spacing: normal; */
 }

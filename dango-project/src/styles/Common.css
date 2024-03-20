@@ -12,18 +12,15 @@
 }
 
 .long-thick-button {
+  margin-top: 16px;
+  margin-bottom: 16px;
   cursor: pointer;
   border: 0;
-  padding: 12px 20px 13.700000000000044px;
+  padding: 12px 20px 13px;
   background-color: rgba(104, 64, 192, 0.41);
-  align-self: stretch;
   border-radius: 12.89px;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
   box-sizing: border-box;
-  max-width: 100%;
+  width: 100%;
 }
 .long-thick-button:hover {
   background-color: rgba(143, 102, 230, 0.41);
