@@ -16,9 +16,11 @@ export default function Login() {
       <div className=''>
         <div className='landing-background '>
           <div className='flex flex-col justify-center items-center '>
-            <div className='text-5xl font-bold pb-10'>당신의 냉장고, 당고</div>
-            <div className='text-3xl pb-10'>문을 열어 주세요</div>
+            <div className='text-5xl font-bold pb-10 font-title'>
+              당신의 냉장고, 당고
+            </div>
 
+            <div className='text-3xl pb-10 font-aggroS'>문을 열어 주세요</div>
             <div className='m-4 w-3/4 flex justify-center flex-col'>
               <div>이메일</div>
               <input

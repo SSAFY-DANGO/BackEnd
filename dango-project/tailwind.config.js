@@ -2,7 +2,14 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        title: ['BMDOHYEON'],
+        aggroS: ['SBAggroL'],
+        aggroM: ['SBAggroM'],
+        aggroB: ['SBAggroB'],
+      },
+    },
   },
   plugins: [],
 };
