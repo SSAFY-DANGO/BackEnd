@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.dango.dango.domain.user.entity.RefreshToken;
 import com.dango.dango.domain.user.service.ReissueService;
 import com.dango.dango.global.common.util.JwtTokenUtil;
 
