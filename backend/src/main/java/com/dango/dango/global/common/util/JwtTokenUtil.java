@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class JwtTokenUtil {
-	private final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 ;//* 60 * 24; // access token 의 기한은 하루
+	private final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24; // access token 의 기한은 하루
 	private final long REFRESH_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24 * 7; // refresh token의 기한은 일주일
 	private SecretKey key;
 	public JwtTokenUtil(@Value("${jwt.secret}")String secretKey) {
