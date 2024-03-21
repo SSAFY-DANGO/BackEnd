@@ -16,6 +16,7 @@ public class AuthServiceImpl implements AuthService{
 	private final UserService userService;
 	private final TokenService tokenService;
 	private final PasswordEncoder passwordEncoder;
+	private final JwtTokenUtil jwtTokenUtil;
 
 	@Override
 	public UserLoginResponse login(UserLoginRequest userLoginRequest) {
@@ -25,8 +26,8 @@ public class AuthServiceImpl implements AuthService{
 		passwordEncoder.matches(user.getPassword(),user.getPassword());
 		// 패스워드가 일치하는지 확인한다
 
-		String accessToken = JwtTokenUtil.createToken(user);
-		String refreshToken = JwtTokenUtil.createRefreshToken();
+		String accessToken = jwtTokenUtil.createToken(user);
+		String refreshToken = jwtTokenUtil.createRefreshToken();
 		// 토큰 추가
 
 		tokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);

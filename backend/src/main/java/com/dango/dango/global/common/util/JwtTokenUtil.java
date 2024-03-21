@@ -3,14 +3,18 @@ package com.dango.dango.global.common.util;
 import java.security.Key;
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.dango.dango.domain.user.entity.User;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -20,17 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class JwtTokenUtil {
-	private static final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24; // access token 의 기한은 하루
-	private static final long REFRESH_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24 * 7; // refresh token의 기한은 일주일
-
-	private static Key key;
-
+	private final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24; // access token 의 기한은 하루
+	private final long REFRESH_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24 * 7; // refresh token의 기한은 일주일
+	private SecretKey key;
 	public JwtTokenUtil(@Value("${jwt.secret}")String secretKey) {
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public static String createToken(User user) {
+	public String createToken(User user) {
 		Claims claims = Jwts.claims();
 		claims.put("username", user.getUsername());
 
@@ -38,43 +40,43 @@ public class JwtTokenUtil {
 			.setClaims(claims)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALID_PERIOD))
-			.signWith(key, SignatureAlgorithm.HS256)
+			.signWith(key)
 			.compact();
 	}
 
-	public static String createRefreshToken() {
+	public String createRefreshToken() {
 		Claims claims = Jwts.claims();
 		return Jwts.builder()
 			.setClaims(claims)
 			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_VALID_PERIOD))
-			.signWith(key,SignatureAlgorithm.HS256)
+			.signWith(key)
 			.compact();
 	}
 
-	public static String extractToken(HttpServletRequest request) {
+	public String extractToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (bearerToken != null && bearerToken.startsWith("Bearer"))
 			return bearerToken.substring(7);
 		return null;
 	}
 
-	public static boolean validateToken(String token) {
+	public boolean validateToken(String token) {
 		try {
-			Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-			Date expiration = claims.getExpiration();
-
-			if (expiration.before(new Date())) {
-				// 액세스 토큰이 만료되었을 경우
-				throw new IllegalArgumentException("토큰이 만료되었습니다");
-			}
-		} catch (Exception e) {
-			return false;
+			parseJwt(token);
+			return true;
+		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+			log.error("잘못된 JWT 서명입니다");
+		} catch (ExpiredJwtException e) {
+			log.error("만료된 JWT 토큰입니다.");
+		}  catch (IllegalArgumentException e) {
+			log.error("JWT 토큰이 잘못되었습니다.");
 		}
-		return true;
+		return false;
 	}
 
-	public static Claims extractClaims(String token) throws SignatureException {
+
+	public Claims extractClaims(String token) throws SignatureException {
 		try {
 			return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 		} catch (SignatureException e) {
@@ -83,8 +85,14 @@ public class JwtTokenUtil {
 		}
 	}
 
-	public static String extractUsername(String token){
+	public String extractUsername(String token){
 		Claims claims = extractClaims(token);
 		return (String)claims.get("username");
+	}
+
+	public Claims parseJwt(String jwt){
+		Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
+			.parseClaimsJws(jwt).getBody();
+		return claims;
 	}
 }
