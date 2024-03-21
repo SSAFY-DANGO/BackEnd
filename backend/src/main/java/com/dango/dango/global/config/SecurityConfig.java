@@ -1,5 +1,7 @@
 package com.dango.dango.global.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.dango.dango.global.filter.JwtFilter;
 
@@ -21,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	private final JwtFilter jwtFilter;
-	private final WebConfig webConfig;
+	private final CorsConfig corsConfig;
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		httpSecurity
@@ -36,7 +40,7 @@ public class SecurityConfig {
 					.requestMatchers(HttpMethod.GET,"/error").permitAll()
 					.anyRequest().authenticated()
 			).cors(
-				AbstractHttpConfigurer::disable
+				cors -> cors.configurationSource(corsConfig.corsConfigurationSource())
 			)
 			.addFilterBefore(
 				jwtFilter, UsernamePasswordAuthenticationFilter.class
@@ -48,4 +52,5 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
+
 }
