@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.dango.dango.domain.user.service.ReissueService;
 import com.dango.dango.global.common.util.JwtTokenUtil;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
 				}else{
 					throw new IllegalArgumentException("유효하지 않은 토큰입니다");
 				}
-			}catch (IllegalArgumentException e){
+			}catch (ExpiredJwtException e){
 				response.setHeader("Expired-Token","true");
 				//토큰의 기간이 만료되었음을 알려주자
 			}
