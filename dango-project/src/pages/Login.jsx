@@ -9,11 +9,11 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await loginUser({ email, password });
+      const response = await loginUser({ username, password });
       console.log('로그인 성공', response);
     } catch (error) {
       console.log('로그인 실패', error);
@@ -39,8 +39,8 @@ export default function Login() {
               <input
                 placeholder='ssafy@gmail.com'
                 className='rounded-lg p-3 w-full'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div className='m-4 w-3/4 flex justify-center flex-col'>

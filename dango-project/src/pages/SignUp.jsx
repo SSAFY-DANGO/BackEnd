@@ -10,13 +10,13 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const [nickname, setNickname] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
 
     try {
-      const response = await signUpUser({nickname, email, password});
+      const response = await signUpUser({nickname, username, password});
       console.log('로그인 성공', response)
       navigateConnectFridge();
     } catch (error) {
@@ -57,8 +57,8 @@ export default function SignUp() {
             <input
               placeholder='ssafy@gmail.com'
               className='rounded-lg p-3 w-full'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
