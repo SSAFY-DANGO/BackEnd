@@ -5,4 +5,5 @@ import com.dango.dango.domain.user.dto.UserLoginResponse;
 
 public interface AuthService {
 	UserLoginResponse login(UserLoginRequest userLoginRequest);
+	void logout();
 }
