@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dango.dango.domain.user.dto.UserReissueResponse;
-import com.dango.dango.domain.user.service.RefreshTokenService;
 import com.dango.dango.domain.user.service.ReissueService;
 import com.dango.dango.global.common.response.CustomResponse;
 
@@ -23,4 +22,6 @@ public class TokenController {
 		UserReissueResponse userReissueResponse = reissueService.reissueAccessToken(refreshToken);
 		return new CustomResponse<>(HttpStatus.ACCEPTED.value(),userReissueResponse,"access token이 재발급되었습니다");
 	}
+
+
 }
