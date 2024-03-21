@@ -1,12 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const DEV = "http://localhost:8080/api/";
-const HOST = "https://localhost:8080/api/";
+const DEV = 'http://localhost:8080/api/';
+const HOST = 'https://j10a702.p.ssay.io/api/';
 
 const api = axios.create({
   baseURL: HOST,
   withCredentials: true,
-
 });
 // 요청 인터셉터
 api.interceptors.request.use(
@@ -39,4 +38,26 @@ api.interceptors.response.use(
   //   return Promise.reject(error);
   // }
 );
+
+export const loginUser = async (userLoginRequest) => {
+  try {
+    const response = await api.post('/users/login', userLoginRequest);
+    return response.data;
+  } catch (error) {
+    console.error('로그인 실패:', error);
+    throw error;
+  }
+};
+
+export const signUpUser = async (signUpRequest) => {
+  try {
+    console.log('여기옴');
+    const response = await api.post('/users/regist/profile', signUpRequest);
+    return response.data;
+  } catch (error) {
+    console.error('회원가입 실패:', error);
+    throw error;
+  }
+};
+
 export default api;

@@ -1,0 +1,27 @@
+.common-input {
+  margin: 5px;
+  border: 0;
+  outline: 0;
+  background-color: #fff;
+  align-self: stretch;
+  height: 66px;
+  position: relative;
+  border-radius: 10px;
+  min-width: 216px;
+  width: 70%;
+}
+
+.long-thick-button {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  border: 0;
+  padding: 12px 20px 13px;
+  background-color: rgba(104, 64, 192, 0.41);
+  border-radius: 12.89px;
+  box-sizing: border-box;
+  width: 100%;
+}
+.long-thick-button:hover {
+  background-color: rgba(143, 102, 230, 0.41);
+}
