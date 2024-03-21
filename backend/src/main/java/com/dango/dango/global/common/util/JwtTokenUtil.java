@@ -69,6 +69,7 @@ public class JwtTokenUtil {
 			log.error("잘못된 JWT 서명입니다");
 		} catch (ExpiredJwtException e) {
 			log.error("만료된 JWT 토큰입니다.");
+			throw new ExpiredJwtException(e.getHeader(), e.getClaims(),"만료된 JWT 토큰입니다");
 		}  catch (IllegalArgumentException e) {
 			log.error("JWT 토큰이 잘못되었습니다.");
 		}
