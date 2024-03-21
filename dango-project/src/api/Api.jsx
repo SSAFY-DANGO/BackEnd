@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const DEV = 'http://localhost:8080/api/';
-const HOST = 'https://j10a702.p.ssay.io/api/';
+const HOST = 'https://j10a702.p.ssafy.io/api/';
 
 const api = axios.create({
   baseURL: HOST,
@@ -41,7 +41,7 @@ api.interceptors.response.use(
 
 export const loginUser = async (userLoginRequest) => {
   try {
-    const response = await api.post('/users/login', userLoginRequest);
+    const response = await api.post('/user/login', userLoginRequest);
     return response.data;
   } catch (error) {
     console.error('로그인 실패:', error);
@@ -52,7 +52,7 @@ export const loginUser = async (userLoginRequest) => {
 export const signUpUser = async (signUpRequest) => {
   try {
     console.log('여기옴');
-    const response = await api.post('/users/regist/profile', signUpRequest);
+    const response = await api.post('/user/register/profile', signUpRequest);
     return response.data;
   } catch (error) {
     console.error('회원가입 실패:', error);
