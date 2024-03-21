@@ -14,15 +14,11 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
-#  data:
-#    redis:
-#      host: ##host
-#      port: ##port
-
-#elastic:
-#  host: ##host
-#  username: ##username
-#  password: ##password
+  data:
+    redis:
+      host: ${dango}
+      port: ${database.redis.port}
+    # 엘라스틱 서치 나중에 추가해야함
 
 logging:
   level:
