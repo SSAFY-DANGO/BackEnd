@@ -3,7 +3,7 @@ package com.dango.dango.domain.user.service;
 import org.springframework.stereotype.Service;
 
 import com.dango.dango.domain.user.dto.UserReissueResponse;
-import com.dango.dango.domain.user.entity.RefreshToken;
+import com.dango.dango.domain.user.entity.Token;
 import com.dango.dango.domain.user.entity.User;
 import com.dango.dango.domain.user.mapper.TokenMapper;
 import com.dango.dango.global.common.util.JwtTokenUtil;
@@ -15,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ReissueServiceImpl implements ReissueService{
 
-	private final RefreshTokenService refreshTokenService;
+	private final TokenService refreshTokenService;
 	private final UserService userService;
 	private final JwtTokenUtil jwtTokenUtil;
 
 	@Override
 	public UserReissueResponse reissueAccessToken(String refreshToken) throws SignatureException {
 
-		RefreshToken token = refreshTokenService.findByRefreshTokenAndDelete(refreshToken);
+		Token token = refreshTokenService.findByRefreshTokenAndDelete(refreshToken);
 		// redis에 저장된 정보를 가져온 다음
 
 		String username = jwtTokenUtil.extractUsername(token.getAccessToken());
@@ -39,8 +39,8 @@ public class ReissueServiceImpl implements ReissueService{
 
 		refreshTokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
 
-		UserReissueResponse newToken = TokenMapper.INSTANCE.RefreshTokenToUserReissue(
-			RefreshToken.builder()
+		UserReissueResponse newToken = TokenMapper.INSTANCE.TokenToUserReissue(
+			Token.builder()
 			.accessToken(accessToken)
 			.refreshToken(newRefreshToken)
 			.userId(String.valueOf(user.getId()))

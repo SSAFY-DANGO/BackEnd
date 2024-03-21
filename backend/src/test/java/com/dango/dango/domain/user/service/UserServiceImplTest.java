@@ -38,7 +38,7 @@ class UserServiceImplTest {
 			.id(userId)
 			.username("test@naver.com")
 			.password("password")
-			.nickName("nickname")
+			.nickname("nickname")
 			.build();
 	}
 	@Test
@@ -75,7 +75,7 @@ class UserServiceImplTest {
 		String nickname = "test";
 		when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
 		User user = userService.modifyUserNickName(userId,nickname);
-		assertEquals(user.getNickName(),nickname);
+		assertEquals(user.getNickname(),nickname);
 	}
 
 	@Test

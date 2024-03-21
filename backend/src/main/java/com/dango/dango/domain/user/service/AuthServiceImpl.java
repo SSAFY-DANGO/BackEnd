@@ -1,6 +1,5 @@
 package com.dango.dango.domain.user.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
 	private final UserService userService;
-	private final RefreshTokenService refreshTokenService;
+	private final TokenService tokenService;
 	private final PasswordEncoder passwordEncoder;
-
-	@Value("${jwt.secret}")
-	private String key;
+	private final JwtTokenUtil jwtTokenUtil;
 
 	@Override
 	public UserLoginResponse login(UserLoginRequest userLoginRequest) {
@@ -29,11 +26,11 @@ public class AuthServiceImpl implements AuthService{
 		passwordEncoder.matches(user.getPassword(),user.getPassword());
 		// 패스워드가 일치하는지 확인한다
 
-		String accessToken = JwtTokenUtil.createToken(user);
-		String refreshToken = JwtTokenUtil.createRefreshToken();
+		String accessToken = jwtTokenUtil.createToken(user);
+		String refreshToken = jwtTokenUtil.createRefreshToken();
 		// 토큰 추가
 
-		refreshTokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
+		tokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
 		// refresh token 을 추가한다
 
 		UserLoginResponse userLoginResponse = UserLoginResponse.builder()
@@ -43,5 +40,17 @@ public class AuthServiceImpl implements AuthService{
 			.build();
 
 		return userLoginResponse;
+	}
+
+	@Override
+	public void logout() {
+
+		User user = userService.findUserByToken();
+		// 존재하는 유저인지 검증
+
+		tokenService.deleteById(user.getId());
+		// 해당 유저의 토큰이 존재하는지 확인 후 삭제
+
+		// 로그아웃하고나서는 리프레쉬 토큰 발급이 되지않도록 해야함
 	}
 }

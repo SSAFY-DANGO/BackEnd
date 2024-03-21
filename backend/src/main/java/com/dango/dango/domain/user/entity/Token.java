@@ -7,13 +7,12 @@ import org.springframework.data.redis.core.index.Indexed;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
 @Builder
 @RedisHash(value = "refreshToken",timeToLive = 1000L * 60 * 60 * 24 * 7)
-public class RefreshToken {
+public class Token {
 	@Id
 	private String userId;
 
