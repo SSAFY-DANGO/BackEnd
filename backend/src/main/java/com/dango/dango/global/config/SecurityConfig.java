@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	private final JwtFilter jwtFilter;
+	private final WebConfig webConfig;
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		httpSecurity
@@ -34,6 +35,8 @@ public class SecurityConfig {
 					.requestMatchers(HttpMethod.GET,"/api/user/**").permitAll()
 					.requestMatchers(HttpMethod.GET,"/error").permitAll()
 					.anyRequest().authenticated()
+			).cors(
+				AbstractHttpConfigurer::disable
 			)
 			.addFilterBefore(
 				jwtFilter, UsernamePasswordAuthenticationFilter.class
