@@ -14,7 +14,6 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
-    console.log('닉네임', nickname)
 
     try {
       const response = await signUpUser({nickname, email, password});
