@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +17,7 @@ import com.dango.dango.global.filter.JwtFilter;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@EnableWebSecurity
+// @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 	private final JwtFilter jwtFilter;
@@ -26,11 +27,12 @@ public class SecurityConfig {
 			.sessionManagement(
 				(session)-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			)
-			.csrf((csrf)->csrf.disable())
+			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(
 				auth -> auth
 					.requestMatchers(HttpMethod.POST,"/api/user/**").permitAll()
 					.requestMatchers(HttpMethod.GET,"/api/user/**").permitAll()
+					.requestMatchers(HttpMethod.GET,"/error").permitAll()
 					.anyRequest().authenticated()
 			)
 			.addFilterBefore(
