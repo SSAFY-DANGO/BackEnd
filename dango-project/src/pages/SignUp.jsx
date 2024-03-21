@@ -42,7 +42,7 @@ export default function SignUp() {
           <button onClick={navigateLogin}>&lt;</button> 회원가입{' '}
         </div>
         {/* 형식 form - requestbody임으로 submit 불가 */}
-        <form className='w-full ml-[14vw]'>
+        <div className='w-full ml-[14vw]'>
         <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
             <div>닉네임</div>
             <input
@@ -71,7 +71,7 @@ export default function SignUp() {
             />
           </div>
           <button onClick={handleSignUp} className='long-thick-button'> 가입하기 </button>
-        </form>
+        </div>
       </div>
     </>
   );
