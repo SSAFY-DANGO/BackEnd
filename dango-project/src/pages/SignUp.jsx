@@ -3,7 +3,8 @@ import '../styles/Landing.css';
 import '../styles/Common.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { signUpUser } from '../api/Api';
+import { signUpUser } from '../api/Api'
+
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -13,20 +14,21 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
 
   const handleSignUp = async () => {
-    console.log('닉네임', nickname);
+    console.log('닉네임', nickname)
 
     try {
-      const response = await signUpUser({ nickname, email, password });
-      console.log('로그인 성공', response);
+      const response = await signUpUser({nickname, email, password});
+      console.log('로그인 성공', response)
       navigateConnectFridge();
     } catch (error) {
       console.log('로그인 실패', error);
+
     }
-  };
+  }
 
   const navigateLogin = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
   const navigateConnectFridge = () => {
     navigate('/connect-fridge');
   };
@@ -42,7 +44,7 @@ export default function SignUp() {
         </div>
         {/* 형식 form - requestbody임으로 submit 불가 */}
         <form className='w-full ml-[14vw]'>
-          <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
+        <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
             <div>닉네임</div>
             <input
               placeholder='김싸피'
@@ -51,7 +53,7 @@ export default function SignUp() {
               onChange={(e) => setNickname(e.target.value)}
             />
           </div>
-          <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
+        <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
             <div>이메일 주소</div>
             <input
               placeholder='ssafy@gmail.com'
@@ -69,10 +71,7 @@ export default function SignUp() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button onClick={handleSignUp} className='long-thick-button'>
-            {' '}
-            가입하기{' '}
-          </button>
+          <button onClick={handleSignUp} className='long-thick-button'> 가입하기 </button>
         </form>
       </div>
     </>
