@@ -39,7 +39,7 @@ public class ReissueServiceImpl implements ReissueService{
 
 		refreshTokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
 
-		UserReissueResponse newToken = TokenMapper.INSTANCE.RefreshTokenToUserReissue(
+		UserReissueResponse newToken = TokenMapper.INSTANCE.TokenToUserReissue(
 			Token.builder()
 			.accessToken(accessToken)
 			.refreshToken(newRefreshToken)

@@ -9,5 +9,5 @@ import com.dango.dango.domain.user.entity.Token;
 @Mapper
 public interface TokenMapper {
 	TokenMapper INSTANCE = Mappers.getMapper(TokenMapper.class);
-	UserReissueResponse RefreshTokenToUserReissue(Token token);
+	UserReissueResponse TokenToUserReissue(Token token);
 }
