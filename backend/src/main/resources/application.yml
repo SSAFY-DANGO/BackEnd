@@ -1,7 +1,6 @@
 spring:
   profiles:
     include: secret
-
   datasource:
     url: ${database.mariadb.dev.url}
     username: ${database.mariadb.dev.username}
