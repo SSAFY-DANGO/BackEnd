@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.dango.dango.domain.user.entity.User;
+import com.dango.dango.domain.user.service.BlackTokenService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,15 +20,18 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class JwtTokenUtil {
-	private final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24; // access token 의 기한은 하루
+	private final BlackTokenService blackTokenService;
+	private final long ACCESS_TOKEN_VALID_PERIOD = 1000L * 1 * 60 * 24; // access token 의 기한은 하루
 	private final long REFRESH_TOKEN_VALID_PERIOD = 1000L * 60 * 60 * 24 * 7; // refresh token의 기한은 일주일
 	private SecretKey key;
-	public JwtTokenUtil(@Value("${jwt.secret}")String secretKey) {
+	public JwtTokenUtil(@Value("${jwt.secret}")String secretKey, BlackTokenService blackTokenService) {
+		this.blackTokenService = blackTokenService;
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
@@ -60,20 +64,45 @@ public class JwtTokenUtil {
 			return bearerToken.substring(7);
 		return null;
 	}
+	public String extractToken(String token){
+		if(token != null && token.startsWith("Bearer")){
+			return token.substring(7);
+		}
+		return null;
+	}
+
+	public String extractRefreshToken(HttpServletRequest request){
+		String bearerToken = request.getHeader("Refresh-Token");
+		if(bearerToken != null && bearerToken.startsWith("Bearer")){
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
+
+	public Date extractTime(String token){
+		Claims claims = parseJwt(token);
+		return claims.getExpiration();
+	}
 
 	public boolean validateToken(String token) {
+
 		try {
 			parseJwt(token);
 			return true;
 		} catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
 			log.error("잘못된 JWT 서명입니다");
+			throw new SecurityException("잘못된 JWT 서명입니다");
 		} catch (ExpiredJwtException e) {
 			log.error("만료된 JWT 토큰입니다.");
 			throw new ExpiredJwtException(e.getHeader(), e.getClaims(),"만료된 JWT 토큰입니다");
 		}  catch (IllegalArgumentException e) {
 			log.error("JWT 토큰이 잘못되었습니다.");
+			throw new IllegalArgumentException("JWT 토큰이 잘못되었습니다");
 		}
-		return false;
+	}
+
+	public void isLogoutToken(String token){
+		blackTokenService.findByToken(token);
 	}
 
 
