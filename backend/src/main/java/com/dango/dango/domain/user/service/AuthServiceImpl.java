@@ -1,10 +1,15 @@
 package com.dango.dango.domain.user.service;
 
+import java.sql.Time;
+import java.util.Date;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dango.dango.domain.user.dto.UserLoginRequest;
 import com.dango.dango.domain.user.dto.UserLoginResponse;
+import com.dango.dango.domain.user.entity.BlackToken;
+import com.dango.dango.domain.user.entity.Token;
 import com.dango.dango.domain.user.entity.User;
 import com.dango.dango.global.common.util.JwtTokenUtil;
 
@@ -15,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService{
 	private final UserService userService;
 	private final TokenService tokenService;
+	private final BlackTokenService blackTokenService;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenUtil jwtTokenUtil;
 
@@ -43,14 +49,24 @@ public class AuthServiceImpl implements AuthService{
 	}
 
 	@Override
-	public void logout() {
+	public void logout(String accessToken,String refreshToken) {
 
-		User user = userService.findUserByToken();
-		// 존재하는 유저인지 검증
+		String extractedAccessToken = jwtTokenUtil.extractToken(accessToken);
+		String extractedRefreshToken = jwtTokenUtil.extractToken(refreshToken);
 
-		tokenService.deleteById(user.getId());
+		jwtTokenUtil.validateToken(extractedAccessToken);
+		jwtTokenUtil.validateToken(extractedRefreshToken);
+
+		tokenService.findByRefreshToken(extractedRefreshToken);
 		// 해당 유저의 토큰이 존재하는지 확인 후 삭제
 
-		// 로그아웃하고나서는 리프레쉬 토큰 발급이 되지않도록 해야함
+		Date expiredTime = jwtTokenUtil.extractTime(extractedAccessToken);
+		Long timeToLive = expiredTime.getTime() - System.currentTimeMillis();
+		// 만료기간 설정
+
+		BlackToken blackToken = BlackToken.builder().accessToken(extractedAccessToken).value("logout").timeToLive(timeToLive).build();
+		blackTokenService.saveToken(blackToken);
+		// 블랙 토큰 생성
+
 	}
 }
