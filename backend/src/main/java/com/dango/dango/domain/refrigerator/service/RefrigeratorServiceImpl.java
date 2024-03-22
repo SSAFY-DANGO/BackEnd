@@ -55,7 +55,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         Refrigerator refrigerator = Refrigerator.builder()
                 .nickname(nickname).build();
         refrigeratorRepository.save(refrigerator);
-        return null;
+        return refrigerator;
     }
 
     @Override
