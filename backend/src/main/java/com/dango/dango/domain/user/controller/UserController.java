@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,8 +39,8 @@ public class UserController {
 	}
 
 	@GetMapping("/logout")
-	public CustomResponse<String> logout(){
-		authService.logout();
+	public CustomResponse<String> logout(@RequestHeader("Authorization")String accessToken,@RequestHeader("Refresh-Token")String refreshToken){
+		authService.logout(accessToken, refreshToken);
 		return new CustomResponse<>(HttpStatus.OK.value(),"","logout 성공!");
 	}
 
