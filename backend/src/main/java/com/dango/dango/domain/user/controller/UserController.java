@@ -48,7 +48,21 @@ public class UserController {
 		authService.logout(accessToken, refreshToken);
 		return new CustomResponse<>(HttpStatus.OK.value(),"","logout 성공!");
 	}
-	
+
+	@GetMapping("/check")
+	public CustomResponse<String> duplicateCheck(
+		@RequestParam(value = "email", required = false) String email,
+		@RequestParam(value = "nickname", required = false) String nickname) {
+		if (email != null) {
+			userService.duplicateUsername(email);
+			return new CustomResponse<>(HttpStatus.OK.value(), "", "이메일 중복체크 성공");
+		} else if (nickname != null) {
+			userService.duplicateNickname(nickname);
+			return new CustomResponse<>(HttpStatus.OK.value(), "", "닉네임 중복체크 성공");
+		} else {
+			return new CustomResponse<>(HttpStatus.BAD_REQUEST.value(), "", "올바르지 않은 요청");
+		}
+	}
 
 	@GetMapping("/profile")
 	public CustomResponse<UserProfileResponse> profile(){
