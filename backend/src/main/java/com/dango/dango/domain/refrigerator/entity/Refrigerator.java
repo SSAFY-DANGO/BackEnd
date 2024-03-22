@@ -28,10 +28,8 @@ public class Refrigerator {
     private String nickname;
 
     @CreationTimestamp
-    @NotNull
     private LocalDateTime createTime;
 
     @UpdateTimestamp
-    @NotNull
     private LocalDateTime updateTime;
 }
