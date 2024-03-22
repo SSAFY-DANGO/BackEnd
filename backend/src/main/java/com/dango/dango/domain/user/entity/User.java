@@ -30,12 +30,10 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails {
 
 	@Id
-	@NotNull
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
 	@Column(name = "refrigerator_id")
 	private Long refrigeratorId;
 
@@ -52,12 +50,10 @@ public class User implements UserDetails {
 	private String nickname;
 
 	@UpdateTimestamp
-	@NotNull
 	@Column(name = "update_time")
 	private LocalDateTime updateTime;
 
 	@CreationTimestamp
-	@NotNull
 	@Column(name = "create_time")
 	private LocalDateTime createTime;
 	
