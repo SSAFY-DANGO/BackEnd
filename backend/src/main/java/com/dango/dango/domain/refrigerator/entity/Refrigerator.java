@@ -31,7 +31,6 @@ public class Refrigerator {
     @NotNull
     private LocalDateTime createTime;
 
-    @CreationTimestamp
     @UpdateTimestamp
     @NotNull
     private LocalDateTime updateTime;
