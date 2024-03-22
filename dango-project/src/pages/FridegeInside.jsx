@@ -17,7 +17,7 @@ function FridegeInside() {
     <>
       <Header text={'예은이의 냉장고'} />
 
-      <div className='flex-col ml-[11vw]'>
+      <div className='flex-col ml-[9.5vw]'>
         <div className="flex mb-[1vh] mt-[1vh]">
         <DropDownComponent/>
         <SearchComponent/>
