@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dango.dango.domain.user.dto.UserProfileResponse;
 import com.dango.dango.domain.user.entity.User;
+import com.dango.dango.domain.user.mapper.UserMapper;
 import com.dango.dango.domain.user.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -95,4 +97,9 @@ public class UserServiceImpl implements UserService{
 		if(exist) throw new RuntimeException("중복되는 닉네임입니다");
 	}
 
+	@Override
+	public UserProfileResponse getProfile() {
+		UserProfileResponse userProfileResponse = UserMapper.INSTANCE.UserToUserProfile(findUserByToken());
+		return userProfileResponse;
+	}
 }
