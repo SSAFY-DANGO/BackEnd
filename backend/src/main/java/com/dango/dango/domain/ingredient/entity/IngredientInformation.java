@@ -30,7 +30,6 @@ public class IngredientInformation {
     private String type;
 
     @UpdateTimestamp
-    @CreationTimestamp
     private LocalDateTime updateTime;
 
     @CreationTimestamp

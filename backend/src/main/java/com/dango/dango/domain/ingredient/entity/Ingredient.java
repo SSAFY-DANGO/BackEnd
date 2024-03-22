@@ -36,7 +36,6 @@ public class Ingredient {
 
     @NotNull
     @Column(name = "update_time")
-    @CreationTimestamp
     @UpdateTimestamp
     private LocalDateTime updateTime;
 
