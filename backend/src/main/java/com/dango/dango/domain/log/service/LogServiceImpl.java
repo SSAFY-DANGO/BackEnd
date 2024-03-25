@@ -67,6 +67,7 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
+    @Transactional
     public void deleteLog(Long id) {
         Log log = logRepository.findById(id)
                 .orElseThrow(() -> new LogNotFoundException(id + " 번 식재료 로그 없음"));

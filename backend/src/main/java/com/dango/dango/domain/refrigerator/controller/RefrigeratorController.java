@@ -79,7 +79,7 @@ public class RefrigeratorController {
         User user = userService.findUserByToken();
         Long refrigeratorId = user.getRefrigeratorId();
         refrigeratorService.throwIfRefrigeratorNotExist(refrigeratorId);
-        refrigeratorService.deleteRefrigerator(user);
+        refrigeratorService.deleteRefrigerator(refrigeratorId);
         return new ResponseEntity<>("냉장고 삭제 완료", HttpStatus.OK);
     }
 

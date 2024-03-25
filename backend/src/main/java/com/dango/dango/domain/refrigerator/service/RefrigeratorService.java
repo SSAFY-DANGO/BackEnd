@@ -16,5 +16,5 @@ public interface RefrigeratorService {
 
     Refrigerator editRefrigerator(User user, String nickname);
 
-    void deleteRefrigerator(User user);
+    void deleteRefrigerator(Long id);
 }
