@@ -45,7 +45,7 @@ function FridgeExterior() {
     <>
       <Header text={'예은이의 냉장고'} />
       <div className='relative h-screen'>
-        <div className='absolute  left-1/2 transform -translate-x-1/2 translate-y-1/2'>
+        <div className='absolute left-1/2 transform -translate-x-1/2 translate-y-1/2'>
           <FridgeSVG
             time={currentTime}
             onAlarmClick={handleAlarmClick}

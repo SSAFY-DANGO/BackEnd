@@ -29,7 +29,8 @@ export default function Footer() {
 
   return (
     <>
-      <footer className='fixed bottom-0 left-0 right-0 h-24 overflow-hidden border-t-2 border-solid pt-3'>
+      {/* <footer className='fixed bottom-0 left-0 right-0 h-24 overflow-hidden border-t-2 border-solid pt-3'> */}
+      <footer className="self-stretch rounded-t-none rounded-b-xl flex flex-row items-start border-t-2 border-solid pt-3 justify-center pt-[29px] px-5 pb-7 box-border top-[0] z-[99] sticky whitespace-nowrap max-w-full text-left text-6xl text-black1 ">
         <div>
           <div className='flex flex-col items-center'>
             <button onClick={goToInside} style={{ marginTop: '5px' }}>
