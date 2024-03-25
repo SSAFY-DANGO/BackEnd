@@ -1,13 +1,14 @@
 package com.dango.dango.domain.log.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
 public class LogEditRequest {
-    @NotBlank
+    @NotNull
     private Long id;
     private String name;
     private String category;
