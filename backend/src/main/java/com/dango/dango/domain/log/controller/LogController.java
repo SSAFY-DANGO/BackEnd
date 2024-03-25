@@ -4,11 +4,11 @@ import com.dango.dango.domain.log.dto.LogEditRequest;
 import com.dango.dango.domain.log.dto.LogRegisterRequest;
 import com.dango.dango.domain.log.entity.Log;
 import com.dango.dango.domain.log.service.LogService;
+import com.dango.dango.global.common.response.CustomResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,29 +19,29 @@ public class LogController {
     private final LogService logService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Log> getLogDetail(@PathVariable Long id) {
+    public CustomResponse<Log> getLogDetail(@PathVariable Long id) {
 
         Log log = logService.findById(id);
 
-        return new ResponseEntity<>(log, HttpStatus.OK);
+        return new CustomResponse<>(HttpStatus.OK.value(), log, "식재료 로그 상세 정보 조회 성공");
     }
 
     @PostMapping
-    public ResponseEntity<Log> registerLog(@RequestBody @Valid LogRegisterRequest logRegisterRequest) {
+    public CustomResponse<Log> registerLog(@RequestBody @Valid LogRegisterRequest logRegisterRequest) {
         Log res = logService.registerLog(logRegisterRequest);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return new CustomResponse<>(HttpStatus.OK.value(), res, "식재료 로그 추가 성공");
     }
 
     @PutMapping
-    public ResponseEntity<Log> editLog(@RequestBody @Valid LogEditRequest logEditRequest) {
+    public CustomResponse<Log> editLog(@RequestBody @Valid LogEditRequest logEditRequest) {
         Log res = logService.editLog(logEditRequest);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return new CustomResponse<>(HttpStatus.OK.value(), res, "식재료 로그 수정 성공");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteLog(@RequestBody Long id) {
+    public CustomResponse<String> deleteLog(@RequestBody Long id) {
         logService.deleteLog(id);
-        return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
+        return new CustomResponse<>(HttpStatus.OK.value(), "삭제 성공", "");
     }
 
 }
