@@ -4,6 +4,7 @@ import com.dango.dango.domain.log.dto.LogEditRequest;
 import com.dango.dango.domain.log.dto.LogRegisterRequest;
 import com.dango.dango.domain.log.entity.Log;
 import com.dango.dango.domain.log.service.LogService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,13 +27,13 @@ public class LogController {
     }
 
     @PostMapping
-    public ResponseEntity<Log> registerLog(@RequestBody LogRegisterRequest logRegisterRequest) {
+    public ResponseEntity<Log> registerLog(@RequestBody @Valid LogRegisterRequest logRegisterRequest) {
         Log res = logService.registerLog(logRegisterRequest);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Log> editLog(@RequestBody LogEditRequest logEditRequest) {
+    public ResponseEntity<Log> editLog(@RequestBody @Valid LogEditRequest logEditRequest) {
         Log res = logService.editLog(logEditRequest);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
