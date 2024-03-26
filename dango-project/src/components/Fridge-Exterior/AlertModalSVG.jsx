@@ -5,8 +5,8 @@ export default function AlertModalSVG() {
     <>
       <svg
         width='auto'
-        height='auto'
-        viewBox='0 0 146 217'
+        height='580'
+        viewBox='0 -52 146 217'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
       >

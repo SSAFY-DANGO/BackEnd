@@ -70,7 +70,7 @@ export default function SignUp() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button onClick={handleSignUp} className='long-thick-button'> 가입하기 </button>
+          <button onClick={handleSignUp} className='w-[75%] ml-4 long-thick-button'> 가입하기 </button>
         </div>
       </div>
     </>

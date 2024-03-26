@@ -14,3 +14,4 @@ export const loginUserState = atom({
     profile: loginUser ? loginUser.profile : "", //프로필 경로
   },
 });
+
