@@ -1,5 +1,6 @@
 package com.dango.dango.domain.user.service;
 
+import com.dango.dango.domain.user.dto.UserProfileResponse;
 import com.dango.dango.domain.user.entity.User;
 
 public interface UserService {
@@ -10,8 +11,8 @@ public interface UserService {
 	User modifyUserNickName(Long id,String nickname);
 	User modifyUserPassword(Long id,String password);
 	void deleteUser(Long id);
-
 	void duplicateUsername(String username);
 	void duplicateNickname(String nickname);
+	UserProfileResponse getProfile();
 
 }
