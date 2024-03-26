@@ -26,6 +26,12 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	private final JwtFilter jwtFilter;
 	private final CorsConfig corsConfig;
+	private static final String[] PERMIT_URL_ARRAY = {
+		/* swagger v3 */
+		"/v3/api-docs/**",
+		"/swagger-ui/**"
+	};
+
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		httpSecurity
@@ -37,7 +43,9 @@ public class SecurityConfig {
 				auth -> auth
 					.requestMatchers(HttpMethod.POST,"/api/user/**").permitAll()
 					.requestMatchers(HttpMethod.GET,"/api/user/**").permitAll()
+					.requestMatchers(PERMIT_URL_ARRAY).permitAll()
 					.requestMatchers(HttpMethod.GET,"/error").permitAll()
+					.requestMatchers(HttpMethod.POST,"/error").permitAll()
 					.anyRequest().authenticated()
 			).cors(
 				cors -> cors.configurationSource(corsConfig.corsConfigurationSource())
