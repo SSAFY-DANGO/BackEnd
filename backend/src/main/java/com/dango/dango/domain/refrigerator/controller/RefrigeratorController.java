@@ -63,10 +63,8 @@ public class RefrigeratorController {
         Long refrigeratorId = user.getRefrigeratorId();
 
         refrigeratorService.throwIfRefrigeratorDuplicated(refrigeratorId);
-        Refrigerator res = refrigeratorService.registerRefrigerator(nickname);
+        Refrigerator res = refrigeratorService.registerRefrigerator(nickname, user);
 
-        // 등록 완료한 냉장고를 유저에게 속하도록
-        user.setRefrigeratorId(res.getId());
         RefrigeratorInfoResponse response = RefrigeratorInfoResponse.builder()
                 .id(res.getId()).nickname(res.getNickname()).build();
 

@@ -57,18 +57,23 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 
     @Override
     @Transactional
-    public Refrigerator registerRefrigerator(String nickname) {
+    public Refrigerator registerRefrigerator(String nickname, User user) {
         Refrigerator refrigerator = Refrigerator.builder()
                 .nickname(nickname).build();
         refrigeratorRepository.save(refrigerator);
+        // 이 유저에게 냉장고가 속하게 설정
+        user.setRefrigeratorId(refrigerator.getId());
         return refrigerator;
     }
 
     @Override
     @Transactional
     public Refrigerator editRefrigerator(User user, String nickname) {
-        Refrigerator refrigerator = registerRefrigerator(nickname);
-        user.setRefrigeratorId(refrigerator.getId());
+        // 이미 등록된 냉장고가 있어야 수정이 가능함
+        if (user.getRefrigeratorId() == null) {
+            throw new RefrigeratorNotFoundException("등록된 냉장고가 없습니다.");
+        }
+        Refrigerator refrigerator = registerRefrigerator(nickname, user);
         return refrigerator;
     }
 
@@ -81,7 +86,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 
     @Override
     public List<Log> getItems(Long refrigeratorId, Long userRefrigeratorId) {
-        if (refrigeratorId != userRefrigeratorId) {
+        if (refrigeratorId.longValue() != userRefrigeratorId) {
             throw new RefrigeratorNotMatchException("자신의 냉장고가 아닙니다.");
         }
         return logRepository.findAllByRefrigeratorId(refrigeratorId);

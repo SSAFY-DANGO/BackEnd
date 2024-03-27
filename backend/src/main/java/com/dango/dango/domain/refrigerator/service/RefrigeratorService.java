@@ -15,7 +15,7 @@ public interface RefrigeratorService {
 
     void throwIfRefrigeratorNotExist(Long id);
 
-    Refrigerator registerRefrigerator(String nickname);
+    Refrigerator registerRefrigerator(String nickname, User user);
 
     Refrigerator editRefrigerator(User user, String nickname);
 
