@@ -23,7 +23,7 @@ import 양배추 from '../../assets/imgs/groceries/양배추.png'
 import 양파 from '../../assets/imgs/groceries/양파.png'
 import 토마토 from '../../assets/imgs/groceries/토마토.png'
 import 포도 from '../../assets/imgs/groceries/포도.png'
-
+import { getGroceryDetail } from '../../api/Api'
 import '../../styles/Landing.css';
 import '../../styles/Common.css';
 
@@ -55,17 +55,32 @@ const imageMap = {
 function Groceries({nameText}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+ 
     const openModal = () => {
-        setIsModalOpen(true);
+      setIsModalOpen(true);
     }
+
+    const openGroceryDetail = async () => {
+      try {
+        const response = await getGroceryDetail();
+        console.log('식재료 조회 성공', response)
+        openModal();
+        
+      } catch (error) {
+        console.log('식재료 조회 실패', error);
+        openModal();
+  
+      }
+    }
+
     const closeModal = () => {
       setIsModalOpen(false);
-  }
+    }
   const selectedImage = imageMap[nameText];
 
   return (
     <div>
-    <div className='w-[12vw] h-[10vh] flex-col justify-center items-center py-[2vh] px-[1vw]'  onClick={openModal}>
+    <div className='w-[18vw] h-[15vh] flex-col justify-center items-center py-[3vh] px-[1vw]' onClick={openGroceryDetail}>
         <div className="h-[3vh] flex justify-center items-center pt-[2vh]"><img src={selectedImage} alt="logo" className="max-w-12"/></div>
     <div className="text-center h-[2vh] mt-[3vh] text-sm">{nameText}</div>
   </div>

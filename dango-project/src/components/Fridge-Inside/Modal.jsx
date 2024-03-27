@@ -1,12 +1,26 @@
 import React from 'react';
 import AvocadoImage from '../../assets/imgs/groceries/아보카도.png'
 import { useNavigate } from 'react-router-dom';
+import {deleteGrocery} from '../../api/Api'
+
 
 function Modal({ bool, onClose, nameText }) {
     const navigate = useNavigate();
 
     const handleModalClose = () => {
         onClose();
+    }
+
+    const handleDelete = async() => {
+        try {
+            const response = await deleteGrocery({});
+            console.log('식재료 삭제 성공', response)
+            handleModalClose();
+          } catch (error) {
+            alert("삭제에 실패했습니다.")
+            console.log('로그인 실패', error);
+      
+          }
     }
 
     return (
@@ -25,8 +39,9 @@ function Modal({ bool, onClose, nameText }) {
                             들어온 시간 2024-03-07 14:38
                         </div>
                         </div>
-                        <div className="flex justify-center items-center mt-[1vh]">
-                        <button onClick={handleModalClose} className="rounded-xl border-solid border-2 border-black ml-72">닫기</button>
+                        <div className="flex justify-center items-center mt-[1vh] ml-64">
+                        <button onClick={handleDelete} className="rounded-xl border-solid border-2 border-black">삭제</button>
+                        <button onClick={handleModalClose} className="rounded-xl border-solid border-2 border-black ml-4">닫기</button>
                         </div>
                     </div>
                 </div>
