@@ -3,6 +3,7 @@ package com.dango.dango.global.advice;
 import com.dango.dango.domain.log.exception.LogNotFoundException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorDuplicatedException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundException;
+import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotMatchException;
 import com.dango.dango.global.common.response.ErrorResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -58,6 +59,11 @@ public class ExceptionManager {
 
     @ExceptionHandler(LogNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleLogNotFoundException(LogNotFoundException ex) {
+        return ResponseEntity.ok(new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(RefrigeratorNotMatchException.class)
+    public ResponseEntity<ErrorResponse> handleRefrigeratorNotMatchException(RefrigeratorNotMatchException ex) {
         return ResponseEntity.ok(new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
 
