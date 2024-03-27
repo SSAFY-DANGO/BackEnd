@@ -41,7 +41,7 @@ api.interceptors.response.use(
 
 export const loginUser = async (userLoginRequest) => {
   try {
-    const response = await api.post('/user/login', userLoginRequest);
+    const response = await api.post('/users/login', userLoginRequest);
     return response.data;
   } catch (error) {
     console.error('로그인 실패:', error);
@@ -51,7 +51,7 @@ export const loginUser = async (userLoginRequest) => {
 
 export const signUpUser = async (signUpRequest) => {
   try {
-    const response = await api.post('/user/register/profile', signUpRequest);
+    const response = await api.post('/users/register/profile', signUpRequest);
     return response.data;
   } catch (error) {
     console.error('회원가입 실패:', error);
