@@ -47,19 +47,18 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(RefrigeratorNotFoundException.class)
-    public ResponseEntity<String> handleRefrigeratorNotFoundException(RefrigeratorNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
-
+    public ResponseEntity<ErrorResponse> handleRefrigeratorNotFoundException(RefrigeratorNotFoundException ex) {
+        return ResponseEntity.ok(new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
 
     @ExceptionHandler(RefrigeratorDuplicatedException.class)
-    public ResponseEntity<String> handleRefrigeratorDuplicatedException(RefrigeratorDuplicatedException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleRefrigeratorDuplicatedException(RefrigeratorDuplicatedException ex) {
+        return ResponseEntity.ok(new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
 
     @ExceptionHandler(LogNotFoundException.class)
-    public ResponseEntity<String> handleLogNotFoundException(LogNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleLogNotFoundException(LogNotFoundException ex) {
+        return ResponseEntity.ok(new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()));
     }
 
 }
