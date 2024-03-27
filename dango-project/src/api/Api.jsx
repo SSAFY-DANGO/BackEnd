@@ -51,7 +51,6 @@ export const loginUser = async (userLoginRequest) => {
 
 export const signUpUser = async (signUpRequest) => {
   try {
-    console.log('여기옴');
     const response = await api.post('/user/register/profile', signUpRequest);
     return response.data;
   } catch (error) {
@@ -59,5 +58,45 @@ export const signUpUser = async (signUpRequest) => {
     throw error;
   }
 };
+
+export const getRefrigerator = async () => {
+  try {
+    const response = await api.get('/refrigerator');
+    return response.data;
+  } catch (error) {
+    console.error('냉장고 조회 실패:', error);
+    throw error;
+  }
+}
+
+export const postRefrigerator = async (postRequest) => {
+  try {
+    const response = await api.post('/refrigerator', postRequest);
+    return response.data;
+  } catch (error) {
+    console.error('냉장고 등록 실패:', error);
+    throw error;
+  }
+}
+
+export const putRefrigerator = async (putRequest) => {
+  try {
+    const response = await api.put('/refrigerator', putRequest);
+    return response.data;
+  } catch (error) {
+    console.error('냉장고 수정 실패:,', error);
+    throw error;
+  }
+}
+
+export const deleteRefrigerator = async (deleteRequest) => {
+  try {
+    const response = await api.delete('/refrigerator', deleteRequest);
+    return response.data;
+  } catch (error) {
+    console.error('냉장고 삭제 실패:', error);
+    throw error;
+  }
+}
 
 export default api;

@@ -13,7 +13,7 @@ function Modal({ bool, onClose, nameText }) {
         <>
             {bool && (
                 <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50'>
-                    <div className='w-[20vw] h-[30vh] border-slate-500 border-4 rounded-xl bg-white pt-[4vh]'>
+                    <div className='w-[380px] h-[260px] border-slate-500 border-4 rounded-xl bg-white pt-[4vh]'>
                         
                         <p className="flex justify-center items-center pb-[2vh]">{nameText}</p>
                         <div className="h-[3vh] pt-[4vh] flex justify-center items-center"><img src={AvocadoImage} alt="logo" className="max-w-12"/></div>

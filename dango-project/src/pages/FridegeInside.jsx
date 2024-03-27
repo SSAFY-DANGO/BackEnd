@@ -6,12 +6,26 @@ import TrashButton from '../components/Fridge-Inside/TrashButton';
 import DropDownComponent from '../components/Fridge-Inside/DropDown'
 import SearchComponent from '../components/Fridge-Inside/Search'
 import SearchButton from '../components/Fridge-Inside/SearchButton'
+import { getRefrigerator } from '../api/Api'
 
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function FridegeInside() {
+  useEffect(() => {
+    getRefrigeratorInfo();
+  }, []);
 
+  const getRefrigeratorInfo = async () => {
+
+    try {
+      const response = await getRefrigerator();
+      console.log('냉장고 조회 성공', response)
+      
+    } catch (error) {
+      console.log('냉장고 조회 실패', error);
+
+    }
+  }
 
   return (
     <>
