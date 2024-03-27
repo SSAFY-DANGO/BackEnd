@@ -1,18 +1,24 @@
 package com.dango.dango.domain.refrigerator.service;
 
+import com.dango.dango.domain.log.entity.Log;
+import com.dango.dango.domain.log.repository.LogRepository;
 import com.dango.dango.domain.refrigerator.entity.Refrigerator;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorDuplicatedException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundException;
+import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotMatchException;
 import com.dango.dango.domain.refrigerator.repository.RefrigeratorRepository;
 import com.dango.dango.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class RefrigeratorServiceImpl implements RefrigeratorService {
     private final RefrigeratorRepository refrigeratorRepository;
+    private final LogRepository logRepository;
 
     @Override
     @Transactional
@@ -70,5 +76,14 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
     @Transactional
     public void deleteRefrigerator(Long refrigeratorId) {
         refrigeratorRepository.deleteById(refrigeratorId);
+    }
+
+
+    @Override
+    public List<Log> getItems(Long refrigeratorId, Long userRefrigeratorId) {
+        if (refrigeratorId != userRefrigeratorId) {
+            throw new RefrigeratorNotMatchException("자신의 냉장고가 아닙니다.");
+        }
+        return logRepository.findAllByRefrigeratorId(refrigeratorId);
     }
 }
