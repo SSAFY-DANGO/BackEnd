@@ -1,23 +1,24 @@
 import React from 'react';
 import {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import { postRefrigerator } from '../api/Api'
 
 export default function ConnectFridge() {
 
   const navigate = useNavigate();
   const [fridgeKey, setFridgeKey] = useState('');
 
-  // const handleConnectKey = async () => {
+  const handleConnectKey = async () => {
 
-  //   try {
-  //     const response = await undefinedAPI({refriKey});
-  //     console.log('냉장고 연결 성공', response)
-  //     navigateFridgeExterior();
-  //   } catch (error) {
-  //     console.log('로그인 실패', error);
-
-  //   }
-  // }
+    try {
+      const response = await postRefrigerator({fridgeKey});
+      console.log('냉장고 연결 성공', response)
+      navigateFridgeExterior();
+    } catch (error) {
+      alert('냉장고 연결에 실패했습니다.')
+      console.log('냉장고 연결 실패', error);
+    }
+  }
 
   const navigateFridgeExterior = () => {
     navigate('/fridge-exterior')
@@ -36,7 +37,7 @@ export default function ConnectFridge() {
               onChange={(e) => setFridgeKey(e.target.value)}
             />
            
-        <button className='long-thick-button w-[70vw]'> 냉장고 Key 연결하기 </button>    
+        <button className='long-thick-button w-[70vw]' onClick={handleConnectKey}> 냉장고 Key 연결하기 </button>    
         </div>
       </div>
     </>
