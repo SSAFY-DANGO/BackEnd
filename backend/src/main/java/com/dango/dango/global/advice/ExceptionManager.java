@@ -1,5 +1,6 @@
 package com.dango.dango.global.advice;
 
+import com.dango.dango.domain.log.exception.LogNotFoundException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorDuplicatedException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundException;
 import com.dango.dango.global.common.response.ErrorResponse;
@@ -53,6 +54,11 @@ public class ExceptionManager {
 
     @ExceptionHandler(RefrigeratorDuplicatedException.class)
     public ResponseEntity<String> handleRefrigeratorDuplicatedException(RefrigeratorDuplicatedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(LogNotFoundException.class)
+    public ResponseEntity<String> handleLogNotFoundException(LogNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 

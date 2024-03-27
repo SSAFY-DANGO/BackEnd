@@ -68,7 +68,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 
     @Override
     @Transactional
-    public void deleteRefrigerator(User user) {
-        user.setRefrigeratorId(null);
+    public void deleteRefrigerator(Long refrigeratorId) {
+        refrigeratorRepository.deleteById(refrigeratorId);
     }
 }
