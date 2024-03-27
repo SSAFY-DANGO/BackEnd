@@ -8,6 +8,7 @@ import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundExcepti
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotMatchException;
 import com.dango.dango.domain.refrigerator.repository.RefrigeratorRepository;
 import com.dango.dango.domain.user.entity.User;
+import com.dango.dango.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 public class RefrigeratorServiceImpl implements RefrigeratorService {
     private final RefrigeratorRepository refrigeratorRepository;
+    private final UserRepository userRepository;
     private final LogRepository logRepository;
 
     @Override
@@ -60,9 +62,10 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
     public Refrigerator registerRefrigerator(String nickname, User user) {
         Refrigerator refrigerator = Refrigerator.builder()
                 .nickname(nickname).build();
-        refrigeratorRepository.save(refrigerator);
+        Refrigerator saved = refrigeratorRepository.save(refrigerator);
         // 이 유저에게 냉장고가 속하게 설정
-        user.setRefrigeratorId(refrigerator.getId());
+        user.setRefrigeratorId(saved.getId());
+        userRepository.save(user);
         return refrigerator;
     }
 
