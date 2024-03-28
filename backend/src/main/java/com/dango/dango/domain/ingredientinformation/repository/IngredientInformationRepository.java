@@ -1,13 +1,15 @@
-package com.dango.dango.domain.ingredient.repository;
+package com.dango.dango.domain.ingredientinformation.repository;
 
-import com.dango.dango.domain.ingredient.entity.IngredientInformation;
+import com.dango.dango.domain.ingredientinformation.entity.IngredientInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IngredientInformationRepository extends JpaRepository<IngredientInformation, Long> {
     Optional<IngredientInformation> findByName(String name);
-    List<IngredientInformation> findAllByName(String name);
+
+    List<IngredientInformation> findAllByNameContaining(String name);
+
+    List<IngredientInformation> findAllByTypeContaining(String type);
 }
