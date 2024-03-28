@@ -1,8 +1,8 @@
-package com.dango.dango.domain.ingredient.service;
+package com.dango.dango.domain.ingredientinformation.service;
 
-import com.dango.dango.domain.ingredient.entity.IngredientInformation;
-import com.dango.dango.domain.ingredient.exception.IngredientInformationNotFoundException;
-import com.dango.dango.domain.ingredient.repository.IngredientInformationRepository;
+import com.dango.dango.domain.ingredientinformation.entity.IngredientInformation;
+import com.dango.dango.domain.ingredientinformation.exception.IngredientInformationNotFoundException;
+import com.dango.dango.domain.ingredientinformation.repository.IngredientInformationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,13 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
 
     @Override
     public List<IngredientInformation> findIngredientInformationByName(String name) {
-        List<IngredientInformation> list = ingredientInformationRepository.findAllByName(name);
+        List<IngredientInformation> list = ingredientInformationRepository.findAllByNameContaining(name);
+        return list;
+    }
+
+    @Override
+    public List<IngredientInformation> findIngredientInformationByType(String type) {
+        List<IngredientInformation> list = ingredientInformationRepository.findAllByTypeContaining(type);
         return list;
     }
 
