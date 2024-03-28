@@ -1,19 +1,24 @@
-package com.dango.dango.domain.ingredient.service;
+package com.dango.dango.domain.ingredientinformation.service;
 
-import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateRequest;
-import com.dango.dango.domain.ingredient.entity.IngredientInformation;
-import com.dango.dango.domain.ingredient.exception.IngredientInformationNotFoundException;
-import com.dango.dango.domain.ingredient.repository.IngredientInformationRepository;
-import jakarta.transaction.Transactional;
+import com.dango.dango.domain.ingredientinformation.entity.IngredientInformation;
+import com.dango.dango.domain.ingredientinformation.exception.IngredientInformationNotFoundException;
+import com.dango.dango.domain.ingredientinformation.repository.IngredientInformationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 
 @Service
 @RequiredArgsConstructor
 public class IngredientInformationServiceImpl implements IngredientInformationService {
     private final IngredientInformationRepository ingredientInformationRepository;
+
+    @Override
+    public Page<IngredientInformation> findAll(Pageable pageable) {
+        Page<IngredientInformation> list = ingredientInformationRepository.findAll(pageable);
+        return list;
+    }
 
     @Override
     public IngredientInformation findIngredientInformationById(Long id) {
@@ -24,11 +29,15 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
     }
 
     @Override
-    public IngredientInformation findIngredientInformationByName(String name) {
-        // Optional null체크해서 유효하지 않으면 바로 던지기
-        IngredientInformation ingredientInformation = ingredientInformationRepository.findByName(name)
-                .orElseThrow(() -> new IngredientInformationNotFoundException("name " + name + " 없음"));
-        return ingredientInformation;
+    public Page<IngredientInformation> findIngredientInformationByName(String name, Pageable pageable) {
+        Page<IngredientInformation> list = ingredientInformationRepository.findAllByNameContaining(name, pageable);
+        return list;
+    }
+
+    @Override
+    public Page<IngredientInformation> findIngredientInformationByType(String type, Pageable pageable) {
+        Page<IngredientInformation> list = ingredientInformationRepository.findAllByTypeContaining(type, pageable);
+        return list;
     }
 
     @Override
@@ -68,7 +77,7 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
 //
 //        }
 //        return 1;
-        // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
+    // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
 //
 //        String name = ingredientInformationUpdateRequest.getName();
 //        if (name != null) {

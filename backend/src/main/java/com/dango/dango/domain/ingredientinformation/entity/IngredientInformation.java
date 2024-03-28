@@ -1,7 +1,6 @@
-package com.dango.dango.domain.ingredient.entity;
+package com.dango.dango.domain.ingredientinformation.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +21,9 @@ public class IngredientInformation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Column(unique = true)
     private String name;
 
-    @NotNull
     private String type;
 
     @UpdateTimestamp

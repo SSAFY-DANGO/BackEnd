@@ -16,7 +16,7 @@ spring:
         dialect: org.hibernate.dialect.MariaDBDialect
   data:
     redis:
-      host: ${dango}
+      host: ${database.redis.host}
       port: ${database.redis.port}
     # 엘라스틱 서치 나중에 추가해야함
 
