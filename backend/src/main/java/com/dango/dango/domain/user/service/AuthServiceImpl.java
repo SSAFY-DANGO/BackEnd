@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dango.dango.domain.refrigerator.service.RefrigeratorService;
 import com.dango.dango.domain.user.dto.UserLoginRequest;
 import com.dango.dango.domain.user.dto.UserLoginResponse;
 import com.dango.dango.domain.user.entity.BlackToken;
@@ -23,6 +24,7 @@ public class AuthServiceImpl implements AuthService{
 	private final BlackTokenService blackTokenService;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenUtil jwtTokenUtil;
+	private final RefrigeratorService refrigeratorService;
 
 	@Override
 	public UserLoginResponse login(UserLoginRequest userLoginRequest) {
@@ -39,8 +41,11 @@ public class AuthServiceImpl implements AuthService{
 		tokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
 		// refresh token 을 추가한다
 
+		String refrigeratorNickname = refrigeratorService.findRefrigeratorById(user.getRefrigeratorId()).getNickname();
+
 		UserLoginResponse userLoginResponse = UserLoginResponse.builder()
 			.nickname(user.getNickname())
+			.refrigeratorNickname(refrigeratorNickname)
 			.refreshToken(refreshToken)
 			.accessToken(accessToken)
 			.build();
