@@ -104,7 +104,7 @@ export const getRefrigeratorDetail = async (refrigeratorId) => {
     const response = await api.get(`/refrigerator/${refrigeratorId}`);
     return response.data;
   } catch (error) {
-    console.error("식재료 삭제 실패:", error);
+    console.error("냉장고 품목 정보 얻어오기 실패:", error);
     throw error;
   }
 }
@@ -123,7 +123,7 @@ export const deleteGrocery = async (deleteRequest) => {
 
 export const getGroceryDetail = async (groceryId) => {
   try {
-    const response = await api.get(`/refrigerator/${groceryId}`);
+    const response = await api.get(`/log/${groceryId}`);
     return response.data;
   } catch (error) {
     console.error("식재료 정보 얻어오기 실패:", error);
