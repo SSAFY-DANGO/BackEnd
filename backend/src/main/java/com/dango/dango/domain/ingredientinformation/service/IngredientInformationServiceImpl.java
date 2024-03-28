@@ -4,9 +4,10 @@ import com.dango.dango.domain.ingredientinformation.entity.IngredientInformation
 import com.dango.dango.domain.ingredientinformation.exception.IngredientInformationNotFoundException;
 import com.dango.dango.domain.ingredientinformation.repository.IngredientInformationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +15,8 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
     private final IngredientInformationRepository ingredientInformationRepository;
 
     @Override
-    public List<IngredientInformation> findAll() {
-        List<IngredientInformation> list = ingredientInformationRepository.findAll();
+    public Page<IngredientInformation> findAll(Pageable pageable) {
+        Page<IngredientInformation> list = ingredientInformationRepository.findAll(pageable);
         return list;
     }
 
@@ -28,14 +29,14 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
     }
 
     @Override
-    public List<IngredientInformation> findIngredientInformationByName(String name) {
-        List<IngredientInformation> list = ingredientInformationRepository.findAllByNameContaining(name);
+    public Page<IngredientInformation> findIngredientInformationByName(String name, Pageable pageable) {
+        Page<IngredientInformation> list = ingredientInformationRepository.findAllByNameContaining(name, pageable);
         return list;
     }
 
     @Override
-    public List<IngredientInformation> findIngredientInformationByType(String type) {
-        List<IngredientInformation> list = ingredientInformationRepository.findAllByTypeContaining(type);
+    public Page<IngredientInformation> findIngredientInformationByType(String type, Pageable pageable) {
+        Page<IngredientInformation> list = ingredientInformationRepository.findAllByTypeContaining(type, pageable);
         return list;
     }
 
