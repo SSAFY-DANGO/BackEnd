@@ -46,6 +46,7 @@ export default function Login() {
             <div className='m-4 w-3/4 flex justify-center flex-col'>
               <div>비밀번호</div>
               <input
+                type='password'
                 placeholder='********'
                 className='rounded-lg p-3 w-full'
                 value={password}
