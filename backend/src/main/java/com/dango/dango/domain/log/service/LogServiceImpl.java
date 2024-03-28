@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class LogServiceImpl implements LogService {
@@ -71,6 +73,8 @@ public class LogServiceImpl implements LogService {
     public void deleteLog(Long id) {
         Log log = logRepository.findById(id)
                 .orElseThrow(() -> new LogNotFoundException(id + " 번 식재료 로그 없음"));
-        logRepository.deleteById(id);
+        // logRepository.deleteById(id);
+        log.setExist(false);
+        log.setDeleteTime(LocalDateTime.now());
     }
 }
