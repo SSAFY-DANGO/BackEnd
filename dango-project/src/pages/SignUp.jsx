@@ -64,6 +64,7 @@ export default function SignUp() {
           <div className='m-4 w-3/4 flex justify-center flex-col mb-10'>
             <div>비밀번호</div>
             <input
+              type='password'
               placeholder='**********'
               className='rounded-lg p-3 w-full'
               value={password}
