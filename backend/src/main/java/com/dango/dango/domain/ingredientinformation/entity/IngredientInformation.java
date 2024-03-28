@@ -1,4 +1,4 @@
-package com.dango.dango.domain.ingredient.entity;
+package com.dango.dango.domain.ingredientinformation.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.dango.dango.domain.ingredient.dto;
+package com.dango.dango.domain.ingredientinformation.dto;
 
 import lombok.Data;
 
