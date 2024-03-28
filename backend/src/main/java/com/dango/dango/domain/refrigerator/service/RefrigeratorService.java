@@ -1,6 +1,7 @@
 package com.dango.dango.domain.refrigerator.service;
 
 import com.dango.dango.domain.log.entity.Log;
+import com.dango.dango.domain.refrigerator.dto.RefrigeratorInfoResponse;
 import com.dango.dango.domain.refrigerator.entity.Refrigerator;
 import com.dango.dango.domain.user.entity.User;
 
@@ -15,11 +16,13 @@ public interface RefrigeratorService {
 
     void throwIfRefrigeratorNotExist(Long id);
 
-    Refrigerator registerRefrigerator(String nickname, User user);
+    RefrigeratorInfoResponse registerRefrigerator(String nickname);
 
-    Refrigerator editRefrigerator(User user, String nickname);
+    RefrigeratorInfoResponse editRefrigerator(String nickname);
 
-    void deleteRefrigerator(Long id);
+    Long deleteRefrigerator();
 
-    List<Log> getItems(Long refrigeratorId, Long userRefrigeratorId);
+    List<Log> getItems(Long refrigeratorId);
+
+    RefrigeratorInfoResponse getRefrigerator();
 }

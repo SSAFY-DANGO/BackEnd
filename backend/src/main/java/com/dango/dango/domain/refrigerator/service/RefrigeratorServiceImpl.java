@@ -2,12 +2,15 @@ package com.dango.dango.domain.refrigerator.service;
 
 import com.dango.dango.domain.log.entity.Log;
 import com.dango.dango.domain.log.repository.LogRepository;
+import com.dango.dango.domain.refrigerator.dto.RefrigeratorInfoResponse;
 import com.dango.dango.domain.refrigerator.entity.Refrigerator;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorDuplicatedException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundException;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotMatchException;
 import com.dango.dango.domain.refrigerator.repository.RefrigeratorRepository;
 import com.dango.dango.domain.user.entity.User;
+import com.dango.dango.domain.user.repository.UserRepository;
+import com.dango.dango.domain.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +21,11 @@ import java.util.List;
 @Service
 public class RefrigeratorServiceImpl implements RefrigeratorService {
     private final RefrigeratorRepository refrigeratorRepository;
+    private final UserRepository userRepository;
     private final LogRepository logRepository;
+    private final UserService userService;
 
     @Override
-    @Transactional
     public Refrigerator findRefrigeratorById(Long id) {
 
         Refrigerator res = refrigeratorRepository.findById(id).orElseThrow(
@@ -57,38 +61,84 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 
     @Override
     @Transactional
-    public Refrigerator registerRefrigerator(String nickname, User user) {
+    public RefrigeratorInfoResponse registerRefrigerator(String nickname) {
+        User user = userService.findUserByToken();
+        // 이미 등록된 냉장고가 있으면 불가능
+        throwIfRefrigeratorDuplicated(user.getRefrigeratorId());
+
         Refrigerator refrigerator = Refrigerator.builder()
                 .nickname(nickname).build();
-        refrigeratorRepository.save(refrigerator);
+        Refrigerator saved = refrigeratorRepository.save(refrigerator);
         // 이 유저에게 냉장고가 속하게 설정
-        user.setRefrigeratorId(refrigerator.getId());
-        return refrigerator;
+        user.setRefrigeratorId(saved.getId());
+        userRepository.save(user);
+
+        RefrigeratorInfoResponse res = RefrigeratorInfoResponse.builder()
+                .id(saved.getId())
+                .nickname(saved.getNickname())
+                .build();
+
+        return res;
     }
 
     @Override
     @Transactional
-    public Refrigerator editRefrigerator(User user, String nickname) {
+    public RefrigeratorInfoResponse editRefrigerator(String nickname) {
+        User user = userService.findUserByToken();
         // 이미 등록된 냉장고가 있어야 수정이 가능함
         if (user.getRefrigeratorId() == null) {
             throw new RefrigeratorNotFoundException("등록된 냉장고가 없습니다.");
         }
-        Refrigerator refrigerator = registerRefrigerator(nickname, user);
-        return refrigerator;
+        // 새로 저장할 냉장고 만들고 DB에 저장
+        Refrigerator refrigerator = Refrigerator.builder()
+                .nickname(nickname).build();
+
+        Refrigerator saved = refrigeratorRepository.save(refrigerator);
+        user.setRefrigeratorId(saved.getId());
+        userRepository.save(user);
+
+        RefrigeratorInfoResponse res = RefrigeratorInfoResponse.builder()
+                .id(saved.getId())
+                .nickname(saved.getNickname())
+                .build();
+        return res;
     }
 
     @Override
     @Transactional
-    public void deleteRefrigerator(Long refrigeratorId) {
+    public Long deleteRefrigerator() {
+        User user = userService.findUserByToken();
+        Long refrigeratorId = user.getRefrigeratorId();
+        throwIfRefrigeratorNotExist(refrigeratorId);
         refrigeratorRepository.deleteById(refrigeratorId);
+        user.setRefrigeratorId(null);
+        userRepository.save(user);
+        return refrigeratorId;
     }
 
 
     @Override
-    public List<Log> getItems(Long refrigeratorId, Long userRefrigeratorId) {
-        if (refrigeratorId.longValue() != userRefrigeratorId) {
+    public List<Log> getItems(Long refrigeratorId) {
+        User user = userService.findUserByToken();
+        // 요청으로 넘어온 냉장고 id와 실제 유저의 냉장고 정보가 다르면
+        if (refrigeratorId.longValue() != user.getRefrigeratorId()) {
             throw new RefrigeratorNotMatchException("자신의 냉장고가 아닙니다.");
         }
+
         return logRepository.findAllByRefrigeratorId(refrigeratorId);
+    }
+
+    @Override
+    public RefrigeratorInfoResponse getRefrigerator() {
+        // 토큰으로 유저 찾고
+        User user = userService.findUserByToken();
+        // 유저의 냉장고 조회
+        Refrigerator refrigerator = findRefrigeratorById(user.getRefrigeratorId());
+        // 냉장고의 닉네임, 아이디만 응답으로 보내기
+        RefrigeratorInfoResponse res = RefrigeratorInfoResponse.builder()
+                .id(refrigerator.getId())
+                .nickname(refrigerator.getNickname())
+                .build();
+        return res;
     }
 }
