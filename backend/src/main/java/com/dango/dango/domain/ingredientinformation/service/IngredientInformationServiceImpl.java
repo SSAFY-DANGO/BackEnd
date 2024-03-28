@@ -1,19 +1,23 @@
 package com.dango.dango.domain.ingredient.service;
 
-import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateRequest;
 import com.dango.dango.domain.ingredient.entity.IngredientInformation;
 import com.dango.dango.domain.ingredient.exception.IngredientInformationNotFoundException;
 import com.dango.dango.domain.ingredient.repository.IngredientInformationRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class IngredientInformationServiceImpl implements IngredientInformationService {
     private final IngredientInformationRepository ingredientInformationRepository;
+
+    @Override
+    public List<IngredientInformation> findAll() {
+        List<IngredientInformation> list = ingredientInformationRepository.findAll();
+        return list;
+    }
 
     @Override
     public IngredientInformation findIngredientInformationById(Long id) {
@@ -24,11 +28,9 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
     }
 
     @Override
-    public IngredientInformation findIngredientInformationByName(String name) {
-        // Optional null체크해서 유효하지 않으면 바로 던지기
-        IngredientInformation ingredientInformation = ingredientInformationRepository.findByName(name)
-                .orElseThrow(() -> new IngredientInformationNotFoundException("name " + name + " 없음"));
-        return ingredientInformation;
+    public List<IngredientInformation> findIngredientInformationByName(String name) {
+        List<IngredientInformation> list = ingredientInformationRepository.findAllByName(name);
+        return list;
     }
 
     @Override
@@ -68,7 +70,7 @@ public class IngredientInformationServiceImpl implements IngredientInformationSe
 //
 //        }
 //        return 1;
-        // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
+    // DTO 의 값이 null이 아닌경우 setter로 모두 업데이트
 //
 //        String name = ingredientInformationUpdateRequest.getName();
 //        if (name != null) {

@@ -1,15 +1,19 @@
 package com.dango.dango.domain.ingredient.service;
 
-import com.dango.dango.domain.ingredient.dto.IngredientInformationUpdateRequest;
 import com.dango.dango.domain.ingredient.entity.IngredientInformation;
 
+import java.util.List;
+
 public interface IngredientInformationService {
+
+    // 모든 식재료 정보 반환
+    List<IngredientInformation> findAll();
 
     // pk로 식재료정보 찾기
     IngredientInformation findIngredientInformationById(Long id);
 
     // 식재료명으로 조회하기
-    IngredientInformation findIngredientInformationByName(String name);
+    List<IngredientInformation> findIngredientInformationByName(String name);
 
     // 식재료 정보 생성
     IngredientInformation addIngredientInformation(IngredientInformation ingredientInformation);
