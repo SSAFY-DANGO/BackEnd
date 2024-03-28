@@ -3,16 +3,20 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FridgeFrame from '../components/Fridge-Inside/FridgeFrame';
 import TrashButton from '../components/Fridge-Inside/TrashButton';
+import AddButton from '../components/Fridge-Inside/AddButton'
 import DropDownComponent from '../components/Fridge-Inside/DropDown'
 import SearchComponent from '../components/Fridge-Inside/Search'
 import SearchButton from '../components/Fridge-Inside/SearchButton'
 import { getRefrigeratorDetail } from '../api/Api'
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
+
 
 function FridegeInside() {
   useEffect(() => {
     getRefrigeratorDetailInfo();
   }, []);
+
+  
 
   const getRefrigeratorDetailInfo = async () => {
 
@@ -37,12 +41,15 @@ function FridegeInside() {
         <SearchButton/>
         </div>
         <div className="mb-[2vh]">
-          <FridgeFrame/>
+          <FridgeFrame buttonText="삭제"/>
           
         </div>
-        <div className="mb-[1vh]">
+        <div className="mb-[1vh] flex">
+          <AddButton/>
+          <div className="w-[2vw]"></div>
           <TrashButton/>
         </div>
+       
       </div>
 
       <Footer />

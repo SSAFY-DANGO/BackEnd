@@ -23,6 +23,7 @@ import 양배추 from '../../assets/imgs/groceries/양배추.png'
 import 양파 from '../../assets/imgs/groceries/양파.png'
 import 토마토 from '../../assets/imgs/groceries/토마토.png'
 import 포도 from '../../assets/imgs/groceries/포도.png'
+import 파프리카 from '../../assets/imgs/groceries/파프리카.png'
 import { getGroceryDetail } from '../../api/Api'
 import '../../styles/Landing.css';
 import '../../styles/Common.css';
@@ -49,13 +50,12 @@ const imageMap = {
   '양배추': 양배추,
   '양파': 양파,
   '토마토': 토마토,
-  '포도': 포도
+  '포도': 포도,
+  '파프리카': 파프리카
 }
 
-function Groceries({nameText}) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
- 
+function Groceries({nameText, buttonText}) {
+    const [isModalOpen, setIsModalOpen] = useState(false); 
     const openModal = () => {
       setIsModalOpen(true);
     }
@@ -84,7 +84,7 @@ function Groceries({nameText}) {
         <div className="h-[3vh] flex justify-center items-center pt-[2vh]"><img src={selectedImage} alt="logo" className="max-w-12"/></div>
     <div className="text-center h-[2vh] mt-[3vh] text-sm">{nameText}</div>
   </div>
-  <Modal bool= {isModalOpen} onClose={closeModal} nameText = {nameText}/>
+  <Modal bool= {isModalOpen} onClose={closeModal} nameText = {nameText} buttonText = {buttonText}/>
   </div>
   );
 }
