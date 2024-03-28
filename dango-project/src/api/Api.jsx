@@ -131,4 +131,17 @@ export const getGroceryDetail = async (groceryId) => {
   }
 }
 
+
+export const addGrocery = async () => {
+  try {
+    const response = await api.post(`/log`);
+    return response.data;
+  } catch (error) {
+    console.error("식재료 정보 추가하기 실패:", error);
+    throw error;
+  }
+}
+
+
+
 export default api;

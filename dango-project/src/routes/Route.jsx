@@ -5,6 +5,7 @@ import ConnectFridge from '../pages/ConnectFridge';
 import FridegeInside from '../pages/FridegeInside';
 import Mypage from '../pages/Mypage';
 import FridgeExterior from '../pages/FridgeExterior';
+import FridgeTrashcan from '../pages/FridgeTrashcan';
 
 const routes = createBrowserRouter([
   { path: '', element: <Login></Login> }, // 첫 시작화면-> 무조건 로그인 화면으로
@@ -13,5 +14,6 @@ const routes = createBrowserRouter([
   { path: '/fridge-exterior', element: <FridgeExterior></FridgeExterior> },
   { path: '/fridge-inside', element: <FridegeInside></FridegeInside> },
   { path: '/mypage', element: <Mypage></Mypage> },
+  { path: '/fridge-trashcan', element: <FridgeTrashcan></FridgeTrashcan>}
 ]);
 export default routes;
