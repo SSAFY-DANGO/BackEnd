@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Landing.css';
 import '../styles/Common.css';
 import { useNavigate } from 'react-router-dom';
@@ -10,13 +10,29 @@ export default function Login() {
 
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  // type 변경 여부를 알리는 state
+  const [showPswd, setShowPswd] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      navigate('/fridge-exterior');
+    }
+  }, []);
 
   const handleLogin = async () => {
     try {
       const response = await loginUser({ username, password });
       console.log('로그인 성공', response);
+      navigate('/fridge-exterior');
     } catch (error) {
       console.log('로그인 실패', error);
+    }
+  };
+
+  // Enter 키를 누를 때 handleLogin 함수 호출
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -41,26 +57,21 @@ export default function Login() {
                 className='rounded-lg p-3 w-full'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
             </div>
             <div className='m-4 w-3/4 flex justify-center flex-col'>
               <div>비밀번호</div>
               <input
+                type={showPswd ? 'text' : 'password'}
                 placeholder='********'
                 className='rounded-lg p-3 w-full'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
             </div>
-            <div className='w-3/4 flex justify-center'>
-              <button className='long-thick-button'>
-                <RiKakaoTalkFill
-                  color='#3A1D1D'
-                  className='inline-block align-top translate-y-1 mr-1'
-                />
-                <span>카카오 로그인</span>
-              </button>
-            </div>
+
             <div className='w-3/4 flex justify-center'>
               <button className='long-thick-button' onClick={handleLogin}>
                 로그인
