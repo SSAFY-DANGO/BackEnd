@@ -99,4 +99,49 @@ export const deleteRefrigerator = async (deleteRequest) => {
   }
 }
 
+export const getRefrigeratorDetail = async (refrigeratorId) => {
+  try {
+    const response = await api.get(`/refrigerator/${refrigeratorId}`);
+    return response.data;
+  } catch (error) {
+    console.error("냉장고 품목 정보 얻어오기 실패:", error);
+    throw error;
+  }
+}
+
+
+export const deleteGrocery = async (deleteRequest) => {
+  try {
+    const response = await api.delete('/log', deleteRequest);
+    return response.data;
+
+  } catch (error) {
+    console.error("식재료 삭제 실패", error);
+    throw error;
+  }
+}
+
+export const getGroceryDetail = async (groceryId) => {
+  try {
+    const response = await api.get(`/log/${groceryId}`);
+    return response.data;
+  } catch (error) {
+    console.error("식재료 정보 얻어오기 실패:", error);
+    throw error;
+  }
+}
+
+
+export const addGrocery = async () => {
+  try {
+    const response = await api.post(`/log`);
+    return response.data;
+  } catch (error) {
+    console.error("식재료 정보 추가하기 실패:", error);
+    throw error;
+  }
+}
+
+
+
 export default api;

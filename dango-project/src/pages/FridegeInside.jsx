@@ -3,22 +3,25 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FridgeFrame from '../components/Fridge-Inside/FridgeFrame';
 import TrashButton from '../components/Fridge-Inside/TrashButton';
+import AddButton from '../components/Fridge-Inside/AddButton'
 import DropDownComponent from '../components/Fridge-Inside/DropDown'
 import SearchComponent from '../components/Fridge-Inside/Search'
 import SearchButton from '../components/Fridge-Inside/SearchButton'
-import { getRefrigerator } from '../api/Api'
+import { getRefrigeratorDetail } from '../api/Api'
+import {useEffect, useState} from 'react';
 
-import { useState, useEffect } from 'react';
 
 function FridegeInside() {
   useEffect(() => {
-    getRefrigeratorInfo();
+    getRefrigeratorDetailInfo();
   }, []);
 
-  const getRefrigeratorInfo = async () => {
+  
+
+  const getRefrigeratorDetailInfo = async () => {
 
     try {
-      const response = await getRefrigerator();
+      const response = await getRefrigeratorDetail();
       console.log('냉장고 조회 성공', response)
       
     } catch (error) {
@@ -38,12 +41,15 @@ function FridegeInside() {
         <SearchButton/>
         </div>
         <div className="mb-[2vh]">
-          <FridgeFrame/>
+          <FridgeFrame buttonText="삭제"/>
           
         </div>
-        <div className="mb-[1vh]">
+        <div className="mb-[1vh] flex">
+          <AddButton/>
+          <div className="w-[2vw]"></div>
           <TrashButton/>
         </div>
+       
       </div>
 
       <Footer />

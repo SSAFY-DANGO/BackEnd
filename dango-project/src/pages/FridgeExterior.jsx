@@ -5,8 +5,26 @@ import Footer from '../components/Footer';
 import FridgeSVG from '../components/FridgeSVG';
 import { useState } from 'react';
 import AlertModal from '../components/Fridge-Exterior/AlertModal';
+import { getRefrigerator } from '../api/Api'
+import { useEffect } from 'react';
+
 
 function FridgeExterior() {
+  useEffect(() => {
+    getRefrigeratorInfo();
+  }, []);
+
+  const getRefrigeratorInfo = async () => {
+
+    try {
+      const response = await getRefrigerator();
+      console.log('냉장고 조회 성공', response)
+      
+    } catch (error) {
+      console.log('냉장고 조회 실패', error);
+
+    }
+  }
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
