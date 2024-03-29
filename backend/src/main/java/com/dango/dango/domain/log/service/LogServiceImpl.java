@@ -1,5 +1,8 @@
 package com.dango.dango.domain.log.service;
 
+import com.dango.dango.domain.ingredientinformation.entity.IngredientInformation;
+import com.dango.dango.domain.ingredientinformation.repository.IngredientInformationRepository;
+import com.dango.dango.domain.log.dto.LogDetailResponse;
 import com.dango.dango.domain.log.dto.LogEditRequest;
 import com.dango.dango.domain.log.dto.LogRegisterRequest;
 import com.dango.dango.domain.log.entity.Log;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class LogServiceImpl implements LogService {
     private final LogRepository logRepository;
     private final RefrigeratorRepository refrigeratorRepository;
+    private final IngredientInformationRepository ingredientInformationRepository;
 
     @Override
     public Log findById(Long id) {
@@ -64,6 +68,26 @@ public class LogServiceImpl implements LogService {
             log.setExist(logEditRequest.getExist());
         }
         return log;
+    }
+
+    @Override
+    public LogDetailResponse getLogDetailById(Long id) {
+        Log log = logRepository.findById(id)
+                .orElseThrow(() -> new LogNotFoundException(id + " 번 식재료 로그 없음"));
+        // null이면 dto에 내용 추가 x
+        IngredientInformation ingredientInformation = ingredientInformationRepository.findByName(log.getName()).orElse(null);
+
+        LogDetailResponse res = new LogDetailResponse(log);
+        if (ingredientInformation != null) {
+            res.setInformationExist(true);
+            res.setType(ingredientInformation.getType());
+            res.setCalorie(ingredientInformation.getCalorie());
+            res.setProtein(ingredientInformation.getProtein());
+            res.setSugar(ingredientInformation.getSugar());
+            res.setFat(ingredientInformation.getFat());
+            res.setCarbs(ingredientInformation.getCarbs());
+        }
+        return res;
     }
 
     @Override

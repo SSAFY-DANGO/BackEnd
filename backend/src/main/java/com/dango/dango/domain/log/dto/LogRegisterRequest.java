@@ -10,10 +10,8 @@ public class LogRegisterRequest {
     private Long refrigeratorId;
     @NotBlank
     private String name;
-    @NotBlank
     private String category;
     // 입력형태 -? IoT에서 오는지 사용자가 직접 입력했는지?
-    @NotNull
     private int type;
 
 

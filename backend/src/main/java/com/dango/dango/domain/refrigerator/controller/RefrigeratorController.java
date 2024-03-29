@@ -30,11 +30,11 @@ public class RefrigeratorController {
         return new CustomResponse<>(HttpStatus.OK.value(), res, "내 냉장고 조회 완료");
     }
 
-    @GetMapping("/{refrigeratorId}")
-    @Operation(summary = "냉장고 안에 들어있는 품목을 조회한다", description = "식재료 로그 중 냉장고(id)에 속한 모든 물품을 조회합니다.")
-    public CustomResponse<List<Log>> getRefrigeratorItems(@PathVariable Long refrigeratorId) {
+    @GetMapping("/{refrigeratorNickname}")
+    @Operation(summary = "냉장고 안에 들어있는 품목을 조회한다", description = "식재료 로그 중 냉장고(닉네임)에 속한 모든 물품을 조회합니다.")
+    public CustomResponse<List<Log>> getRefrigeratorItems(@PathVariable String refrigeratorNickname) {
         log.info("냉장고 품목 조회 들어옴");
-        List<Log> logList = refrigeratorService.getItems(refrigeratorId);
+        List<Log> logList = refrigeratorService.getItems(refrigeratorNickname);
         return new CustomResponse<>(HttpStatus.OK.value(), logList, "냉장고 품목 리스트 조회 완료");
     }
 

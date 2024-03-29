@@ -22,7 +22,7 @@ public interface RefrigeratorService {
 
     Long deleteRefrigerator();
 
-    List<Log> getItems(Long refrigeratorId);
+    List<Log> getItems(String refrigeratorNickname);
 
     RefrigeratorInfoResponse getRefrigerator();
 }

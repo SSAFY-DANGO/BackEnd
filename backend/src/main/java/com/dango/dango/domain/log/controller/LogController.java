@@ -1,5 +1,6 @@
 package com.dango.dango.domain.log.controller;
 
+import com.dango.dango.domain.log.dto.LogDetailResponse;
 import com.dango.dango.domain.log.dto.LogEditRequest;
 import com.dango.dango.domain.log.dto.LogRegisterRequest;
 import com.dango.dango.domain.log.entity.Log;
@@ -20,12 +21,12 @@ public class LogController {
     private final LogService logService;
 
     @GetMapping("/{id}")
-    @Operation(summary = "개별 식재료 로그의 상세정보를 조회합니다.", description = "식재료 로그의 id를 기준으로 상세 사항(엔티티 모든 정보)을 조회합니다.")
-    public CustomResponse<Log> getLogDetail(@PathVariable Long id) {
+    @Operation(summary = "개별 식재료 로그의 상세정보를 조회합니다.", description = "식재료 로그의 id를 기준으로 상세 사항(엔티티 모든 정보 + 속한 원재료가 있으면 원재료 정보까지)을 조회합니다.")
+    public CustomResponse<LogDetailResponse> getLogDetail(@PathVariable Long id) {
 
-        Log log = logService.findById(id);
+        LogDetailResponse res = logService.getLogDetailById(id);
 
-        return new CustomResponse<>(HttpStatus.OK.value(), log, "식재료 로그 상세 정보 조회 성공");
+        return new CustomResponse<>(HttpStatus.OK.value(), res, "식재료 로그 상세 정보 조회 성공");
     }
 
     @PostMapping
