@@ -22,10 +22,10 @@ function FridegeInside() {
 
     try {
       const response = await getRefrigeratorDetail();
-      console.log('냉장고 조회 성공', response)
+      console.log('냉장고 품목 조회 성공', response)
       
     } catch (error) {
-      console.log('냉장고 조회 실패', error);
+      console.log('냉장고 품목 조회 실패', error);
 
     }
   }

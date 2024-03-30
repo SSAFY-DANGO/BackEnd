@@ -9,9 +9,10 @@ export const userState = atom({
 export const loginUserState = atom({
   key: "loginUserState",
   default: {
-    id: loginUser ? loginUser.id : "", // 이메일(아이디)
     nickname: loginUser ? loginUser.nickname : "", //닉네임
-    profile: loginUser ? loginUser.profile : "", //프로필 경로
+    refrigeratorNickname: loginUser ? loginUser.refrigeratorNickname : "",  //냉장고 닉네임
+    accessToken: loginUser ? loginUser.accessToken : "", // AccessToken 조회
+    refreshToken: loginUser ? loginUser.refreshToken : "" // RefreshToken 조회
   },
 });
 

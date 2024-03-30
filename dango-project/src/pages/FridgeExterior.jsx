@@ -7,17 +7,19 @@ import { useState } from 'react';
 import AlertModal from '../components/Fridge-Exterior/AlertModal';
 import { getRefrigerator } from '../api/Api'
 import { useEffect } from 'react';
-
+import { useRecoilValue } from 'recoil';
+import { loginUserState } from '../recoil/atoms/userState';
 
 function FridgeExterior() {
+  const loginUser = useRecoilValue(loginUserState);
   useEffect(() => {
     getRefrigeratorInfo();
   }, []);
 
   const getRefrigeratorInfo = async () => {
-
+    
     try {
-      const response = await getRefrigerator();
+      const response = await getRefrigerator(loginUser.accessToken);
       console.log('냉장고 조회 성공', response)
       
     } catch (error) {
