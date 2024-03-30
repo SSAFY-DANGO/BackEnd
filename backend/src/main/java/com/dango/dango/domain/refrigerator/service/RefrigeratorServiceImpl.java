@@ -127,7 +127,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         if (refrigerator.getId().longValue() != user.getRefrigeratorId()) {
             throw new RefrigeratorNotMatchException("자신의 냉장고가 아닙니다.");
         }
-        return logRepository.findAllByRefrigeratorId(refrigerator.getId());
+        return logRepository.findAllByRefrigeratorId(refrigerator.getId(), true);
     }
 
     @Override
