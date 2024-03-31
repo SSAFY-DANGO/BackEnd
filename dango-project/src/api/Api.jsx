@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 
-
 const DEV = 'http://localhost:8080/api/';
 const HOST = 'https://j10a702.p.ssafy.io/api/';
 
@@ -93,8 +92,8 @@ export const deleteRefrigerator = async (deleteRequest) => {
   }
 }
 
-export const getRefrigeratorDetail = async (refrigeratorId) => {
-  const api = createApiInstance();
+export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.get(`/refrigerator/${refrigeratorId}`);
     return response.data;
@@ -117,8 +116,8 @@ export const deleteGrocery = async (deleteRequest) => {
   }
 }
 
-export const getGroceryDetail = async (groceryId) => {
-  const api = createApiInstance();
+export const getGroceryDetail = async (groceryId, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.get(`/log/${groceryId}`);
     return response.data;

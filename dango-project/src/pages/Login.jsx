@@ -26,13 +26,20 @@ export default function Login() {
     try {
       const response = await loginUser({ username, password });
       console.log('로그인 성공', response);
+      // localStorage.setItem('loginUser', JSON.stringify({
+      //   nickname: response.data.nickname,
+      //   refrigeratorNickname: response.data.refrigeratorNickname,
+      //   accessToken: response.data.accessToken,
+      //   refreshToken: response.data.refreshToken
+      // }));
+  
       setLogin({
-        nickname: response.nickname,
-        refrigeratorNickname: response.refrigeratorNickname,
-        accessToken: response.accessToken,
-        refreshToken: response.refreshToken
+        nickname: response.data.nickname,
+        refrigeratorNickname: response.data.refrigeratorNickname,
+        accessToken: response.data.accessToken,
+        refreshToken: response.data.refreshToken
       })
-      console.log()
+        
       navigate('/fridge-exterior');
     } catch (error) {
       console.log('로그인 실패', error);

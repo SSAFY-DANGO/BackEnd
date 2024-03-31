@@ -20,7 +20,9 @@ function FridgeExterior() {
     
     try {
       const response = await getRefrigerator(loginUser.accessToken);
-      console.log('냉장고 조회 성공', response)
+      console.log('냉장고 조회 성공', response);
+      localStorage.setItem('id', response.data.id);
+      
       
     } catch (error) {
       console.log('냉장고 조회 실패', error);

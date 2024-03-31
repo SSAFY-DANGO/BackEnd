@@ -9,20 +9,27 @@ import SearchComponent from '../components/Fridge-Inside/Search'
 import SearchButton from '../components/Fridge-Inside/SearchButton'
 import { getRefrigeratorDetail } from '../api/Api'
 import {useEffect, useState} from 'react';
-
+import { useRecoilValue } from 'recoil';
+import { loginUserState } from '../recoil/atoms/userState';
 
 function FridegeInside() {
   useEffect(() => {
     getRefrigeratorDetailInfo();
   }, []);
 
+  const loginUser = useRecoilValue(loginUserState);
+
   
+  const refrigeratorId = JSON.parse(localStorage.getItem("id"));
+
+  const [foodItems, setFoodItems] = useState([]);
 
   const getRefrigeratorDetailInfo = async () => {
 
     try {
-      const response = await getRefrigeratorDetail();
-      console.log('냉장고 품목 조회 성공', response)
+      const response = await getRefrigeratorDetail("dango", loginUser.accessToken);
+      console.log('냉장고 품목 조회 성공', response.data);
+      setFoodItems(response.data);
       
     } catch (error) {
       console.log('냉장고 품목 조회 실패', error);
@@ -41,7 +48,7 @@ function FridegeInside() {
         <SearchButton/>
         </div>
         <div className="mb-[2vh]">
-          <FridgeFrame buttonText="삭제"/>
+          <FridgeFrame buttonText="삭제" foodItems={foodItems}/>
           
         </div>
         <div className="mb-[1vh] flex">

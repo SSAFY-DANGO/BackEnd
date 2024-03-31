@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import AvocadoImage from '../../assets/imgs/groceries/아보카도.png'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import {deleteGrocery} from '../../api/Api'
-
+import 랜덤 from '../../assets/imgs/mark_question.png'
 import 아보카도 from '../../assets/imgs/groceries/아보카도.png'
 import 감자 from '../../assets/imgs/groceries/감자.png'
 import 고추 from '../../assets/imgs/groceries/고추.png'
@@ -53,12 +53,39 @@ const imageMap = {
   '양파': 양파,
   '토마토': 토마토,
   '포도': 포도,
-  '파프리카': 파프리카
+  '파프리카': 파프리카,
+  '랜덤': 랜덤
 }
 
 
-function Modal({ bool, onClose, nameText, buttonText }) {
-    const navigate = useNavigate();
+function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTime }) {
+    let timeDifferenceOutput = "";
+    let unitTime = "";
+    useEffect(() => {
+        const currentTime = new Date();
+        const timeDifference = currentTime - inputTime;
+        const timeDifferenceInSeconds = timeDifference / 1000;
+        const timeDifferenceInMinutes = timeDifferenceInSeconds / 60;
+        const timeDifferenceInHours = timeDifferenceInMinutes / 60;
+        const timeDifferenceInDays = timeDifferenceInHours / 24;
+
+        if (timeDifferenceInDays >= 1){
+            timeDifferenceOutput = Math.floor(timeDifferenceInDays);
+            unitTime = "일"
+         }
+        else if (timeDifferenceInHours >= 1){
+            timeDifferenceOutput = Math.floor(timeDifferenceInHours);
+            unitTime = "시간"
+         }
+        else if (timeDifferenceInMinutes >= 1){
+            timeDifferenceOutput = Math.floor(timeDifferenceInMinutes);
+            unitTime = "분"
+        }
+        else {
+            timeDifferenceOutput = Math.floor(timeDifferenceInSeconds);
+            unitTime= "초"
+        }   
+         }, []);
 
     const handleModalClose = () => {
         onClose();
@@ -75,26 +102,64 @@ function Modal({ bool, onClose, nameText, buttonText }) {
       
           }
     }
-    const selectedImage = imageMap[nameText];
+
+
+    const [basicbool, setBasicBool] = useState(true);
+    const [detailboolshow, setDetailBoolShow] = useState(false);
+    const [dynamicText, setDynamicText] = useState("상세정보");
+
+
+    const handleDetail = async() => {
+        setBasicBool(!basicbool)
+        setDetailBoolShow(!detailboolshow)
+        setDynamicText("상세정보")
+        console.log(basicbool, detailboolshow)
+        
+    }
+
+    let selectedImage = imageMap[nameText];
+    if (! selectedImage) {
+        selectedImage = imageMap['랜덤'];
+      }
+
+
+
+    
+
 
     return (
         <>
             {bool && (
                 <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50'>
-                    <div className='w-[380px] h-[260px] border-slate-500 border-4 rounded-xl bg-white pt-[4vh]'>
+                    <div className='w-[380px] h-[300px] border-slate-500 border-4 rounded-xl bg-white pt-[4vh]'>
                         
                         <p className="flex justify-center items-center pb-[2vh]">{nameText}</p>
                         <div className="h-[3vh] pt-[4vh] flex justify-center items-center"><img src={selectedImage} alt="logo" className="max-w-12"/></div>
-                        <div className="mt-[7vh]">
+                        {basicbool &&(<div className="mt-[7vh]">
                         <div className="flex justify-center">
-                            3일 경과
+                            {timeDifferenceOutput}{unitTime} 경과
                         </div>
                         <div className="flex justify-center">
-                            들어온 시간 2024-03-07 14:38
+                            들어온 시간: {inputTime.replace("T", " ")}
                         </div>
+                        <div className="flex justify-center">
+                            종류: {item.log.category}
+                        </div>                      
+                        </div>)}
+                        {detailboolshow &&(<div className="mt-[7vh]">
+                        <div className="flex justify-center">
+                            단백질: {item.protein}
                         </div>
-                        <div className="flex justify-center items-center mt-[1vh] ml-60">
-                        <button onClick={handleDelete} className="hover:bg-slate-200 rounded-xl border-solid border-2 w-12 border-slate-200">{buttonText}</button>
+                        <div className="flex justify-center">
+                            설탕: {item.sugar}
+                        </div>
+                        <div className="flex justify-center">
+                           탄수화물: {item.carbs}
+                        </div>                      
+                        </div>)}
+                        <div className="flex justify-center items-center mt-[1vh]">
+                        {detailbool && (<button onClick={handleDetail} className="hover:bg-slate-200 rounded-xl border-solid border-2 w-22 px-2 border-slate-200"> {dynamicText} </button>)}
+                        <button onClick={handleDelete} className="hover:bg-slate-200 ml-32 rounded-xl border-solid border-2 w-12 border-slate-200">{buttonText}</button>
                         <button onClick={handleModalClose} className="rounded-xl border-solid border-2 w-12 border-slate-200 ml-4 hover:bg-slate-200">닫기</button>
                         </div>
                     </div>

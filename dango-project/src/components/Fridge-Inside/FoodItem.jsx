@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Modal from './Modal'
 
+import 랜덤 from '../../assets/imgs/mark_question.png'
 import 아보카도 from '../../assets/imgs/groceries/아보카도.png'
 import 감자 from '../../assets/imgs/groceries/감자.png'
 import 고추 from '../../assets/imgs/groceries/고추.png'
@@ -25,6 +26,8 @@ import 토마토 from '../../assets/imgs/groceries/토마토.png'
 import 포도 from '../../assets/imgs/groceries/포도.png'
 import 파프리카 from '../../assets/imgs/groceries/파프리카.png'
 import { getGroceryDetail } from '../../api/Api'
+import { useRecoilValue } from 'recoil';
+import { loginUserState } from '../../recoil/atoms/userState';
 import '../../styles/Landing.css';
 import '../../styles/Common.css';
 
@@ -51,23 +54,28 @@ const imageMap = {
   '양파': 양파,
   '토마토': 토마토,
   '포도': 포도,
-  '파프리카': 파프리카
+  '파프리카': 파프리카,
+  '랜덤': 랜덤
 }
 
-function Groceries({nameText, buttonText}) {
+function Groceries({nameText, buttonText, itemid, detailbool, inputTime}) {
     const [isModalOpen, setIsModalOpen] = useState(false); 
+    const loginUser = useRecoilValue(loginUserState);
     const openModal = () => {
       setIsModalOpen(true);
     }
 
+    const [foodItems, setFoodItems] = useState("");
+
     const openGroceryDetail = async () => {
       try {
-        const response = await getGroceryDetail();
-        console.log('식재료 조회 성공', response)
+        const response = await getGroceryDetail(itemid, loginUser.accessToken);
+        setFoodItems(response.data)
+        console.log('식재료 상세 조회 성공', response.data)
         openModal();
         
       } catch (error) {
-        console.log('식재료 조회 실패', error);
+        console.log('식재료 상세 조회 실패', error);
         openModal();
   
       }
@@ -76,7 +84,10 @@ function Groceries({nameText, buttonText}) {
     const closeModal = () => {
       setIsModalOpen(false);
     }
-  const selectedImage = imageMap[nameText];
+  let selectedImage = imageMap[nameText];
+  if (! selectedImage) {
+    selectedImage = imageMap["랜덤"];
+  }
 
   return (
     <div>
@@ -84,7 +95,7 @@ function Groceries({nameText, buttonText}) {
         <div className="h-[3vh] flex justify-center items-center pt-[2vh]"><img src={selectedImage} alt="logo" className="max-w-12"/></div>
     <div className="text-center h-[2vh] mt-[3vh] text-sm">{nameText}</div>
   </div>
-  <Modal bool= {isModalOpen} onClose={closeModal} nameText = {nameText} buttonText = {buttonText}/>
+  <Modal bool= {isModalOpen} onClose={closeModal} nameText = {nameText} buttonText = {buttonText} item={foodItems} detailbool={detailbool} inputTime={inputTime}/>
   </div>
   );
 }
