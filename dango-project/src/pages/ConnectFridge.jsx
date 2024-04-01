@@ -14,17 +14,12 @@ export default function ConnectFridge() {
       console.log(fridgeKey)
       const response = await postRefrigerator(fridgeKey);
       console.log('냉장고 연결 성공', response)
-      navigateFridgeExterior();
+      navigate('/fridge-exterior')
     } catch (error) {
       alert('냉장고 연결에 실패했습니다.')
       console.log('냉장고 연결 실패', error);
     }
   }
-
-  const navigateFridgeExterior = () => {
-    navigate('/fridge-exterior')
-  }
-
   return (
     <>
       <div className='landing-background flex flex-col justify-center items-center h-screen'>
