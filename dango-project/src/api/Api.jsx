@@ -21,6 +21,18 @@ export const loginUser = async (userLoginRequest) => {
   });
   try {
     const response = await api.post('/users/login', userLoginRequest);
+    const nickname = response.data.data.nickname;
+    const accessToken = response.data.data.accessToken;
+    const refreshToken = response.data.data.refreshToken;
+    const refrigeratorNickname = response.data.data.refrigeratorNickname;
+    const user = {
+      nickname: nickname,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      refrigeratorNickname: refrigeratorNickname,
+    };
+    localStorage.setItem('loginUser', JSON.stringify(user));
+    JSON.parse(localStorage.getItem('loginUser'));
     return response.data;
   } catch (error) {
     console.error('로그인 실패:', error);
@@ -87,10 +99,13 @@ export const deleteRefrigerator = async (deleteRequest) => {
   }
 };
 
-export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
+export const getRefrigeratorDetail = async (
+  refrigeratorNickname,
+  accessToken
+) => {
   const api = createApiInstance(accessToken);
   try {
-    const response = await api.get(`/refrigerator/${refrigeratorId}`);
+    const response = await api.get(`/refrigerator/${refrigeratorNickname}`);
     return response.data;
   } catch (error) {
     console.error('냉장고 품목 정보 얻어오기 실패:', error);
