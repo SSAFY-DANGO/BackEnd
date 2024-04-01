@@ -20,7 +20,7 @@ function FridegeInside() {
   const loginUser = useRecoilValue(loginUserState);
   const [foodItems, setFoodItems] = useRecoilState(foodItemsState);
 
-  const refrigeratorId = JSON.parse(localStorage.getItem('id'));
+  // const refrigeratorId = JSON.parse(localStorage.getItem('id'));
 
   // const [foodItems, setFoodItems] = useState([]);
 
