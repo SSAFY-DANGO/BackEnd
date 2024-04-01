@@ -14,7 +14,7 @@ public class DetectLogServiceImpl implements DetectLogService{
 	private final DetectLogRepository detectLogRepository;
 
 	@Override
-	public DetectLog saveDetectLog(DetectLog detectLog) {
+	public DetectLog addDetectLog(DetectLog detectLog) {
 		return detectLogRepository.save(detectLog);
 	}
 }
