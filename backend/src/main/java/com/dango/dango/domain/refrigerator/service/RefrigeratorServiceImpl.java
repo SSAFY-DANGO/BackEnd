@@ -169,4 +169,9 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         return list;
     }
 
+    @Override
+    public Boolean getRefrigeratorDoor(String refrigeratorNickname) {
+        return findRefrigeratorByNickname(refrigeratorNickname).is_open();
+    }
+
 }
