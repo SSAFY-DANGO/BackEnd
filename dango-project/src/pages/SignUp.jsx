@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/Landing.css";
 import "../styles/Common.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { signUpUser } from "../api/Api";
-import { userAPI } from './../api/userAPI';
-
+import { userAPI } from "./../api/userAPI";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -13,16 +11,42 @@ export default function SignUp() {
   const [nickname, setNickname] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [emailCheck, setEmailCheck] = useState(false);
+
+  const regexLimit = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+  useEffect(() => {
+    setEmailCheck(false);
+  }, [username]);
 
   const handleSignUp = async () => {
+    if (!emailCheck) {
+      alert("이메일 중복체크를 진행해주세요.");
+      return;
+    }
+    if (!nickname) {
+      alert("닉네임을 작성해주세요.");
+      return;
+    }
+    if (!username) {
+      alert("이메일을 작성해주세요.");
+      return;
+    }
+
+    if (!regexLimit.test(password)) {
+      console.log(password)
+      alert("비밀번호는 영문자와 숫자를 포함한 최소 8자 이상이어야 합니다.");
+      return;
+    }
+
     try {
-      const response = await signUpUser({ nickname, username, password });
+      const response = await userAPI.signUp({ username, password, nickname });
       // 회원가입 제대로 된 경우
-      if (response.status === 200) {
+      if (response.data.status === 200) {
         // 로그인하고 냉장고 페이지로
         const loginRes = await userAPI.login({ username, password });
         // 로그인 잘 됐으면 냉장고 등록 페이지, 아니면 첫화면으로
-        if (loginRes.status === 200) {
+        if (loginRes.data.status === 200) {
           console.log(loginRes);
           const loginUser = loginRes.data.data;
           localStorage.setItem("loginUser", JSON.stringify(loginUser));
@@ -38,9 +62,20 @@ export default function SignUp() {
     }
   };
 
-  const navigateLogin = () => {
-    navigate("/");
-  };
+  async function checkIfEmailDuplicated() {
+    try {
+      const res = await userAPI.checkEmail(username);
+      if (res.data.status === 200) {
+        setEmailCheck(true);
+        alert("중복체크 완료");
+      } else {
+        alert(res.data.message);
+      }
+    } catch (e) {
+      console.log(e);
+      alert("이메일 중복 체크 실패");
+    }
+  }
 
   return (
     <>
@@ -49,10 +84,8 @@ export default function SignUp() {
           className="text-5xl font-bold font-noto-sans-kr p-10"
           style={{ position: "absolute", top: "20px", left: "20px" }}
         >
-          {" "}
-          <button onClick={navigateLogin}>&lt;</button> 회원가입{" "}
+          <button onClick={() => navigate("/")}>&lt;</button> 회원가입
         </div>
-        {/* 형식 form - requestbody임으로 submit 불가 */}
         <div className="w-full ml-[14vw]">
           <div className="m-4 w-3/4 flex justify-center flex-col mb-10">
             <div>닉네임</div>
@@ -65,12 +98,28 @@ export default function SignUp() {
           </div>
           <div className="m-4 w-3/4 flex justify-center flex-col mb-10">
             <div>이메일 주소</div>
-            <input
-              placeholder="ssafy@gmail.com"
-              className="rounded-lg p-3 w-full"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <div className="flex justify-normal">
+              <input
+                placeholder="ssafy@gmail.com"
+                className="rounded-lg p-3 w-full"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <button
+                className={`${
+                  emailCheck ? "bg-green-100" : "bg-orange-100"
+                } ml-2 rounded text-xs`}
+                onClick={() => {
+                  if (emailCheck) {
+                    alert("이미 이메일 중복 체크가 완료되었습니다.");
+                  } else {
+                    checkIfEmailDuplicated();
+                  }
+                }}
+              >
+                이메일 중복체크
+              </button>
+            </div>
           </div>
           <div className="m-4 w-3/4 flex justify-center flex-col mb-10">
             <div>비밀번호</div>
@@ -86,8 +135,7 @@ export default function SignUp() {
             onClick={handleSignUp}
             className="w-[75%] ml-4 long-thick-button"
           >
-            {" "}
-            가입하기{" "}
+            가입하기
           </button>
         </div>
       </div>
