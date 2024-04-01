@@ -104,8 +104,8 @@ export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
 }
 
 
-export const deleteGrocery = async (deleteRequest) => {
-  const api = createApiInstance();
+export const deleteGrocery = async (deleteRequest, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.delete('/log', deleteRequest);
     return response.data;

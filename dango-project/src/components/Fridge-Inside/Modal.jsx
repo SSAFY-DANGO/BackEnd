@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import AvocadoImage from '../../assets/imgs/groceries/아보카도.png'
-import { useNavigate} from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { loginUserState } from '../../recoil/atoms/userState';
+
 import {deleteGrocery} from '../../api/Api'
 import 랜덤 from '../../assets/imgs/mark_question.png'
 import 아보카도 from '../../assets/imgs/groceries/아보카도.png'
@@ -58,34 +59,9 @@ const imageMap = {
 }
 
 
-function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTime }) {
-    let timeDifferenceOutput = "";
-    let unitTime = "";
-    useEffect(() => {
-        const currentTime = new Date();
-        const timeDifference = currentTime - inputTime;
-        const timeDifferenceInSeconds = timeDifference / 1000;
-        const timeDifferenceInMinutes = timeDifferenceInSeconds / 60;
-        const timeDifferenceInHours = timeDifferenceInMinutes / 60;
-        const timeDifferenceInDays = timeDifferenceInHours / 24;
-
-        if (timeDifferenceInDays >= 1){
-            timeDifferenceOutput = Math.floor(timeDifferenceInDays);
-            unitTime = "일"
-         }
-        else if (timeDifferenceInHours >= 1){
-            timeDifferenceOutput = Math.floor(timeDifferenceInHours);
-            unitTime = "시간"
-         }
-        else if (timeDifferenceInMinutes >= 1){
-            timeDifferenceOutput = Math.floor(timeDifferenceInMinutes);
-            unitTime = "분"
-        }
-        else {
-            timeDifferenceOutput = Math.floor(timeDifferenceInSeconds);
-            unitTime= "초"
-        }   
-         }, []);
+function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTime, unitTime, timeDifferenceOutput }) {
+    
+    const loginUser = useRecoilValue(loginUserState);
 
     const handleModalClose = () => {
         onClose();
@@ -93,12 +69,13 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
 
     const handleDelete = async() => {
         try {
-            const response = await deleteGrocery({});
-            console.log('식재료 삭제 성공', response)
+            console.log(item.log.id);
+            const response = await deleteGrocery(item.log.id, loginUser.accessToken);
+            console.log('식재료 삭제 성공', response);
             handleModalClose();
           } catch (error) {
             alert("삭제에 실패했습니다.")
-            console.log('로그인 실패', error);
+            console.log('식재료 삭제 실패', error);
       
           }
     }

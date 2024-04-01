@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from './Modal'
 
 import 랜덤 from '../../assets/imgs/mark_question.png'
@@ -59,35 +59,67 @@ const imageMap = {
 }
 
 function Groceries({nameText, buttonText, itemid, detailbool, inputTime}) {
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-    const loginUser = useRecoilValue(loginUserState);
-    const openModal = () => {
-      setIsModalOpen(true);
-    }
+  const [timeDifferenceOutput, setTimeDifferenceOutput] = useState("");
+  const [unitTime, setUnitTime] = useState("");
 
-    const [foodItems, setFoodItems] = useState("");
-
-    const openGroceryDetail = async () => {
-      try {
-        const response = await getGroceryDetail(itemid, loginUser.accessToken);
-        setFoodItems(response.data)
-        console.log('식재료 상세 조회 성공', response.data)
-        openModal();
-        
-      } catch (error) {
-        console.log('식재료 상세 조회 실패', error);
-        openModal();
+  useEffect(() => {
+  const currentTime = new Date();
+  const timeDifference = currentTime - new Date(inputTime);
+  const timeDifferenceInSeconds = timeDifference / 1000;
+  const timeDifferenceInMinutes = timeDifferenceInSeconds / 60;
+  const timeDifferenceInHours = timeDifferenceInMinutes / 60;
+  const timeDifferenceInDays = timeDifferenceInHours / 24;
   
-      }
-    }
 
-    const closeModal = () => {
-      setIsModalOpen(false);
-    }
-  let selectedImage = imageMap[nameText];
-  if (! selectedImage) {
-    selectedImage = imageMap["랜덤"];
+  if (timeDifferenceInDays >= 1) {
+    setTimeDifferenceOutput(Math.floor(timeDifferenceInDays));
+    setUnitTime("일");
+  } else if (timeDifferenceInHours >= 1) {
+    setTimeDifferenceOutput(Math.floor(timeDifferenceInHours));
+    setUnitTime("시간");
+  } else if (timeDifferenceInMinutes >= 1) {
+    setTimeDifferenceOutput(Math.floor(timeDifferenceInMinutes));
+    setUnitTime("분");
+  } else {
+    setTimeDifferenceOutput(Math.floor(timeDifferenceInSeconds));
+    setUnitTime("초");
   }
+}, [inputTime]); // Only re-run the effect if inputTime changes  
+
+
+const [isModalOpen, setIsModalOpen] = useState(false); 
+const loginUser = useRecoilValue(loginUserState);
+const openModal = () => {
+  setIsModalOpen(true);
+}
+
+const [foodItems, setFoodItems] = useState("");
+
+const openGroceryDetail = async () => {
+  try {
+    const response = await getGroceryDetail(itemid, loginUser.accessToken);
+    setFoodItems(response.data)
+    console.log('식재료 상세 조회 성공', response.data)
+    openModal();
+    
+  } catch (error) {
+    console.log('식재료 상세 조회 실패', error);
+    openModal();
+
+  }
+}
+
+
+const closeModal = () => {
+  setIsModalOpen(false);
+}
+let selectedImage = imageMap[nameText];
+if (! selectedImage) {
+selectedImage = imageMap["랜덤"];
+}
+
+ 
+
 
   return (
     <div>
@@ -95,7 +127,7 @@ function Groceries({nameText, buttonText, itemid, detailbool, inputTime}) {
         <div className="h-[3vh] flex justify-center items-center pt-[2vh]"><img src={selectedImage} alt="logo" className="max-w-12"/></div>
     <div className="text-center h-[2vh] mt-[3vh] text-sm">{nameText}</div>
   </div>
-  <Modal bool= {isModalOpen} onClose={closeModal} nameText = {nameText} buttonText = {buttonText} item={foodItems} detailbool={detailbool} inputTime={inputTime}/>
+  <Modal bool= {isModalOpen} onClose={closeModal} nameText = {nameText} buttonText = {buttonText} item={foodItems} detailbool={detailbool} inputTime={inputTime} unitTime={unitTime} timeDifferenceOutput={timeDifferenceOutput} />
   </div>
   );
 }
