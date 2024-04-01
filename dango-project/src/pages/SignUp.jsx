@@ -3,7 +3,9 @@ import "../styles/Landing.css";
 import "../styles/Common.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { loginUser, signUpUser } from "../api/Api";
+import { signUpUser } from "../api/Api";
+import { userAPI } from './../api/userAPI';
+
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -18,11 +20,11 @@ export default function SignUp() {
       // 회원가입 제대로 된 경우
       if (response.status === 200) {
         // 로그인하고 냉장고 페이지로
-        const loginRes = await loginUser({ username, password });
+        const loginRes = await userAPI.login({ username, password });
         // 로그인 잘 됐으면 냉장고 등록 페이지, 아니면 첫화면으로
         if (loginRes.status === 200) {
           console.log(loginRes);
-          const loginUser = loginRes.data;
+          const loginUser = loginRes.data.data;
           localStorage.setItem("loginUser", JSON.stringify(loginUser));
           navigate("/connect-fridge");
         } else {

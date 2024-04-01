@@ -4,7 +4,14 @@ import axios from 'axios';
 const DEV = 'http://localhost:8081/api/';
 const HOST = 'https://j10a702.p.ssafy.io/api/';
 
-const createApiInstance = (accessToken) => {
+export const api  = axios.create({
+  baseURL: HOST,
+  withCredentials: true,
+}) 
+
+
+
+export const createApiInstance = (accessToken) => {
   console.log(accessToken);
   return axios.create({
     baseURL: HOST,
@@ -13,20 +20,6 @@ const createApiInstance = (accessToken) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-};
-
-export const loginUser = async (userLoginRequest) => {
-  const api = axios.create({
-    baseURL: HOST,
-    withCredentials: true,
-  });
-  try {
-    const response = await api.post('/users/login', userLoginRequest);
-    return response.data;
-  } catch (error) {
-    console.error('로그인 실패:', error);
-    throw error;
-  }
 };
 
 export const signUpUser = async (signUpRequest) => {
