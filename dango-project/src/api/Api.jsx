@@ -9,15 +9,11 @@ const createApiInstance = (accessToken) => {
   return axios.create({
     baseURL: HOST,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json;charset=utf-8',
       'Authorization': `Bearer ${accessToken}`
     }
   });
 };
-
-
-
-
 
 export const loginUser = async (userLoginRequest) => {
   const api = axios.create({
@@ -107,7 +103,7 @@ export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
 export const deleteGrocery = async (deleteRequest, accessToken) => {
   const api = createApiInstance(accessToken);
   try {
-    const response = await api.delete('/log', deleteRequest);
+    const response = await api.delete(`/log`, deleteRequest);
     return response.data;
 
   } catch (error) {
@@ -135,6 +131,29 @@ export const addGrocery = async () => {
     return response.data;
   } catch (error) {
     console.error("식재료 정보 추가하기 실패:", error);
+    throw error;
+  }
+}
+
+export const trashList = async (nickname, accessToken) => {
+  const api = createApiInstance(accessToken);
+  try {
+    const response = await api.get(`/trash/${nickname}`);
+    
+    return response.data;
+  } catch (error) {
+    console.error("쓰레기통 조회 실패: ", error);
+    throw error;
+  }
+}
+
+export const trashRecover = async (id, accessToken) => {
+  const api = createApiInstance(accessToken);
+  try {
+    const response = await api.get(`/trash`, id);
+    return response.data;
+  } catch (error) {
+    console.error("쓰레기 복원 실패: ", error);
     throw error;
   }
 }

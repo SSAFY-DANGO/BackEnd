@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../../recoil/atoms/userState';
-
+import {trashRecover} from '../../api/Api'
 import {deleteGrocery} from '../../api/Api'
 import 랜덤 from '../../assets/imgs/mark_question.png'
 import 아보카도 from '../../assets/imgs/groceries/아보카도.png'
@@ -60,24 +61,48 @@ const imageMap = {
 
 
 function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTime, unitTime, timeDifferenceOutput }) {
-    
+    const navigate = useNavigate();
     const loginUser = useRecoilValue(loginUserState);
 
     const handleModalClose = () => {
         onClose();
     }
 
+    const handleButton = () => {
+        if (buttonText === "복원") {
+            handleRecover();
+        }
+        else if (buttonText === "삭제"){
+            handleDelete();
+        }
+    }
+
     const handleDelete = async() => {
         try {
-            console.log(item.log.id);
-            const response = await deleteGrocery(item.log.id, loginUser.accessToken);
+            // const idValue = {id: item.log.id,};
+            // const jsonStringID = JSON.stringify(idValue);
+            const response = await deleteGrocery(JSON.stringify(item.log.id), loginUser.accessToken);
             console.log('식재료 삭제 성공', response);
             handleModalClose();
+            navigate('/fridge-trashcan')
+
           } catch (error) {
             alert("삭제에 실패했습니다.")
             console.log('식재료 삭제 실패', error);
       
           }
+    }
+
+    const handleRecover = async() => {
+        try {
+            const response = await trashRecover(JSON.stringify(item.log.id), loginUser.accessToken);
+            console.log('식재료 복원 성공', response);
+            handleModalClose();
+            navigate('/fridge-inside')
+        } catch (error) {
+            alert("식재료 복원에 성공했습니다.")
+            console.log('식재료 복원 실패', error);
+        }
     }
 
 
@@ -136,7 +161,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
                         </div>)}
                         <div className="flex justify-center items-center mt-[1vh]">
                         {detailbool && (<button onClick={handleDetail} className="hover:bg-slate-200 rounded-xl border-solid border-2 w-22 px-2 border-slate-200"> {dynamicText} </button>)}
-                        <button onClick={handleDelete} className="hover:bg-slate-200 ml-32 rounded-xl border-solid border-2 w-12 border-slate-200">{buttonText}</button>
+                        <button onClick={handleButton} className="hover:bg-slate-200 ml-32 rounded-xl border-solid border-2 w-12 border-slate-200">{buttonText}</button>
                         <button onClick={handleModalClose} className="rounded-xl border-solid border-2 w-12 border-slate-200 ml-4 hover:bg-slate-200">닫기</button>
                         </div>
                     </div>
