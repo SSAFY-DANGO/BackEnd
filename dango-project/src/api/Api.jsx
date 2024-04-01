@@ -9,15 +9,11 @@ const createApiInstance = (accessToken) => {
   return axios.create({
     baseURL: HOST,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json;charset=utf-8',
       'Authorization': `Bearer ${accessToken}`
     }
   });
 };
-
-
-
-
 
 export const loginUser = async (userLoginRequest) => {
   const api = axios.create({
@@ -104,10 +100,10 @@ export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
 }
 
 
-export const deleteGrocery = async (deleteRequest, accessToken) => {
+export const deleteGrocery = async (id, accessToken) => {
   const api = createApiInstance(accessToken);
   try {
-    const response = await api.delete('/log', deleteRequest);
+    const response = await api.delete(`/log/${id}`);
     return response.data;
 
   } catch (error) {
@@ -128,13 +124,47 @@ export const getGroceryDetail = async (groceryId, accessToken) => {
 }
 
 
-export const addGrocery = async () => {
-  const api = createApiInstance();
+export const addGrocery = async (addData, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
-    const response = await api.post(`/log`);
+    const response = await api.post(`/log`, addData);
     return response.data;
   } catch (error) {
     console.error("식재료 정보 추가하기 실패:", error);
+    throw error;
+  }
+}
+
+export const trashList = async (nickname, accessToken) => {
+  const api = createApiInstance(accessToken);
+  try {
+    const response = await api.get(`/trash/${nickname}`);
+    
+    return response.data;
+  } catch (error) {
+    console.error("쓰레기통 조회 실패: ", error);
+    throw error;
+  }
+}
+
+export const trashRecover = async (id, accessToken) => {
+  const api = createApiInstance(accessToken);
+  try {
+    const response = await api.put(`/trash/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("쓰레기 복원 실패: ", error);
+    throw error;
+  }
+}
+
+export const allGroceriesData = async (pageInfo, accessToken) => {
+  const api = createApiInstance(accessToken);
+  try {
+    const response = await api.get(`/ingredient/search`, pageInfo);
+    return response.data;
+  } catch (error) {
+    console.error("모든 식재료 정보 반환 실패: ", error);
     throw error;
   }
 }
