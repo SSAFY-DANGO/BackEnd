@@ -1,7 +1,6 @@
 spring:
   profiles:
     include: secret
-
   datasource:
     url: ${database.mariadb.dev.url}
     username: ${database.mariadb.dev.username}
@@ -19,6 +18,10 @@ spring:
       host: ${database.redis.host}
       port: ${database.redis.port}
     # 엘라스틱 서치 나중에 추가해야함
+  kafka:
+    consumer:
+      bootstrap-servers: ${database.kafka.host}
+      group-id: "consumer"
 
 logging:
   level:
