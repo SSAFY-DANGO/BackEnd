@@ -40,17 +40,6 @@ public class kafkaConsumerService {
 		// json 필드의 값도 맵으로 추출
 		Map<String, Integer> jsonMap = (Map<String, Integer>) data.get("json");
 
-		// 필요한 필드 출력
-		System.out.println("Type: " + typeValue);
-		System.out.println("Device: " + deviceValue);
-		System.out.println("Time: " + timeValue);
-
-		// json 필드의 값 출력
-		System.out.println("Json Data:");
-		for (Map.Entry<String, Integer> entry : jsonMap.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
-
 		DetectLog detectLog = DetectLog.builder()
 			.inputTime(timeValue)
 			.device(deviceValue)
