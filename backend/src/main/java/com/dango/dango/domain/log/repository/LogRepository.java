@@ -5,9 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface LogRepository extends JpaRepository<Log, Long> {
     @Query(value = "select l from Log l where l.refrigerator.id = :refrigeratorId and l.exist = true")
     List<Log> findAllByRefrigeratorId(@Param("refrigeratorId") Long refrigeratorId);
+
+
+    @Query(value = "select l from Log l where l.refrigerator.id = :refrigeratorId and l.exist = true and l.inputTime <= :date")
+    List<Log> findAllOldItems(@Param("refrigeratorId") Long refrigeratorId, @Param("date") LocalDateTime date);
 }

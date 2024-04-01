@@ -38,6 +38,16 @@ public class RefrigeratorController {
         return new CustomResponse<>(HttpStatus.OK.value(), logList, "냉장고 품목 리스트 조회 완료");
     }
 
+    @GetMapping("/old/{refrigeratorNickname}")
+    @Operation(summary = "냉장고 안에 들어있는 품목 중 오래된 물건을 조회한다.", description= "{refrigeratorNickname} 냉장고에서 들어온 날짜가 ?t={t} 이상 경과한 물품을 모두 조회합니다. t가 전달되지 않으면 기본값(10일)이 적용됩니다.")
+    public CustomResponse<List<Log>> getOldItems(@PathVariable String refrigeratorNickname, @RequestParam(defaultValue = "10",name ="t") Long day) {
+        log.info("오래된 물품 조회 들어옴");
+        List<Log> oldLogList = refrigeratorService.getOldItems(refrigeratorNickname, day);
+
+        return new CustomResponse<>(HttpStatus.OK.value(), oldLogList, "오래된 품목 리스트 조회 완료");
+    }
+
+
 
     @PostMapping
     @Operation(summary = "내 냉장고를 등록한다.", description = "토큰으로 유저를 조회하고, 그 유저에게 냉장고를 등록합니다.")
