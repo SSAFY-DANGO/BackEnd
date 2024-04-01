@@ -74,17 +74,21 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         User user = userService.findUserByToken();
         // 이미 등록된 냉장고가 있으면 불가능
         throwIfRefrigeratorDuplicated(user.getRefrigeratorId());
-
-        Refrigerator refrigerator = Refrigerator.builder()
-                .nickname(nickname).build();
-        Refrigerator saved = refrigeratorRepository.save(refrigerator);
+        // 닉네임에 해당하는 냉장고가 있는지 찾아보고
+        Refrigerator refrigerator = refrigeratorRepository.findByNickname(nickname).orElse(null);
+        // 없으면 새로만들기
+        if (refrigerator == null) {
+            refrigerator = Refrigerator.builder()
+                    .nickname(nickname).build();
+            refrigeratorRepository.save(refrigerator);
+        }
         // 이 유저에게 냉장고가 속하게 설정
-        user.setRefrigeratorId(saved.getId());
+        user.setRefrigeratorId(refrigerator.getId());
         userRepository.save(user);
 
         RefrigeratorInfoResponse res = RefrigeratorInfoResponse.builder()
-                .id(saved.getId())
-                .nickname(saved.getNickname())
+                .id(refrigerator.getId())
+                .nickname(refrigerator.getNickname())
                 .build();
 
         return res;
@@ -98,17 +102,19 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         if (user.getRefrigeratorId() == null) {
             throw new RefrigeratorNotFoundException("등록된 냉장고가 없습니다.");
         }
-        // 새로 저장할 냉장고 만들고 DB에 저장
-        Refrigerator refrigerator = Refrigerator.builder()
-                .nickname(nickname).build();
-
-        Refrigerator saved = refrigeratorRepository.save(refrigerator);
-        user.setRefrigeratorId(saved.getId());
+        // 닉네임으로 냉장고를 찾고, 없으면 새로 만들기
+        Refrigerator refrigerator = refrigeratorRepository.findByNickname(nickname).orElse(null);
+        if (refrigerator == null) {
+            refrigerator = Refrigerator.builder()
+                    .nickname(nickname).build();
+            refrigeratorRepository.save(refrigerator);
+        }
+        user.setRefrigeratorId(refrigerator.getId());
         userRepository.save(user);
 
         RefrigeratorInfoResponse res = RefrigeratorInfoResponse.builder()
-                .id(saved.getId())
-                .nickname(saved.getNickname())
+                .id(refrigerator.getId())
+                .nickname(refrigerator.getNickname())
                 .build();
         return res;
     }
@@ -116,10 +122,12 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
     @Override
     @Transactional
     public Long deleteRefrigerator() {
+        // 토큰으로 유저를 찾고
         User user = userService.findUserByToken();
+        // 유저에게 냉장고 있는지 확인
         Long refrigeratorId = user.getRefrigeratorId();
         throwIfRefrigeratorNotExist(refrigeratorId);
-        refrigeratorRepository.deleteById(refrigeratorId);
+        // 유저의 냉장고 정보만 삭제
         user.setRefrigeratorId(null);
         userRepository.save(user);
         return refrigeratorId;

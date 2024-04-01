@@ -69,7 +69,7 @@ public class RefrigeratorController {
     }
 
     @DeleteMapping
-    @Operation(summary = "냉장고 삭제", description = "토큰으로 유저를 찾고, 등록된 냉장고를 삭제한다")
+    @Operation(summary = "냉장고 삭제", description = "토큰으로 유저를 찾고, 등록된 냉장고를 삭제한다.\n냉장고가 DB에서 삭제되지 않고, 유저의 냉장고 정보만 삭제합니다.")
     public CustomResponse<Long> deleteRefrigerator() {
         log.info("냉장고 삭제 요청 들어옴");
         // 냉장고를 삭제한다.
