@@ -27,4 +27,6 @@ public interface RefrigeratorService {
     List<Log> getItems(String refrigeratorNickname);
 
     RefrigeratorInfoResponse getRefrigerator();
+
+    List<Log> getOldItems(String refrigeratorNickname, Long day);
 }

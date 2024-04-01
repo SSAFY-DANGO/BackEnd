@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -149,4 +150,15 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
                 .build();
         return res;
     }
+
+    @Override
+    public List<Log> getOldItems(String refrigeratorNickname, Long day) {
+        // 지금날짜부터 day만큼 이전 날짜를 기준으로 db에서 검색
+        LocalDateTime date = LocalDateTime.now().minusDays(day);
+        User user = userService.findUserByToken();
+        Refrigerator refrigerator = findRefrigeratorById(user.getRefrigeratorId());
+        List<Log> list = logRepository.findAllOldItems(refrigerator.getId(), date);
+        return list;
+    }
+
 }

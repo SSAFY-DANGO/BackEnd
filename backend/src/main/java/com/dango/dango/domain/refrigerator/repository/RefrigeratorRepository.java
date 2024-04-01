@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface RefrigeratorRepository extends JpaRepository<Refrigerator, Long> {
     Optional<Refrigerator> findByNickname(String nickname);
 
+
 }
