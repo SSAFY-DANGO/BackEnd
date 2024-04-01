@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const DEV = 'http://localhost:8080/api/';
+
+const DEV = 'http://localhost:8081/api/';
 const HOST = 'https://j10a702.p.ssafy.io/api/';
 
 const createApiInstance = (accessToken) => {
@@ -55,7 +56,8 @@ export const getRefrigerator = async (accessToken) => {
 };
 
 export const postRefrigerator = async (postRequest) => {
-  const api = createApiInstance();
+  const accessToken = JSON.parse(localStorage.getItem('loginUser')).accessToken
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.post('/refrigerator', postRequest);
     return response.data;
