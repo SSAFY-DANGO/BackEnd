@@ -29,4 +29,6 @@ public interface RefrigeratorService {
     RefrigeratorInfoResponse getRefrigerator();
 
     List<Log> getOldItems(String refrigeratorNickname, Long day);
+
+    Boolean getRefrigeratorDoor(String refrigeratorNickname);
 }
