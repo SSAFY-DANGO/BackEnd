@@ -11,7 +11,8 @@ export default function ConnectFridge() {
   const handleConnectKey = async () => {
 
     try {
-      const response = await postRefrigerator({fridgeKey});
+      console.log(fridgeKey)
+      const response = await postRefrigerator(fridgeKey);
       console.log('냉장고 연결 성공', response)
       navigateFridgeExterior();
     } catch (error) {
