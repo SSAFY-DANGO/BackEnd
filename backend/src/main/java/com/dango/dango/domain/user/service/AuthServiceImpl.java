@@ -1,21 +1,24 @@
 package com.dango.dango.domain.user.service;
 
-import java.sql.Time;
+import static java.rmi.server.LogStream.*;
+
 import java.util.Date;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundException;
 import com.dango.dango.domain.refrigerator.service.RefrigeratorService;
 import com.dango.dango.domain.user.dto.UserLoginRequest;
 import com.dango.dango.domain.user.dto.UserLoginResponse;
 import com.dango.dango.domain.user.entity.BlackToken;
-import com.dango.dango.domain.user.entity.Token;
 import com.dango.dango.domain.user.entity.User;
 import com.dango.dango.global.common.util.JwtTokenUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
@@ -41,10 +44,15 @@ public class AuthServiceImpl implements AuthService{
 		tokenService.saveTokenInfo(user.getId(),refreshToken,accessToken);
 		// refresh token 을 추가한다
 
-		String refrigeratorNickname = refrigeratorService.findRefrigeratorById(user.getRefrigeratorId()).getNickname();
+		String refrigeratorNickname = "";
+		Long refrigeratorId = user.getRefrigeratorId();
+		if(refrigeratorId != null){
+			refrigeratorNickname = refrigeratorService.findRefrigeratorById(refrigeratorId).getNickname();
+		}
 
 		UserLoginResponse userLoginResponse = UserLoginResponse.builder()
 			.nickname(user.getNickname())
+			.email(user.getUsername())
 			.refrigeratorNickname(refrigeratorNickname)
 			.refreshToken(refreshToken)
 			.accessToken(accessToken)
