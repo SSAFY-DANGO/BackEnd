@@ -4,6 +4,8 @@ import '../styles/Common.css';
 import { useNavigate } from 'react-router-dom';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { loginUser } from '../api/Api';
+import { useRecoilState } from 'recoil';
+import { loginUserState } from '../recoil/atoms/userState.jsx';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ export default function Login() {
   const [username, setUsername] = useState('');
   // type 변경 여부를 알리는 state
   const [showPswd, setShowPswd] = useState(false);
+  const [login, setLogin] = useRecoilState(loginUserState); // Use loginUserState atom
 
   useEffect(() => {
     if (localStorage.getItem('accessToken')) {
@@ -23,6 +26,20 @@ export default function Login() {
     try {
       const response = await loginUser({ username, password });
       console.log('로그인 성공', response);
+      // localStorage.setItem('loginUser', JSON.stringify({
+      //   nickname: response.data.nickname,
+      //   refrigeratorNickname: response.data.refrigeratorNickname,
+      //   accessToken: response.data.accessToken,
+      //   refreshToken: response.data.refreshToken
+      // }));
+  
+      setLogin({
+        nickname: response.data.nickname,
+        refrigeratorNickname: response.data.refrigeratorNickname,
+        accessToken: response.data.accessToken,
+        refreshToken: response.data.refreshToken
+      })
+        
       navigate('/fridge-exterior');
     } catch (error) {
       console.log('로그인 실패', error);

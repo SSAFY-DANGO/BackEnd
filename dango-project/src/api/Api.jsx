@@ -1,45 +1,29 @@
 import axios from 'axios';
 
+
 const DEV = 'http://localhost:8080/api/';
 const HOST = 'https://j10a702.p.ssafy.io/api/';
 
-const api = axios.create({
-  baseURL: HOST,
-  withCredentials: true,
-});
-// 요청 인터셉터
-api.interceptors.request.use(
-  function (config) {
-    // 요청 성공 직전 호출됩니다.
-    // console.log(config);
-    return config;
-  }
-  // function (error) {
-  //   // 요청 에러 직전 호출됩니다.
-  //   // console.log(error);
-  //   if (error.response.status === 404 || error.response.status === 429) {
-  //     window.location.href = "/error";
-  //   }
-  //   return Promise.reject(error);
-  // }
-);
+const createApiInstance = (accessToken) => {
+  console.log(accessToken);
+  return axios.create({
+    baseURL: HOST,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+};
 
-// 응답 인터셉터
-api.interceptors.response.use(
-  function (response) {
-    // console.log(response);
-    return response;
-  }
-  // function (error) {
-  //   // console.log(error);
-  //   if (error.response.status === 404 || error.response.status === 429) {
-  //     window.location.href = "/error";
-  //   }
-  //   return Promise.reject(error);
-  // }
-);
+
+
+
 
 export const loginUser = async (userLoginRequest) => {
+  const api = axios.create({
+    baseURL: HOST,
+    withCredentials: true,
+  });
   try {
     const response = await api.post('/users/login', userLoginRequest);
     return response.data;
@@ -50,6 +34,10 @@ export const loginUser = async (userLoginRequest) => {
 };
 
 export const signUpUser = async (signUpRequest) => {
+  const api = axios.create({
+    baseURL: HOST,
+    withCredentials: true,
+  });
   try {
     const response = await api.post('/users/register/profile', signUpRequest);
     return response.data;
@@ -59,8 +47,10 @@ export const signUpUser = async (signUpRequest) => {
   }
 };
 
-export const getRefrigerator = async () => {
+export const getRefrigerator = async (accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
+    console.log(api);
     const response = await api.get('/refrigerator');
     return response.data;
   } catch (error) {
@@ -70,6 +60,7 @@ export const getRefrigerator = async () => {
 }
 
 export const postRefrigerator = async (postRequest) => {
+  const api = createApiInstance();
   try {
     const response = await api.post('/refrigerator', postRequest);
     return response.data;
@@ -80,6 +71,7 @@ export const postRefrigerator = async (postRequest) => {
 }
 
 export const putRefrigerator = async (putRequest) => {
+  const api = createApiInstance();
   try {
     const response = await api.put('/refrigerator', putRequest);
     return response.data;
@@ -90,6 +82,7 @@ export const putRefrigerator = async (putRequest) => {
 }
 
 export const deleteRefrigerator = async (deleteRequest) => {
+  const api = createApiInstance();
   try {
     const response = await api.delete('/refrigerator', deleteRequest);
     return response.data;
@@ -99,7 +92,8 @@ export const deleteRefrigerator = async (deleteRequest) => {
   }
 }
 
-export const getRefrigeratorDetail = async (refrigeratorId) => {
+export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.get(`/refrigerator/${refrigeratorId}`);
     return response.data;
@@ -110,7 +104,8 @@ export const getRefrigeratorDetail = async (refrigeratorId) => {
 }
 
 
-export const deleteGrocery = async (deleteRequest) => {
+export const deleteGrocery = async (deleteRequest, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.delete('/log', deleteRequest);
     return response.data;
@@ -121,7 +116,8 @@ export const deleteGrocery = async (deleteRequest) => {
   }
 }
 
-export const getGroceryDetail = async (groceryId) => {
+export const getGroceryDetail = async (groceryId, accessToken) => {
+  const api = createApiInstance(accessToken);
   try {
     const response = await api.get(`/log/${groceryId}`);
     return response.data;
@@ -133,6 +129,7 @@ export const getGroceryDetail = async (groceryId) => {
 
 
 export const addGrocery = async () => {
+  const api = createApiInstance();
   try {
     const response = await api.post(`/log`);
     return response.data;
@@ -144,4 +141,4 @@ export const addGrocery = async () => {
 
 
 
-export default api;
+
