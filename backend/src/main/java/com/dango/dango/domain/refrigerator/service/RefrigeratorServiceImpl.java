@@ -26,6 +26,14 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
     private final UserService userService;
 
     @Override
+    public Refrigerator findRefrigeratorByNickname(String refrigeratorNickname) {
+        Refrigerator res = refrigeratorRepository.findByNickname(refrigeratorNickname)
+                .orElseThrow(
+                        () -> new RefrigeratorNotFoundException(refrigeratorNickname + " 냉장고가 없습니다."));
+        return res;
+    }
+
+    @Override
     public Refrigerator findRefrigeratorById(Long id) {
 
         Refrigerator res = refrigeratorRepository.findById(id).orElseThrow(
@@ -120,9 +128,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
     @Override
     public List<Log> getItems(String refrigeratorNickname) {
         User user = userService.findUserByToken();
-        Refrigerator refrigerator = refrigeratorRepository.findByNickname(refrigeratorNickname)
-                .orElseThrow(
-                        () -> new RefrigeratorNotFoundException(refrigeratorNickname + " 냉장고가 없습니다."));
+        Refrigerator refrigerator = findRefrigeratorByNickname(refrigeratorNickname);
         // 요청으로 넘어온 냉장고 닉네임과 실제 유저의 냉장고 정보가 다르면
         if (refrigerator.getId().longValue() != user.getRefrigeratorId()) {
             throw new RefrigeratorNotMatchException("자신의 냉장고가 아닙니다.");
