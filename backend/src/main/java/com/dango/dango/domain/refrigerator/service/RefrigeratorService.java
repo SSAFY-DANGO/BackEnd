@@ -7,6 +7,9 @@ import com.dango.dango.domain.refrigerator.entity.Refrigerator;
 import java.util.List;
 
 public interface RefrigeratorService {
+
+    Refrigerator findRefrigeratorByNickname(String refrigeratorNickname);
+
     Refrigerator findRefrigeratorById(Long id);
 
     boolean isRefrigeratorExist(Long id);
