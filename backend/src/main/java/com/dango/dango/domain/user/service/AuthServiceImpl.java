@@ -52,6 +52,7 @@ public class AuthServiceImpl implements AuthService{
 
 		UserLoginResponse userLoginResponse = UserLoginResponse.builder()
 			.nickname(user.getNickname())
+			.email(user.getUsername())
 			.refrigeratorNickname(refrigeratorNickname)
 			.refreshToken(refreshToken)
 			.accessToken(accessToken)
