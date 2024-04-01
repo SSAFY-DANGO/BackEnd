@@ -81,7 +81,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
         try {
             // const idValue = {id: item.log.id,};
             // const jsonStringID = JSON.stringify(idValue);
-            const response = await deleteGrocery(JSON.stringify(item.log.id), loginUser.accessToken);
+            const response = await deleteGrocery(item.log.id, loginUser.accessToken);
             console.log('식재료 삭제 성공', response);
             handleModalClose();
             navigate('/fridge-trashcan')
@@ -95,7 +95,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
 
     const handleRecover = async() => {
         try {
-            const response = await trashRecover(JSON.stringify(item.log.id), loginUser.accessToken);
+            const response = await trashRecover(item.log.id, loginUser.accessToken);
             console.log('식재료 복원 성공', response);
             handleModalClose();
             navigate('/fridge-inside')

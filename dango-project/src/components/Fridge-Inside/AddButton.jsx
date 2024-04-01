@@ -1,12 +1,18 @@
 
 import { MdOutlineAddShoppingCart } from "react-icons/md";
-import CustomModal from '../CustomModal'
-import {useState} from 'react'
+import AddModal from './AddModal'
+import {useState, useEffect} from 'react'
 import {addGrocery} from '../../api/Api'
+import { useRecoilValue } from 'recoil';
+import { loginUserState } from '../../recoil/atoms/userState';
 function AddButton() {
+    useEffect(() => {
+
+  }, []);
 
 const [isModalOpen, setIsModalOpen] = useState(false);
 
+const loginUser = useRecoilValue(loginUserState);
  
   const openModal = () => {
     setIsModalOpen(true);
@@ -15,9 +21,14 @@ const [isModalOpen, setIsModalOpen] = useState(false);
     setIsModalOpen(false);
   }
 
-  const addHandler = async () => {
+  const addHandler = async (addObj) => {
+    const inputData = {
+      refrigeratorId: 3,
+      name: addObj.name,
+      category: addObj.type,
+      type: 1}
     try {
-      const response = await addGrocery({});
+      const response = await addGrocery(inputData, loginUser.accessToken);
       console.log('식재료 추가 성공', response)
       closeModal();
     } catch (error) {
@@ -26,12 +37,14 @@ const [isModalOpen, setIsModalOpen] = useState(false);
 
     }
   }
+
+
   
 
     return (
         <div>
 <button className='bg-green-300 w-[39vw] h-[4vh] flex items-center justify-center rounded-lg hover:bg-green-200' onClick={openModal} ><MdOutlineAddShoppingCart /></button>
- <CustomModal bool= {isModalOpen} onClose={closeModal} mainText="식재료 추가" subText="식재료명" buttonText="추가" placeText="파프리카" customHandler={addHandler}/>
+ <AddModal bool= {isModalOpen} onClose={closeModal} mainText="식재료 추가" subText="식재료명" buttonText="추가" placeText="파프리카" customHandler={addHandler}/>
  </div>
     );
 }
