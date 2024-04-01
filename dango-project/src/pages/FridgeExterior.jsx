@@ -5,30 +5,31 @@ import Footer from '../components/Footer';
 import FridgeSVG from '../components/FridgeSVG';
 import { useState } from 'react';
 import AlertModal from '../components/Fridge-Exterior/AlertModal';
-import { getRefrigerator } from '../api/Api'
+import { getRefrigeratorOld } from '../api/Api';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../recoil/atoms/userState';
 
 function FridgeExterior() {
-  const loginUser = useRecoilValue(loginUserState);
   useEffect(() => {
     getRefrigeratorInfo();
   }, []);
+  const loginUser = useRecoilValue(loginUserState);
+  
+  const {  nickname, refrigeratorNickname } = useRecoilValue(loginUserState);
 
   const getRefrigeratorInfo = async () => {
-    
     try {
-      const response = await getRefrigerator(loginUser.accessToken);
+      const response = await getRefrigeratorOld(
+        refrigeratorNickname, loginUser.accessToken
+        
+      );
       console.log('냉장고 조회 성공', response);
       localStorage.setItem('id', response.data.id);
-      
-      
     } catch (error) {
       console.log('냉장고 조회 실패', error);
-
     }
-  }
+  };
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,8 +68,8 @@ function FridgeExterior() {
     <>
       <Header text={'예은이의 냉장고'} />
       <div className='relative h-[590px] pt-[50px]'>
-      {/* relative h-screen */}
-      {/* absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 */}
+        {/* relative h-screen */}
+        {/* absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 */}
         <div className='absolute left-1/2 transform -translate-x-1/2 '>
           <FridgeSVG
             time={currentTime}
