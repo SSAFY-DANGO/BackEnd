@@ -43,9 +43,9 @@ public class LogController {
         return new CustomResponse<>(HttpStatus.OK.value(), res, "식재료 로그 수정 성공");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @Operation(summary = "식재료 로그를 삭제합니다.", description = "식재료 로그의 id를 기준으로 로그를 삭제합니다.")
-    public CustomResponse<String> deleteLog(@RequestBody Long id) {
+    public CustomResponse<String> deleteLog(@PathVariable Long id) {
         logService.deleteLog(id);
         return new CustomResponse<>(HttpStatus.OK.value(), "삭제 성공", "");
     }

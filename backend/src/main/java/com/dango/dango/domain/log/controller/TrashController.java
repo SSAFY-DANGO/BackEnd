@@ -25,9 +25,9 @@ public class TrashController {
         return new CustomResponse<>(HttpStatus.OK.value(), logList, "휴지통 내부의 식재료 목록이 조회되었습니다.");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(summary = "식재료 로그를 복원합니다.", description = "식재료가 잘못 삭제되어 있는 경우, 식재료 로그를 복원합니다.")
-    public CustomResponse<Log> restoreLog(@RequestBody Long id) {
+    public CustomResponse<Log> restoreLog(@PathVariable Long id) {
         Log res = trashService.restoreLog(id);
         return new CustomResponse<>(HttpStatus.OK.value(), res, "식재료가 복원되었습니다.");
     }
