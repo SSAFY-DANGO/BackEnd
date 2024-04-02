@@ -1,12 +1,15 @@
 import { PiGearSixDuotone } from "react-icons/pi";
 import { TiDeleteOutline } from "react-icons/ti";
-import {putRefrigerator} from '../api/Api'
+import {deleteRefrigerator, putRefrigerator} from '../api/Api'
 import CustomModal from './CustomModal'
 import CheckModal from './CheckModal'
 import {useState} from 'react'
+import { useRecoilValue} from 'recoil';
+import { loginUserState } from '../recoil/atoms/userState';
+
 
 function InfoBox({boxName, content, modifybool, deletebool}) {
-
+    const loginUser = useRecoilValue(loginUserState);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCheckOpen, setIsCheckOpen] = useState(false);
 
@@ -25,9 +28,9 @@ function InfoBox({boxName, content, modifybool, deletebool}) {
         setIsCheckOpen(true);
     }
     
-    const modifyRefrigerator = async() => {
+    const modifyRefrigerator = async(req) => {
         try {
-            const response = await putRefrigerator({});
+            const response = await putRefrigerator(req, loginUser.accessToken);
             console.log('냉장고 수정 성공', response)
             closeModal();
           } catch (error) {
@@ -36,6 +39,16 @@ function InfoBox({boxName, content, modifybool, deletebool}) {
       
           } 
     }
+
+    const refrigeratorDelete = async() => {
+      try{
+        const response = await deleteRefrigerator(loginUser.accessToken);
+        console.log("냉장고 삭제 성공", response);
+      } catch (error) {
+        console.log("냉장고 삭제 실패", error);
+      }
+    }
+  
   
 
     return (
@@ -52,8 +65,8 @@ function InfoBox({boxName, content, modifybool, deletebool}) {
             <button onClick={openCheckModal}><TiDeleteOutline/></button>
         )}
         </div>
-        <CustomModal bool= {isModalOpen} onClose={closeModal} mainText="냉장고 정보 수정" subText="냉장고 Key" buttonText="수정" placeText="$23uy487" customHandler={modifyRefrigerator}/>
-        <CheckModal bool={isCheckOpen} onClose={closeCheck} mainText="냉장고 정보" subText="정말 삭제하시겠습니까?" />
+        <CustomModal bool= {isModalOpen} onClose={closeModal} mainText="냉장고 정보 수정" subText="냉장고 정보" buttonText="수정" placeText="MyFridge" customHandler={modifyRefrigerator}/>
+        <CheckModal bool={isCheckOpen} onClose={closeCheck} mainText="냉장고 정보" subText="정말 삭제하시겠습니까?" customHandler={refrigeratorDelete} />
         </div>
     );
   }

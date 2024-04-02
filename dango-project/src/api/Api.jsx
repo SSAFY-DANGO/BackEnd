@@ -226,3 +226,25 @@ export const allGroceriesData = async (pageInfo, accessToken) => {
     throw error;
   }
 };
+
+export const getProfile = async (accessToken) => {
+  const api = createApiInstance(accessToken);
+  try {
+    const response = await api.get(`/users/profile`);
+    return response.data;
+  } catch (error) {
+    console.error("프로필 정보 반환: ", error);
+    throw error;
+  }
+}
+
+// export const logout = async (at, rt) => {
+//   const api = createApiInstance(at);
+//   try {
+//     const response = await api.get(`/users/logout`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('로그아웃 실패', error);
+//     throw error;
+//   }
+// }
