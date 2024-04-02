@@ -14,7 +14,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   // type 변경 여부를 알리는 state
   const [showPswd, setShowPswd] = useState(false);
-  const [loginUser, setLoginUser] = useRecoilState(loginUserState); // Use loginUserState atom
+  const [loginUser, setLoginUser] = useRecoilState(loginUserState);
 
   useEffect(() => {
     if (isAuthed()) {

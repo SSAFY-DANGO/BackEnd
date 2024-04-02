@@ -1,4 +1,4 @@
-import { noneTokenApi } from "./Api";
+import { noneTokenApi, tokenApi } from "./Api";
 
 const END_POINT = "users";
 
@@ -41,4 +41,11 @@ export const userAPI = {
       },
     });
   },
+
+  profile() {
+    return tokenApi({
+      method: "get",
+      url: `${END_POINT}/profile`
+    })
+  }
 };
