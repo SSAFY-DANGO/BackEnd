@@ -81,7 +81,6 @@ function FridgeExterior() {
       localStorage.setItem('id', res.data.id);
     } catch (err) { 
       console.log(err)
-      alert("냉장고 오래된 품목 가져오기 실패!")
     }
     return;
     }

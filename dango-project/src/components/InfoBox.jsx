@@ -27,10 +27,12 @@ function InfoBox({boxName, content, modifybool, deletebool, setName}) {
     const openCheckModal = () => {
         setIsCheckOpen(true);
     }
+
+    
     
     const modifyRefrigerator = async(req) => {
         try {
-            const response = await refrigeratorAPI.edit(req, loginUser.accessToken);
+            const response = await refrigeratorAPI.edit(req);
             console.log('냉장고 수정 성공', response)
             console.log(req);
             setName(req);
