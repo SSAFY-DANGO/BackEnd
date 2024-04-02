@@ -29,15 +29,13 @@ tokenApi.interceptors.response.use(
 
   // 에러 -> jwt 만료인지 확인
   async (err) => {
-    console.log("zz")
-    
-    const flag = err.response?.headers?.["Expired-Token"] ?? false;
-    console.log("토큰만료")
+    const flag = err.response?.headers?.["expired-token"] ?? false;
     // 토큰 만료인 경우에만
     if (flag) {
+    // if (1) {
       try {
         // 토큰 재발급 요청
-        console.log("재발급요청")
+        console.log("재발급요청");
         const res = await noneTokenApi({
           method: "get",
           url: "users/reissue",
@@ -47,6 +45,8 @@ tokenApi.interceptors.response.use(
           },
         });
         // 잘 왔으면 토큰 갱신
+        console.log("재발급요청응답")
+        console.log(res)
         if (res.data.status === 200) {
           const refresh = res.data.data.refreshToken;
           const access = res.data.data.accessToken;
@@ -56,21 +56,20 @@ tokenApi.interceptors.response.use(
           loginUser.refreshToken = refresh;
 
           localStorage.setItem("loginUser", JSON.stringify(loginUser));
-          console.log("갱신완료")
+          console.log("갱신완료");
 
           // 갱신한 토큰 기준으로 원래 요청 다시 보내기
           const originalRequest = err.config;
-          originalRequest.headers['Authorization'] = `Bearer ${access}`;
-          console.log("다시보내기")
-          return tokenApi(originalRequest)
-
+          originalRequest.headers["Authorization"] = `Bearer ${access}`;
+          console.log("다시보내기");
+          return tokenApi(originalRequest);
         } else {
           alert("다시 로그인 해주세요");
           localStorage.removeItem("loginUser");
           window.location.replace(import.meta.env.VITE_DANGO_URL_PROD);
         }
       } catch (reissueErr) {
-        console.log("토큰재발급요청오류")
+        console.log("토큰재발급요청오류");
         console.log(reissueErr);
       }
     }
@@ -130,17 +129,6 @@ export const deleteRefrigerator = async (deleteRequest) => {
     return response.data;
   } catch (error) {
     console.error("냉장고 삭제 실패:", error);
-    throw error;
-  }
-};
-
-export const getRefrigeratorDetail = async (refrigeratorId, accessToken) => {
-  const api = createApiInstance(accessToken);
-  try {
-    const response = await api.get(`/refrigerator/${refrigeratorId}`);
-    return response.data;
-  } catch (error) {
-    console.error("냉장고 품목 정보 얻어오기 실패:", error);
     throw error;
   }
 };
