@@ -31,4 +31,14 @@ export const userAPI = {
       },
     });
   },
+
+  reissue(refreshToken) {
+    return noneTokenApi({
+      method: "get",
+      url: `${END_POINT}/reissue`,
+      headers: {
+        "Refresh-Token": refreshToken,
+      },
+    });
+  },
 };
