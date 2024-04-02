@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 
 export default function AlertButton({isOpen}) {
     
-    const [isChecked, setIsChecked] = useState(isOpen)
+    useEffect(() => {
+        setIsChecked(isOpen)
+      });
 
-    const handleCheckboxChange = () => {
-      setIsChecked(!isChecked)
-    }
+    const [isChecked, setIsChecked] = useState()
 
 return (
     <>
-      <label className='themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center'>
+      <label className='themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center mb-5'>
         <input
           type='checkbox'
           checked={isChecked}
-          onChange={handleCheckboxChange}
+          disabled = 'true'
           className='sr-only'
         />
         <span className='label flex items-center text-sm font-medium text-black'>
