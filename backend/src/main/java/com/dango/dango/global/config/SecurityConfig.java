@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import com.dango.dango.global.filter.ExceptionHandlerFilter;
 import com.dango.dango.global.filter.JwtFilter;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	private final JwtFilter jwtFilter;
+	private final ExceptionHandlerFilter exceptionHandlerFilter;
 	private final CorsConfig corsConfig;
 	private static final String[] PERMIT_URL_ARRAY = {
 		/* swagger v3 */
@@ -52,6 +54,9 @@ public class SecurityConfig {
 			)
 			.addFilterBefore(
 				jwtFilter, UsernamePasswordAuthenticationFilter.class
+			)
+			.addFilterBefore(
+				exceptionHandlerFilter, JwtFilter.class
 			);
 
 		return httpSecurity.build();
