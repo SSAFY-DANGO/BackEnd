@@ -62,7 +62,7 @@ export default function Login() {
       <div className="">
         <div className="landing-background ">
           <div className="flex flex-col justify-center items-center ">
-            <div className="text-5xl font-bold pb-10 font-title">
+            <div className="text-4xl font-bold pb-10 font-title">
               당신의 냉장고, 당고
             </div>
 

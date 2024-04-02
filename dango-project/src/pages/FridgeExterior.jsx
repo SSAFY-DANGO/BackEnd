@@ -104,16 +104,17 @@ function FridgeExterior() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRefrigeratorOpen, setIsRefrigeratorOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const goToInside = () => {
-    navigate('/fridge-inside');
+    navigate("/fridge-inside");
   };
 
   const goToMypage = () => {
-    navigate('/mypage');
+    navigate("/mypage");
   };
 
   const handleAlarmClick = () => {
@@ -139,8 +140,8 @@ function FridgeExterior() {
     const hours = now.getHours();
     const minutes = now.getMinutes();
     // 시간과 분을 두 자리 숫자로 포맷팅
-    const formattedTime = `${hours < 10 ? '0' + hours : hours}:${
-      minutes < 10 ? '0' + minutes : minutes
+    const formattedTime = `${hours < 10 ? "0" + hours : hours}:${
+      minutes < 10 ? "0" + minutes : minutes
     }`;
     return formattedTime;
   };

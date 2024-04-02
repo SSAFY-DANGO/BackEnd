@@ -48,10 +48,10 @@ export const refrigeratorAPI = {
   },
 
   // 문 열림 조회
-  isDoorOpen(refrigeratorNickname) {
+  isDoorOpen() {
     return tokenApi({
       method: "get",
-      url: `${END_POINT}/${refrigeratorNickname}/door`,
+      url: `${END_POINT}/open`,
     });
   },
 
