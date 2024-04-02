@@ -35,13 +35,12 @@ function FridgeExterior() {
 
   const getRefrigeratorOpen = async() => {
     try{
-      const isOpen = await refrigeratorAPI.isDoorOpen();
+      const response = await refrigeratorAPI.isDoorOpen();
+      const isOpen = response.data.data;
       setIsRefrigeratorOpen(isOpen);
-      console.log(isOpen)
     }catch(error){
       console.log('냉장고 조회 실패', error);
     }
-    
   }
 
   
@@ -89,7 +88,7 @@ function FridgeExterior() {
         {/* absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 */}
         <div className='absolute left-1/2 transform -translate-x-1/2 '>
         <div>
-        <AlertButton/>
+        <AlertButton isOpen = {isRefrigeratorOpen}/>
         </div>
          <div>
          <FridgeSVG
