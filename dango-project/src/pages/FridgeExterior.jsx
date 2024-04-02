@@ -5,24 +5,26 @@ import Footer from '../components/Footer';
 import FridgeSVG from '../components/FridgeSVG';
 import { useState } from 'react';
 import AlertModal from '../components/Fridge-Exterior/AlertModal';
-import { getRefrigeratorOld } from '../api/Api';
+import { getRefrigeratorOld, getRefrigeratorOpen } from '../api/Api';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { loginUserState } from '../recoil/atoms/userState';
+import { loginUserState, userState } from '../recoil/atoms/userState';
+import AlertButton from '../components/Fridge-Exterior/AlertButton';
+import { refrigeratorAPI } from '../api/refrigeratorAPI';
 
 function FridgeExterior() {
   useEffect(() => {
     getRefrigeratorInfo();
+    getRefrigeratorOpen();
   }, []);
   const loginUser = useRecoilValue(loginUserState);
   
-  const {  nickname, refrigeratorNickname } = useRecoilValue(loginUserState);
+  const { nickname, refrigeratorNickname } = useRecoilValue(loginUserState);
 
   const getRefrigeratorInfo = async () => {
     try {
       const response = await getRefrigeratorOld(
         refrigeratorNickname, loginUser.accessToken
-        
       );
       console.log('냉장고 조회 성공', response);
       localStorage.setItem('id', response.data.id);
@@ -30,9 +32,23 @@ function FridgeExterior() {
       console.log('냉장고 조회 실패', error);
     }
   };
+
+  const getRefrigeratorOpen = async() => {
+    try{
+      const isOpen = await refrigeratorAPI.isDoorOpen();
+      setIsRefrigeratorOpen(isOpen);
+      console.log(isOpen)
+    }catch(error){
+      console.log('냉장고 조회 실패', error);
+    }
+    
+  }
+
+  
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRefrigeratorOpen,setIsRefrigeratorOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -67,15 +83,21 @@ function FridgeExterior() {
   return (
     <>
       <Header text={'예은이의 냉장고'} />
+      
       <div className='relative h-[590px] pt-[50px]'>
         {/* relative h-screen */}
         {/* absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 */}
         <div className='absolute left-1/2 transform -translate-x-1/2 '>
-          <FridgeSVG
+        <div>
+        <AlertButton/>
+        </div>
+         <div>
+         <FridgeSVG
             time={currentTime}
             onAlarmClick={handleAlarmClick}
             onFridgeClick={goToInside}
           />
+         </div>  
         </div>
         <AlertModal isOpen={isModalOpen} closeModal={closeModal} />
       </div>
