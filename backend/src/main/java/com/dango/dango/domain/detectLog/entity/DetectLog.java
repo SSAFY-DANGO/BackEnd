@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hibernate.annotations.Type;
-import io.hypersistence.utils.hibernate.type.json.JsonType;
 
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,13 +15,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@Data
 @Table(name = "detect_log")
 public class DetectLog {
 	@Id
@@ -34,7 +35,7 @@ public class DetectLog {
 
 	@Type(JsonType.class)
 	@Column(columnDefinition = "data")
-	private Map<String,Integer> data = new HashMap<>();
+	private Map<String, Integer> data = new HashMap<>();
 
 	@Column(columnDefinition = "input_type")
 	private String inputType;
