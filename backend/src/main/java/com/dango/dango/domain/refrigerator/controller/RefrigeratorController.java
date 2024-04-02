@@ -1,5 +1,6 @@
 package com.dango.dango.domain.refrigerator.controller;
 
+import com.dango.dango.domain.door.service.DoorService;
 import com.dango.dango.domain.log.entity.Log;
 import com.dango.dango.domain.refrigerator.dto.RefrigeratorInfoResponse;
 import com.dango.dango.domain.refrigerator.service.RefrigeratorService;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("api/refrigerator")
 public class RefrigeratorController {
     private final RefrigeratorService refrigeratorService;
+    private final DoorService doorService;
     private final UserService userService;
 
     @GetMapping
@@ -82,5 +84,12 @@ public class RefrigeratorController {
         // 토큰으로 유저 찾기 -> 등록된 냉장고 삭제
         Long deleted = refrigeratorService.deleteRefrigerator();
         return new CustomResponse<>(HttpStatus.OK.value(), deleted, deleted + "번 냉장고 삭제 완료");
+    }
+
+    @GetMapping("/open")
+    @Operation()
+    public CustomResponse<Boolean> openRefrigerator(){
+        Boolean isOpen = doorService.getDoorIsOpen();
+        return new CustomResponse<>(HttpStatus.OK.value(),isOpen,"냉장고 문 열림 상태 확인 완료");
     }
 }
