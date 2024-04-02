@@ -19,7 +19,7 @@ public class CorsConfig {
 		config.setAllowedOrigins(List.of("http://localhost:3000","https://localhost:3000","https://j10a702.p.ssafy.io","http://j10a702.p.ssafy.io"));
 		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		config.setAllowedHeaders(List.of("*"));
-		config.setExposedHeaders(List.of("*"));
+		config.setExposedHeaders(List.of("Expired-Token"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);

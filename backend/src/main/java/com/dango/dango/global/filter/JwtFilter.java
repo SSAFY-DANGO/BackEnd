@@ -43,13 +43,16 @@ public class JwtFilter extends OncePerRequestFilter {
 					UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 					Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
 					SecurityContextHolder.getContext().setAuthentication(authentication);
+					response.setHeader("Expired-Token","false");
 				}else{
 					throw new IllegalArgumentException("유효하지 않은 토큰입니다");
 				}
 			}catch (ExpiredJwtException e){
 				response.setHeader("Expired-Token","true");
+				throw e;
 				//토큰의 기간이 만료되었음을 알려주자
 			}
+
 		}
 
 		filterChain.doFilter(request,response);
