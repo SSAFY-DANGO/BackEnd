@@ -1,4 +1,4 @@
-import {deleteRefrigerator} from '../api/Api'
+import {refrigeratorAPI} from '../api/refrigeratorAPI'
 
 
 
@@ -11,7 +11,7 @@ function CheckModal({ bool, mainText, subText, onClose}) {
 
     const handleDelete = async() => {
         try {
-            const response = await deleteRefrigerator({});
+            const response = await refrigeratorAPI.delete();
             console.log('냉장고 삭제 성공', response)
             handleModalClose();
           } catch (error) {

@@ -1,4 +1,3 @@
-
 function CustomModal({ bool, onClose, mainText, subText, buttonText, placeText, customHandler}) {
    
     const handleModalClose = () => {

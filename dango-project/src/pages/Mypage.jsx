@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import InfoBox from '../components/InfoBox'
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../recoil/atoms/userState';
-import { getProfile } from '../api/Api'
+import { userAPI  } from '../api/userAPI'
 
 function Mypage() {
   const loginUser = useRecoilValue(loginUserState);
@@ -13,11 +13,13 @@ function Mypage() {
 
   const handleLogout = () => {
     localStorage.removeItem('loginUser')
+    localStorage.removeItem('id')
+    window.location.reload();
   }
 
   const getProfileInfo = () => {
     try {
-      const response = getProfile(loginUser.accessToken);
+      const response = userAPI.profile(loginUser.accessToken);
       setEmail(response.data.username);
       setNickname(response.data.nickname);
 
@@ -37,7 +39,7 @@ function Mypage() {
       <InfoBox boxName="이름" content={nickname} modifybool={false} deletebool={false}/>
       <InfoBox boxName="이메일 주소" content={email} modifybool={false} deletebool={false}/>
       <InfoBox boxName="냉장고 정보" content={loginUser.refrigeratorNickname} modifybool={true} deletebool={true}/>
-      <button className="w-[10vw] rounded-lg border-2 border-slate-200 hover:bg-slate-100" onClick={handleLogout}>로그아웃</button>
+      <button className="w-24 rounded-lg border-2 border-slate-200 hover:bg-slate-100" onClick={handleLogout}>로그아웃</button>
       </div>
       <Footer />
     </>
