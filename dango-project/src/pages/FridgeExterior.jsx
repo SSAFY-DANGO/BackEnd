@@ -7,8 +7,8 @@ import { useState } from 'react';
 import AlertModal from '../components/Fridge-Exterior/AlertModal';
 import { getRefrigeratorOld } from '../api/Api';
 import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { loginUserState } from '../recoil/atoms/userState';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { foodOldItemsState, loginUserState } from '../recoil/atoms/userState';
 
 import 아보카도 from '../assets/imgs/groceries/아보카도.png';
 import 감자 from '../assets/imgs/groceries/감자.png';
@@ -66,7 +66,7 @@ function FridgeExterior() {
     파프리카: 파프리카,
     // 랜덤: 랜덤,
   };
-  const [foodOldItems, setFoodOldItems] = useState([]);
+  const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
 
   const loginUser = useRecoilValue(loginUserState);
 
@@ -86,6 +86,8 @@ function FridgeExterior() {
       console.log('냉장고 조회 실패', error);
     }
   };
+
+  console.log(foodOldItems);
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -146,10 +148,15 @@ function FridgeExterior() {
             onFridgeClick={goToInside}
             selectedImages={selectedImages}
             // selectedImage={selectedImage}
-            foodOldItems={foodOldItems}
+            // foodOldItems={foodOldItems}
           />
         </div>
-        <AlertModal isOpen={isModalOpen} closeModal={closeModal} />
+        <AlertModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          selectedImages={selectedImages}
+          // foodOldItems={foodOldItems}
+        />
       </div>
       <Footer />
     </>

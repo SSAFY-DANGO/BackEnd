@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useRecoilState } from 'recoil';
+import { foodOldItemsState } from '../recoil/atoms/userState';
 import 아보카도 from '../assets/imgs/groceries/아보카도.png';
 import 감자 from '../assets/imgs/groceries/감자.png';
 import 고추 from '../assets/imgs/groceries/고추.png';
@@ -31,8 +32,6 @@ export default function FridgeSVG({
   onFridgeClick,
   onAlarmClick,
   selectedImages,
-
-  foodOldItems,
 }) {
   const imageMap = {
     아보카도: 아보카도,
@@ -71,6 +70,7 @@ export default function FridgeSVG({
       onFridgeClick();
     }
   };
+ const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
 
   const [modalOpen, setModalOpen] = useState(false);
 
