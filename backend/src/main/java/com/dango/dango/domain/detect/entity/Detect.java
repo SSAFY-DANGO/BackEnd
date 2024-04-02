@@ -1,4 +1,4 @@
-package com.dango.dango.domain.door.entity;
+package com.dango.dango.domain.detect.entity;
 
 import java.time.LocalDateTime;
 
@@ -10,29 +10,29 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "door")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class Door {
-
+@Builder
+@Entity
+@Table(name = "detect")
+public class Detect {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 
-	@Column(name = "device_nickname")
-	private String deviceNickname;
+	@Column(columnDefinition = "name")
+	private String name;
 
-	@Column(name = "is_open")
-	private Boolean isOpen;
+	@Column(columnDefinition = "view_type")
+	private String viewType;
 
-	@Column(name = "time")
-	private LocalDateTime time;
+	@Column(name = "input_time")
+	private LocalDateTime inputTime;
+
+	@Column(name = "count")
+	private int count;
 
 }
