@@ -1,39 +1,37 @@
 package com.dango.dango.domain.log.repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.dango.dango.domain.log.entity.Log;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class LogQueryRepository {
-	private final EntityManager em;
+    private final EntityManager em;
 
-	public List<Log> findAllByRefrigeratorNickname(String nickname, Boolean exist) {
-		String jpql = "select l from Log l "
-			+ "where l.refrigerator.nickname = :nickname "
-			+ "and l.exist = :exist";
+    public List<Log> findAllByRefrigeratorNickname(String nickname, Boolean exist) {
+        String jpql = "select l from Log l "
+                + "where l.refrigerator.nickname = :nickname "
+                + "and l.exist = :exist";
 
-		if (!exist) {
-			jpql += " and l.deleteTime = :yesterday";
-		}
+        if (!exist) {
+            jpql += " and l.deleteTime = :yesterday";
+        }
 
-		TypedQuery<Log> query = em.createQuery(jpql, Log.class);
-		query.setParameter("nickname", nickname);
-		query.setParameter("exist", exist);
+        TypedQuery<Log> query = em.createQuery(jpql, Log.class);
+        query.setParameter("nickname", nickname);
+        query.setParameter("exist", exist);
 
-		if (!exist) {
-			query.setParameter("yesterday", LocalDateTime.now().minusDays(1));
-		}
+        if (!exist) {
+            query.setParameter("yesterday", LocalDateTime.now().minusMinutes(5));
+        }
 
-		return query.getResultList();
-	}
+        return query.getResultList();
+    }
 
 }

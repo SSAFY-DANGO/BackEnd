@@ -64,7 +64,7 @@ public class DetectServiceImpl implements DetectService {
         }
 
         for (Log existingIngredient : existingIngredients) {
-            if (!capturedIngredients.contains(existingIngredient.getName())) {
+            if (existingIngredient.getType() != 1 && !capturedIngredients.contains(existingIngredient.getName())) {
                 logService.deleteLog(existingIngredient.getId());
             }
         }
