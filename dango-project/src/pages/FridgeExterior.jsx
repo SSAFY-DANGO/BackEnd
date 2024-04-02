@@ -104,7 +104,7 @@ function FridgeExterior() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRefrigeratorOpen, setIsRefrigeratorOpen] = useState(false);
+  // const [isRefrigeratorOpen, setIsRefrigeratorOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

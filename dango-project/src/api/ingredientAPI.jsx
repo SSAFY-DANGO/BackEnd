@@ -16,7 +16,7 @@ export const ingredientAPI = {
   getAll(pageable) {
     return tokenApi({
       method: "get",
-      url: `${END_POINT}/search`,
+      url: `${END_POINT}/search?page=0&size=700`,
       params: pageable,
     });
   },
