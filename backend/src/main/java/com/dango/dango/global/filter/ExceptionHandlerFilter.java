@@ -10,6 +10,7 @@ import com.dango.dango.global.common.response.ErrorResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +27,9 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request,response);
 		}catch (ExpiredJwtException e){
 			setErrorResponse(HttpStatus.BAD_REQUEST,response,e);
-		}catch (RuntimeException e){
+		}catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e){
+			setErrorResponse(HttpStatus.BAD_REQUEST,response,e);
+		}catch (IllegalArgumentException e){
 			setErrorResponse(HttpStatus.BAD_REQUEST,response,e);
 		}
 	}
