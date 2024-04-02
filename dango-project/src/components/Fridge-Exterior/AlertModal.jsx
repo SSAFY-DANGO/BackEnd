@@ -1,14 +1,26 @@
 import React from 'react';
 import AlertModalSVG from './AlertModalSVG';
 import { IoClose } from 'react-icons/io5';
-export default function AlertModal({ isOpen, closeModal }) {
+import { useRecoilState } from 'recoil';
+import { foodOldItemsState } from '../../recoil/atoms/userState';
+
+export default function AlertModal({
+  isOpen,
+  closeModal,
+  selectedImages,
+  // foodOldItems,
+}) {
   const handleBackgroundClick = (e) => {
     // Check if the click happened outside the modal content
     if (e.target.classList.contains('modal-background')) {
       closeModal();
     }
   };
-
+  const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
+  // let selectedImages = props.selectedImages;
+  console.log(selectedImages);
+  foodOldItems.forEach((elem, i) => console.log(elem));
+  foodOldItems.map((elem, i) => console.log(elem));
   return (
     <>
       {isOpen && (
@@ -26,7 +38,10 @@ export default function AlertModal({ isOpen, closeModal }) {
                 className='absolute top-0 right-0 mt-4 mr-4'
               />
             </button>
-            <AlertModalSVG />
+            <AlertModalSVG
+              selectedImages={selectedImages}
+              // foodOldItems={foodOldItems}
+            />
           </div>
         </div>
       )}

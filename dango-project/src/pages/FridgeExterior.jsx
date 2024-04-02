@@ -17,6 +17,35 @@ function FridgeExterior() {
     getRefrigeratorInfo();
     getRefrigeratorOpen();
   }, []);
+
+  const imageMap = {
+    아보카도: 아보카도,
+    감자: 감자,
+    고추: 고추,
+    귤: 귤,
+    당근: 당근,
+    대파: 대파,
+    돼지고기: 돼지고기,
+    딸기: 딸기,
+    마늘: 마늘,
+    무: 무,
+    방울토마토: 방울토마토,
+    배: 배,
+    배추: 배추,
+    버섯: 버섯,
+    복숭아: 복숭아,
+    사과: 사과,
+    슬라이스치즈: 슬라이스치즈,
+    애호박: 애호박,
+    양배추: 양배추,
+    양파: 양파,
+    토마토: 토마토,
+    포도: 포도,
+    파프리카: 파프리카,
+    // 랜덤: 랜덤,
+  };
+  const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
+
   const loginUser = useRecoilValue(loginUserState);
   
   const { nickname, refrigeratorNickname } = useRecoilValue(loginUserState);
@@ -27,6 +56,8 @@ function FridgeExterior() {
         refrigeratorNickname, loginUser.accessToken
       );
       console.log('냉장고 조회 성공', response);
+      console.log(response.data.map((item) => item.name));
+      setFoodOldItems(response.data.map((item) => item.name));
       localStorage.setItem('id', response.data.id);
     } catch (error) {
       console.log('냉장고 조회 실패', error);
@@ -63,7 +94,20 @@ function FridgeExterior() {
   const handleAlarmClick = () => {
     openModal();
   };
+  let selectedImage = [];
 
+  // 이미지 맵에서 해당 항목의 이미지 가져오기
+  const selectedImages = foodOldItems.map((item) => {
+    selectedImage = imageMap[item];
+    if (!selectedImage) {
+      selectedImage = imageMap['랜덤'];
+    }
+    return selectedImage;
+  });
+
+  console.log(selectedImages);
+  console.log(selectedImage);
+  // selectedImages.forEach((elem) => console.log(elem));
   // 현재 시간을 가져오는 함수
   const getCurrentTime = () => {
     const now = new Date();
@@ -95,10 +139,18 @@ function FridgeExterior() {
             time={currentTime}
             onAlarmClick={handleAlarmClick}
             onFridgeClick={goToInside}
+            selectedImages={selectedImages}
+            // selectedImage={selectedImage}
+            // foodOldItems={foodOldItems}
           />
          </div>  
         </div>
-        <AlertModal isOpen={isModalOpen} closeModal={closeModal} />
+        <AlertModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          selectedImages={selectedImages}
+          // foodOldItems={foodOldItems}
+        />
       </div>
       <Footer />
     </>
