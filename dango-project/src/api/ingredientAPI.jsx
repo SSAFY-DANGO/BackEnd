@@ -13,11 +13,10 @@ const END_POINT = "ingredient";
 
 export const ingredientAPI = {
   // 원재료 모두 조회 page size sort direction 등 쿼리스트링으로
-  getAll(pageable) {
+  getAll() {
     return tokenApi({
       method: "get",
-      url: `${END_POINT}/search?page=0&size=700`,
-      params: pageable,
+      url: `${END_POINT}/search?page=0&size=700`
     });
   },
 

@@ -2,7 +2,7 @@
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import AddModal from './AddModal'
 import {useState, useEffect} from 'react'
-import {addGrocery} from '../../api/Api'
+import {logAPI} from '../../api/logAPI'
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../../recoil/atoms/userState';
 function AddButton() {
@@ -20,6 +20,7 @@ const loginUser = useRecoilValue(loginUserState);
   const closeModal = () => {
     setIsModalOpen(false);
   }
+  
 
   const addHandler = async (addObj) => {
     const inputData = {
@@ -28,7 +29,7 @@ const loginUser = useRecoilValue(loginUserState);
       category: addObj.type,
       type: 1}
     try {
-      const response = await addGrocery(inputData, loginUser.accessToken);
+      const response = await logAPI.register(inputData, loginUser.accessToken);
       console.log('식재료 추가 성공', response)
       closeModal();
     } catch (error) {
@@ -36,10 +37,7 @@ const loginUser = useRecoilValue(loginUserState);
       console.log('식재료 추가 실패', error);
 
     }
-  }
-
-
-  
+  }  
 
     return (
         <div>

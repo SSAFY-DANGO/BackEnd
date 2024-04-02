@@ -19,13 +19,13 @@ function FridegeInside() {
     const fetchData =  async () => {
       // 랜더링될 때 백에서 냉장고 품목 정보 받아오기
     try {
+      console.log(loginUser.refrigeratorNickname);
       const res = await refrigeratorAPI.getItems(loginUser.refrigeratorNickname);
-      console.log(res)
+      console.log("냉장고 품목 조회 완료", res)
       let items = res.data.data
       setFoodItems(items)
     } catch (err) { 
       console.log(err)
-      alert("냉장고 품목 가져오기 실패!")
     }
     return;
     }

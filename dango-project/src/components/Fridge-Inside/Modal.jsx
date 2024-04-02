@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../../recoil/atoms/userState';
-import {trashRecover} from '../../api/Api'
-import {deleteGrocery} from '../../api/Api'
+import {trashAPI} from '../../api/trashAPI'
+import {logAPI} from '../../api/logAPI'
 import 랜덤 from '../../assets/imgs/mark_question.png'
 import 아보카도 from '../../assets/imgs/groceries/아보카도.png'
 import 감자 from '../../assets/imgs/groceries/감자.png'
@@ -81,7 +81,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
         try {
             // const idValue = {id: item.log.id,};
             // const jsonStringID = JSON.stringify(idValue);
-            const response = await deleteGrocery(item.log.id, loginUser.accessToken);
+            const response = await logAPI.delete(item.log.id, loginUser.accessToken);
             console.log('식재료 삭제 성공', response);
             handleModalClose();
             navigate('/fridge-trashcan')
@@ -95,7 +95,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
 
     const handleRecover = async() => {
         try {
-            const response = await trashRecover(item.log.id, loginUser.accessToken);
+            const response = await trashAPI.restore(item.log.id, loginUser.accessToken);
             console.log('식재료 복원 성공', response);
             handleModalClose();
             navigate('/fridge-inside')

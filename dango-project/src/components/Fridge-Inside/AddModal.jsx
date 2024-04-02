@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {allGroceriesData} from '../../api/Api' 
+import { ingredientAPI } from '../../api/ingredientAPI' 
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../../recoil/atoms/userState';
 function AddModal({ bool, onClose, mainText, subText, buttonText, placeText, customHandler }) {
@@ -40,35 +40,21 @@ function AddModal({ bool, onClose, mainText, subText, buttonText, placeText, cus
         option.name.includes(searchText)
     );
     
-    const getOptions = async (page, size) => {
-        try {
-            const response = await allGroceriesData({ page, size }, loginUser.accessToken);
-            console.log(`전체 식재료 조회 성공 page=${page} size=${size}`, response);
-            setAllGroceries(response.data.content);
-        } catch (error) {
-            console.log('전체 식재료 조회 실패', error);
-        }
-    }
+
 
     useEffect(() => {
-        let page = 0;
-        let size = 10;
-        getOptions(page, size);
-
-        function handleScroll() {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-                console.log("새로고침")
-                // const nextPage = Math.ceil(AllGroceries.length / 10);
-                // console.log(nextPage);
-                page = page + 1;
-                getOptions(page, size);
+        const getOptions = async () => {
+            try {
+                const response = await ingredientAPI.getAll(loginUser.accessToken);
+                console.log(`전체 식재료 조회 성공 `, response);
+                setAllGroceries(response.data.data.content);
+            } catch (error) {
+                console.log('전체 식재료 조회 실패', error);
             }
         }
+        getOptions();
 
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+       
     }, []);
 
     return (

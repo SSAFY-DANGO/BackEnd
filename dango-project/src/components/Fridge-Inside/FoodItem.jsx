@@ -25,7 +25,7 @@ import 양파 from '../../assets/imgs/groceries/양파.png';
 import 토마토 from '../../assets/imgs/groceries/토마토.png';
 import 포도 from '../../assets/imgs/groceries/포도.png';
 import 파프리카 from '../../assets/imgs/groceries/파프리카.png';
-import { getGroceryDetail } from '../../api/Api';
+import { logAPI } from '../../api/logAPI';
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../../recoil/atoms/userState';
 import '../../styles/Landing.css';
@@ -95,7 +95,7 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
 
   const openGroceryDetail = async () => {
     try {
-      const response = await getGroceryDetail(itemid, loginUser.accessToken);
+      const response = await logAPI.getDetail(itemid, loginUser.accessToken);
       setFoodItems(response.data);
       console.log('식재료 상세 조회 성공', response.data);
       openModal();

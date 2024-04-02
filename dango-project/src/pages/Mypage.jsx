@@ -17,11 +17,13 @@ function Mypage() {
     window.location.reload();
   }
 
-  const getProfileInfo = () => {
+  const getProfileInfo = async() => {
     try {
-      const response = userAPI.profile(loginUser.accessToken);
-      setEmail(response.data.username);
-      setNickname(response.data.nickname);
+      const response = await userAPI.profile(loginUser.accessToken);
+      console.log("프로필 조회 성공", response)
+      setEmail(response.data.data.username);
+      setNickname(response.data.data.nickname);
+
 
     } catch (error) {
       console.log("프로필 정보 조회 실패", error)

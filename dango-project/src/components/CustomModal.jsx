@@ -1,4 +1,5 @@
-function CustomModal({ bool, onClose, mainText, subText, buttonText, placeText, customHandler}) {
+
+function CustomModal({ bool, onClose, mainText, subText, buttonText, placeText, customHandler, updateProfile}) {
    
     const handleModalClose = () => {
         onClose();
