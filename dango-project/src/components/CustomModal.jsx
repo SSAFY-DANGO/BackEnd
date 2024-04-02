@@ -1,13 +1,18 @@
-
+import {useState} from 'react'
 function CustomModal({ bool, onClose, mainText, subText, buttonText, placeText, customHandler, updateProfile}) {
    
+    const [nameText, setNameText] = useState("");
     const handleModalClose = () => {
         onClose();
     }
 
     const handle = () => {
-        customHandler();
+        customHandler(nameText);
     }
+
+    const handleInputChange = (event) => {
+        setNameText(event.target.value);
+    };
 
     return (
         <>
@@ -20,6 +25,8 @@ function CustomModal({ bool, onClose, mainText, subText, buttonText, placeText, 
                             {subText}
                             <input
                                 placeholder={placeText}
+                                value={nameText}
+                                onChange={handleInputChange}
                                 className='ml-3 rounded-lg p-3 w-[250px] h-[10px]'
                                 />
                         </div>

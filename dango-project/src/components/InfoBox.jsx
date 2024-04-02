@@ -8,7 +8,7 @@ import { useRecoilValue} from 'recoil';
 import { loginUserState } from '../recoil/atoms/userState';
 
 
-function InfoBox({boxName, content, modifybool, deletebool}) {
+function InfoBox({boxName, content, modifybool, deletebool, setName}) {
     const loginUser = useRecoilValue(loginUserState);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isCheckOpen, setIsCheckOpen] = useState(false);
@@ -32,6 +32,8 @@ function InfoBox({boxName, content, modifybool, deletebool}) {
         try {
             const response = await refrigeratorAPI.edit(req, loginUser.accessToken);
             console.log('냉장고 수정 성공', response)
+            console.log(req);
+            setName(req);
             closeModal();
           } catch (error) {
             alert("수정에 실패했습니다.")

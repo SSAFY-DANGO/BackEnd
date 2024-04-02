@@ -10,11 +10,16 @@ function Mypage() {
   const loginUser = useRecoilValue(loginUserState);
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
+  const [refrigeratorNickname, setRefrigeratorNickname] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem('loginUser')
     localStorage.removeItem('id')
     window.location.reload();
+  }
+
+  const setRefriName = (name) => {
+    setRefrigeratorNickname(name);
   }
 
   const getProfileInfo = async() => {
@@ -32,6 +37,7 @@ function Mypage() {
 
   useEffect(() => {
     getProfileInfo();
+    setRefriName(loginUser.refrigeratorNickname)
   })
 
   return (
@@ -40,7 +46,7 @@ function Mypage() {
       <div className="flex flex-col justify-center items-center h-[70vh]">
       <InfoBox boxName="이름" content={nickname} modifybool={false} deletebool={false}/>
       <InfoBox boxName="이메일 주소" content={email} modifybool={false} deletebool={false}/>
-      <InfoBox boxName="냉장고 정보" content={loginUser.refrigeratorNickname} modifybool={true} deletebool={true}/>
+      <InfoBox boxName="냉장고 정보" content={refrigeratorNickname} modifybool={true} deletebool={true} setName={setRefriName}/>
       <button className="w-24 rounded-lg border-2 border-slate-200 hover:bg-slate-100" onClick={handleLogout}>로그아웃</button>
       </div>
       <Footer />
