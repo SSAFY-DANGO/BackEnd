@@ -19,6 +19,7 @@ function FridegeInside() {
 
   const loginUser = useRecoilValue(loginUserState);
   const [foodItems, setFoodItems] = useRecoilState(foodItemsState);
+  const { refrigeratorNickname } = useRecoilValue(loginUserState);
 
   // const refrigeratorId = JSON.parse(localStorage.getItem('id'));
 
@@ -27,7 +28,7 @@ function FridegeInside() {
   const getRefrigeratorDetailInfo = async () => {
     try {
       const response = await getRefrigeratorDetail(
-        'dango',
+        refrigeratorNickname,
         loginUser.accessToken
       );
       console.log('냉장고 품목 조회 성공', response.data);
