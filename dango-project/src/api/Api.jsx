@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const DEV = "http://localhost:8081/api/";
-const HOST = "https://j10a702.p.ssafy.io/api/";
+const DEV = import.meta.env.VITE_DANGO_API_DEV
+const HOST = import.meta.env.VITE_DANGO_API_PROD
 
 export const noneTokenApi = axios.create({
   baseURL: HOST,
