@@ -1,4 +1,4 @@
 package com.dango.dango.domain.detect.service;
 
-public interface DetctService {
+public interface DetectService {
 }
