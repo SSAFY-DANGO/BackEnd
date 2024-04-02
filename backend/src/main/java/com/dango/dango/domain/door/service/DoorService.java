@@ -6,6 +6,6 @@ import com.dango.dango.domain.door.entity.Door;
 
 public interface DoorService {
 	Door addDoor(Door door);
-
 	LocalDateTime getLatestTime(String deviceNickname, Boolean isOpen);
+	Boolean getDoorIsOpen();
 }
