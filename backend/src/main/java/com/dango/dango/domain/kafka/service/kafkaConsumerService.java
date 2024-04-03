@@ -18,8 +18,6 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Slf4j
 @Service
@@ -69,16 +67,14 @@ public class kafkaConsumerService {
                 .build();
 
         doorService.addDoor(door);
-
+        log.info(String.valueOf(door.getIsOpen()));
         if (!door.getIsOpen()) {
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    detectService.manageIngredients(door.getDeviceNickname());
-                    timer.cancel();
-                }
-            }, 1000);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                log.info(e.toString());
+            }
+            detectService.manageIngredients(door.getDeviceNickname());
         }
     }
 

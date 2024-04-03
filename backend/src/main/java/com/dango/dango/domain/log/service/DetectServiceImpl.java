@@ -6,10 +6,12 @@ import com.dango.dango.domain.log.dto.LogRegisterRequest;
 import com.dango.dango.domain.log.entity.Log;
 import com.dango.dango.domain.refrigerator.service.RefrigeratorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DetectServiceImpl implements DetectService {
@@ -36,6 +38,8 @@ public class DetectServiceImpl implements DetectService {
         Set<String> capturedIngredients = getLatestDetectLog(device);
         List<Log> existingIngredients = logService.getItems(device, true);
         List<Log> deletedIngredients = logService.getItems(device, false);
+        log.info("데이터 조회 완료");
+        log.info("삭제된 데이터: " + deletedIngredients);
 
         Map<String, Long> existingIngredientsMap = new HashMap<>();
         for (Log log : existingIngredients) {
@@ -51,14 +55,16 @@ public class DetectServiceImpl implements DetectService {
             if (!existingIngredientsMap.containsKey(capturedIngredient)) {
                 if (deletedIngredientsMap.containsKey(capturedIngredient)) {
                     trashService.restoreLog(deletedIngredientsMap.get(capturedIngredient));
+                    log.info("데이터 복구: " + capturedIngredient);
                 } else {
-                    LogRegisterRequest log = new LogRegisterRequest();
-                    log.setRefrigeratorId(refrigeratorService.findRefrigeratorByNickname(device).getId());
-                    log.setName(capturedIngredient);
-                    log.setCategory(
+                    LogRegisterRequest ingredient = new LogRegisterRequest();
+                    ingredient.setRefrigeratorId(refrigeratorService.findRefrigeratorByNickname(device).getId());
+                    ingredient.setName(capturedIngredient);
+                    ingredient.setCategory(
                             ingredientInformationService.findIngredientInformationByName(capturedIngredient).getType());
-                    log.setType(0);
-                    logService.registerLog(log);
+                    ingredient.setType(0);
+                    logService.registerLog(ingredient);
+                    log.info("데이터 추가: " + capturedIngredient);
                 }
             }
         }
@@ -66,6 +72,7 @@ public class DetectServiceImpl implements DetectService {
         for (Log existingIngredient : existingIngredients) {
             if (existingIngredient.getType() != 1 && !capturedIngredients.contains(existingIngredient.getName())) {
                 logService.deleteLog(existingIngredient.getId());
+                log.info("데이터 삭제: " + existingIngredient.getName());
             }
         }
 

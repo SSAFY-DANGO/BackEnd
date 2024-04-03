@@ -20,7 +20,8 @@ public class LogQueryRepository {
                 + "and l.exist = :exist";
 
         if (!exist) {
-            jpql += " and l.deleteTime = :yesterday";
+            jpql += " and l.deleteTime between :startDate and :endDate";
+//            jpql += " and l.deleteTime = :yesterday";
         }
 
         TypedQuery<Log> query = em.createQuery(jpql, Log.class);
@@ -28,7 +29,8 @@ public class LogQueryRepository {
         query.setParameter("exist", exist);
 
         if (!exist) {
-            query.setParameter("yesterday", LocalDateTime.now().minusMinutes(5));
+            query.setParameter("startDate", LocalDateTime.now().minusDays(1));
+            query.setParameter("endDate", LocalDateTime.now());
         }
 
         return query.getResultList();
