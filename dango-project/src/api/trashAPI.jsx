@@ -4,8 +4,8 @@ const END_POINT = "trash";
 
 export const trashAPI = {
   // 휴지통에 있는 식재료 조회
-  get(refrigeratorNickname) {
-    return tokenApi({
+  async get(refrigeratorNickname) {
+    return await tokenApi({
       method: "get",
       url: `${END_POINT}/${refrigeratorNickname}`,
     });

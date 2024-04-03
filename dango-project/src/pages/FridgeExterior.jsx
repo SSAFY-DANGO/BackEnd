@@ -34,8 +34,12 @@ import 양파 from '../assets/imgs/groceries/양파.png';
 import 토마토 from '../assets/imgs/groceries/토마토.png';
 import 포도 from '../assets/imgs/groceries/포도.png';
 import 파프리카 from '../assets/imgs/groceries/파프리카.png';
-import 랜덤 from '../assets/imgs/mark_question.png';
-
+import 고구마 from '../assets/imgs/groceries/고구마.png';
+import 망고 from '../assets/imgs/groceries/망고.png';
+import 멜론 from '../assets/imgs/groceries/멜론.png';
+import 블루베리 from '../assets/imgs/groceries/블루베리.png';
+import 수박 from '../assets/imgs/groceries/수박.png';
+// import 랜덤 from '../assets/imgs/groceries/랜덤.png';
 function FridgeExterior() {
   const imageMap = {
     아보카도: 아보카도,
@@ -61,7 +65,12 @@ function FridgeExterior() {
     토마토: 토마토,
     포도: 포도,
     파프리카: 파프리카,
-    랜덤: 랜덤,
+    고구마: 고구마,
+    망고: 망고,
+    멜론: 멜론,
+    블루베리: 블루베리,
+    수박: 수박
+    // 랜덤: 랜덤,
   };
 
   const loginUser = useRecoilValue(loginUserState);

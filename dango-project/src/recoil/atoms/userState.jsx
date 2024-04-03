@@ -20,7 +20,10 @@ export const foodItemsState = atom({
   key: 'foodItemsState',
   default: [],
 });
-
+export const trashItemsState = atom({
+  key: 'trashItemsState',
+  default: [],
+});
 export const userInputState = atom({
   key: 'userInputState',
   default: '',

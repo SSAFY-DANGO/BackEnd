@@ -28,6 +28,11 @@ import 양파 from '../../assets/imgs/groceries/양파.png';
 import 토마토 from '../../assets/imgs/groceries/토마토.png';
 import 포도 from '../../assets/imgs/groceries/포도.png';
 import 파프리카 from '../../assets/imgs/groceries/파프리카.png';
+import 고구마 from '../../assets/imgs/groceries/고구마.png';
+import 망고 from '../../assets/imgs/groceries/망고.png';
+import 멜론 from '../../assets/imgs/groceries/멜론.png';
+import 블루베리 from '../../assets/imgs/groceries/블루베리.png';
+import 수박 from '../../assets/imgs/groceries/수박.png';
 
 import '../../styles/Landing.css';
 import '../../styles/Common.css';
@@ -56,8 +61,12 @@ const imageMap = {
   토마토: 토마토,
   포도: 포도,
   파프리카: 파프리카,
+  고구마: 고구마,
+  망고: 망고,
+  멜론: 멜론,
+  블루베리: 블루베리,
+  수박: 수박,
   랜덤: 랜덤,
-  기타: 랜덤,
 };
 
 function Modal({
@@ -65,7 +74,11 @@ function Modal({
   onClose,
   nameText,
   buttonText,
-  item,
+  itemid,
+  type,
+  calorie,
+  protein,
+  carbs,
   detailbool,
   inputTime,
   unitTime,
@@ -90,7 +103,7 @@ function Modal({
     try {
       // const idValue = {id: item.log.id,};
       // const jsonStringID = JSON.stringify(idValue);
-      const response = await logAPI.delete(item.log.id, loginUser.accessToken);
+      const response = await logAPI.delete(itemid, loginUser.accessToken);
       console.log('식재료 삭제 성공', response);
       handleModalClose();
       navigate('/fridge-trashcan');
@@ -102,10 +115,7 @@ function Modal({
 
   const handleRecover = async () => {
     try {
-      const response = await trashAPI.restore(
-        item.log.id,
-        loginUser.accessToken
-      );
+      const response = await trashAPI.restore(itemid, loginUser.accessToken);
       console.log('식재료 복원 성공', response);
       handleModalClose();
       navigate('/fridge-inside');
@@ -151,20 +161,14 @@ function Modal({
                 <div className='flex justify-center'>
                   들어온 시간: {inputTime.replace('T', ' ')}
                 </div>
-                <div className='flex justify-center'>
-                  종류: {item?.log?.category}
-                </div>
+                <div className='flex justify-center'>종류: {type}</div>
               </div>
             )}
             {detailboolshow && (
               <div className='mt-[7vh]'>
-                <div className='flex justify-center'>
-                  단백질: {item.protein}
-                </div>
-                <div className='flex justify-center'>설탕: {item.sugar}</div>
-                <div className='flex justify-center'>
-                  탄수화물: {item.carbs}
-                </div>
+                <div className='flex justify-center'>칼로리: {calorie}</div>
+                <div className='flex justify-center'>단백질: {protein}</div>
+                <div className='flex justify-center'>탄수화물: {carbs}</div>
               </div>
             )}
             <div className='flex justify-center items-center mt-[1vh]'>

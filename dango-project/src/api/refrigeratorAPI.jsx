@@ -61,6 +61,9 @@ export const refrigeratorAPI = {
       method: "put",
       url: `${END_POINT}`,
       data: refrigeratorNickname,
+      headers: {
+        "Content-Type" : 'text/plain'
+      }
     });
   },
 };

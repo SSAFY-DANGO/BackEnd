@@ -1,15 +1,15 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import FridgeFrame from '../components/Fridge-Inside/FridgeFrame';
+import TrashFrame from '../components/Fridge-Inside/TrashFrame';
 import FridgeButton from '../components/FridgeButton'
 import {useEffect, useState} from 'react';
-import { useRecoilValue } from 'recoil';
-import { loginUserState } from '../recoil/atoms/userState';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { loginUserState, trashItemsState } from '../recoil/atoms/userState';
 import {trashAPI} from '../api/trashAPI'
 function FridgeTrashcan() {
   const loginUser = useRecoilValue(loginUserState);
-  const [trashItems, setTrashItems] = useState([]);
+  const [trashItems, setTrashItems] = useRecoilState(trashItemsState);
 
   useEffect(() => {
     const fetchData =  async () => {
@@ -17,7 +17,7 @@ function FridgeTrashcan() {
     try {
       const res = await trashAPI.get(loginUser.refrigeratorNickname);
       console.log('쓰레기통 품목 조회 성공', res.data);
-      setTrashItems(res.data);
+      setTrashItems(res.data.data);
     } catch (err) { 
       console.log(err)
       alert("쓰레기통 품목 가져오기 실패!")
@@ -38,7 +38,7 @@ function FridgeTrashcan() {
         </div>
 
         <div className="mb-[2vh]">
-          <FridgeFrame buttonText="복원" foodItems={trashItems}/>
+          <TrashFrame buttonText="복원"/>
           
         </div>
         <div className="mb-[1vh] flex">
