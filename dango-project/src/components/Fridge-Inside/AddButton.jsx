@@ -32,6 +32,7 @@ const loginUser = useRecoilValue(loginUserState);
       const response = await logAPI.register(inputData, loginUser.accessToken);
       console.log('식재료 추가 성공', response)
       closeModal();
+      window.location.reload();
     } catch (error) {
       alert("추가에 실패했습니다.")
       console.log('식재료 추가 실패', error);

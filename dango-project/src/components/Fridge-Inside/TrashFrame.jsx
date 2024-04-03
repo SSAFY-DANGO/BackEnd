@@ -1,13 +1,13 @@
 
 import FoodItem from './FoodItem';
 import { useRecoilState } from 'recoil';
-import { foodItemsState, userInputState} from '../../recoil/atoms/userState';
+import {userInputState, trashItemsState } from '../../recoil/atoms/userState';
 
-function FridgeFrame({ buttonText }) {
+function TrashFrame({ buttonText }) {
   const [userInput, setUserInput] = useRecoilState(userInputState);
-  const [foodItems, setFoodItems] = useRecoilState(foodItemsState);
-  console.log(foodItems);
 
+  const [trashItems, setTrashItems] = useRecoilState(trashItemsState);
+  console.log(trashItems);
 
   
 
@@ -15,7 +15,7 @@ function FridgeFrame({ buttonText }) {
     <div className=' w-[80vw] h-[65vh] border-slate-500 border-4 rounded-xl flex flex-wrap overflow-y-scroll'>
     
 
-      {foodItems
+      {trashItems
         .filter((elem) => elem.name.includes(userInput))
         .map((foodItem, index) => (
           <FoodItem
@@ -30,4 +30,4 @@ function FridgeFrame({ buttonText }) {
     </div>
   );
 }
-export default FridgeFrame;
+export default TrashFrame;
