@@ -13,7 +13,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [emailCheck, setEmailCheck] = useState(false);
 
-  const regexLimit = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+  const regexLimit = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
 
   useEffect(() => {
     setEmailCheck(false);
@@ -35,7 +35,7 @@ export default function SignUp() {
 
     if (!regexLimit.test(password)) {
       console.log(password)
-      alert("비밀번호는 영문자와 숫자를 포함한 최소 8자 이상이어야 합니다.");
+      alert("비밀번호는 최소 8자, 최소 하나의 특수문자 및 하나의 숫자를 포함해야합니다.");
       return;
     }
 

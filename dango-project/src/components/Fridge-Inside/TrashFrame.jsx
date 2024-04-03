@@ -13,8 +13,6 @@ function TrashFrame({ buttonText }) {
 
   return (
     <div className=' w-[80vw] h-[65vh] border-slate-500 border-4 rounded-xl flex flex-wrap overflow-y-scroll'>
-    
-
       {trashItems
         .filter((elem) => elem.name.includes(userInput))
         .map((foodItem, index) => (
@@ -25,6 +23,7 @@ function TrashFrame({ buttonText }) {
             itemid={foodItem.id}
             detailbool={foodItem.exist}
             inputTime={foodItem.inputTime}
+            style={{ marginBottom: "5px" }}
           />
         ))}
     </div>

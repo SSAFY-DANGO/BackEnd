@@ -25,11 +25,6 @@ import 양파 from '../../assets/imgs/groceries/양파.png';
 import 토마토 from '../../assets/imgs/groceries/토마토.png';
 import 포도 from '../../assets/imgs/groceries/포도.png';
 import 파프리카 from '../../assets/imgs/groceries/파프리카.png';
-import 고구마 from '../../assets/imgs/groceries/고구마.png';
-import 망고 from '../../assets/imgs/groceries/망고.png';
-import 멜론 from '../../assets/imgs/groceries/멜론.png';
-import 블루베리 from '../../assets/imgs/groceries/블루베리.png';
-import 수박 from '../../assets/imgs/groceries/수박.png';
 import { logAPI } from '../../api/logAPI';
 import { useRecoilValue } from 'recoil';
 import { loginUserState } from '../../recoil/atoms/userState';
@@ -60,11 +55,6 @@ const imageMap = {
   토마토: 토마토,
   포도: 포도,
   파프리카: 파프리카,
-  고구마: 고구마,
-  망고: 망고,
-  멜론: 멜론,
-  블루베리: 블루베리,
-  수박: 수박,
   랜덤: 랜덤,
 };
 
@@ -101,21 +91,13 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
     setIsModalOpen(true);
   };
 
-  const [itemType, setItemType] = useState("");
-  const [itemCalorie, setItemCalorie] = useState("");
-  const [itemProtein, setItemProtein] = useState("");
-  const [itemCarbs, setItemCarbs] = useState("");
-  
+  const [foodItems, setFoodItems] = useState('');
 
   const openGroceryDetail = async () => {
     try {
       const response = await logAPI.getDetail(itemid, loginUser.accessToken);
+      setFoodItems(response.data);
       console.log('식재료 상세 조회 성공', response.data);
-      setItemCalorie(response.data.data.calorie);
-      setItemProtein(response.data.data.protein);
-      setItemCarbs(response.data.data.carbs);
-      setItemType(response.data.data.type);
-      console.log(itemType, itemCalorie, itemProtein, itemCarbs)
       openModal();
     } catch (error) {
       console.log('식재료 상세 조회 실패', error);
@@ -147,11 +129,7 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
         onClose={closeModal}
         nameText={nameText}
         buttonText={buttonText}
-        type={itemType}
-        calorie={itemCalorie}
-        itemid={itemid}
-        protein={itemProtein}
-        carbs={itemCarbs}
+        item={foodItems}
         detailbool={detailbool}
         inputTime={inputTime}
         unitTime={unitTime}
