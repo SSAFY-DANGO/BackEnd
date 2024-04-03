@@ -5,14 +5,11 @@ import Footer from '../components/Footer';
 import FridgeSVG from '../components/FridgeSVG';
 import { useState } from 'react';
 import AlertModal from '../components/Fridge-Exterior/AlertModal';
-import { refrigeratorAPI } from "../api/refrigeratorAPI";
+import { refrigeratorAPI } from '../api/refrigeratorAPI';
 import { useEffect } from 'react';
-
 import { loginUserState } from '../recoil/atoms/userState';
 import { foodOldItemsState } from '../recoil/atoms/userState';
-
 import { useRecoilValue, useRecoilState } from 'recoil';
-
 
 import 아보카도 from '../assets/imgs/groceries/아보카도.png';
 import 감자 from '../assets/imgs/groceries/감자.png';
@@ -37,7 +34,8 @@ import 양파 from '../assets/imgs/groceries/양파.png';
 import 토마토 from '../assets/imgs/groceries/토마토.png';
 import 포도 from '../assets/imgs/groceries/포도.png';
 import 파프리카 from '../assets/imgs/groceries/파프리카.png';
-// import 랜덤 from '../assets/imgs/groceries/랜덤.png';
+import 랜덤 from '../assets/imgs/mark_question.png';
+
 function FridgeExterior() {
   const imageMap = {
     아보카도: 아보카도,
@@ -63,27 +61,31 @@ function FridgeExterior() {
     토마토: 토마토,
     포도: 포도,
     파프리카: 파프리카,
-    // 랜덤: 랜덤,
+    랜덤: 랜덤,
   };
 
   const loginUser = useRecoilValue(loginUserState);
   const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
-  const [isRefrigeratorOpen,setIsRefrigeratorOpen] = useState(false);
+  const [isRefrigeratorOpen, setIsRefrigeratorOpen] = useState(false);
   // const { nickname, refrigeratorNickname } = useRecoilValue(loginUserState);
+
   useEffect(() => {
-    const fetchOldFood =  async () => {
+    const fetchOldFood = async () => {
       // 랜더링될 때 백에서 냉장고 오래된 품목 받아오기
-    try {
-      const res = await refrigeratorAPI.getOldItems(loginUser.refrigeratorNickname);
-      console.log("냉장고 오래된 품목 가져오기 성공: ", res)
-      console.log(res.data.data.map((item) => item.name));
-      setFoodOldItems(res.data.data.map((item) => item.name));
-      localStorage.setItem('id', res.data.id);
-    } catch (err) { 
-      console.log(err)
-    }
-    return;
-    }
+      try {
+        const res = await refrigeratorAPI.getOldItems(
+          loginUser.refrigeratorNickname
+        );
+        console.log('냉장고 오래된 품목 가져오기 성공: ', res);
+        console.log(res.data.data.map((item) => item.name));
+        setFoodOldItems(res.data.data.map((item) => item.name));
+        localStorage.setItem('id', res.data.id);
+        console.log(foodOldItems);
+      } catch (err) {
+        console.log(err);
+      }
+      return;
+    };
 
     const fetchOpenData = async () => {
       try {
@@ -91,14 +93,13 @@ function FridgeExterior() {
         const isOpen = response.data.data;
         setIsRefrigeratorOpen(isOpen);
       } catch (error) {
-        console.log("냉장고 문열림 여부 조회 실패", error)
+        console.log('냉장고 문열림 여부 조회 실패', error);
       }
-    }
+    };
 
     fetchOldFood();
     fetchOpenData();
   }, []);
-
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -109,11 +110,11 @@ function FridgeExterior() {
   const closeModal = () => setIsModalOpen(false);
 
   const goToInside = () => {
-    navigate("/fridge-inside");
+    navigate('/fridge-inside');
   };
 
   const goToMypage = () => {
-    navigate("/mypage");
+    navigate('/mypage');
   };
 
   const handleAlarmClick = () => {
@@ -130,8 +131,8 @@ function FridgeExterior() {
     return selectedImage;
   });
 
-  console.log(selectedImages);
-  console.log(selectedImage);
+  // console.log(selectedImages);
+  // console.log(selectedImage);
   // selectedImages.forEach((elem) => console.log(elem));
   // 현재 시간을 가져오는 함수
   const getCurrentTime = () => {
@@ -139,8 +140,8 @@ function FridgeExterior() {
     const hours = now.getHours();
     const minutes = now.getMinutes();
     // 시간과 분을 두 자리 숫자로 포맷팅
-    const formattedTime = `${hours < 10 ? "0" + hours : hours}:${
-      minutes < 10 ? "0" + minutes : minutes
+    const formattedTime = `${hours < 10 ? '0' + hours : hours}:${
+      minutes < 10 ? '0' + minutes : minutes
     }`;
     return formattedTime;
   };
@@ -151,24 +152,22 @@ function FridgeExterior() {
   return (
     <>
       <Header text={'예은이의 냉장고'} />
-      
+
       <div className='relative h-[590px] pt-[50px]'>
         {/* relative h-screen */}
         {/* absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 */}
         <div className='absolute left-1/2 transform -translate-x-1/2 '>
-        <div>
-        {/* <AlertButton isOpen = {isRefrigeratorOpen}/> */}
-        </div>
-         <div>
-         <FridgeSVG
-            time={currentTime}
-            onAlarmClick={handleAlarmClick}
-            onFridgeClick={goToInside}
-            selectedImages={selectedImages}
-            // selectedImage={selectedImage}
-            // foodOldItems={foodOldItems}
-          />
-         </div>  
+          <div>{/* <AlertButton isOpen = {isRefrigeratorOpen}/> */}</div>
+          <div>
+            <FridgeSVG
+              time={currentTime}
+              onAlarmClick={handleAlarmClick}
+              onFridgeClick={goToInside}
+              selectedImages={selectedImages}
+              // selectedImage={selectedImage}
+              // foodOldItems={foodOldItems}
+            />
+          </div>
         </div>
         <AlertModal
           isOpen={isModalOpen}

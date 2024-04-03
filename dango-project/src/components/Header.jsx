@@ -4,6 +4,7 @@ import { foodOldItemsState, loginUserState } from '../recoil/atoms/userState';
 
 function Header({ text }) {
   const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
+
   const { nickname } = useRecoilValue(loginUserState);
   return (
     <>
@@ -27,4 +28,3 @@ function Header({ text }) {
 }
 
 export default Header;
-
