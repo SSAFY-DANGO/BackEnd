@@ -15,6 +15,8 @@ public interface IngredientInformationService {
     // 식재료(원재료)명으로 조회하기
     Page<IngredientInformation> findIngredientInformationByName(String name, Pageable pageable);
 
+    IngredientInformation findIngredientInformationByName(String name);
+
     // 식재료(원재료) 타입으로 조회하기
     Page<IngredientInformation> findIngredientInformationByType(String type, Pageable pageable);
 
@@ -25,5 +27,5 @@ public interface IngredientInformationService {
     void deleteIngredientInformation(Long id);
 
     // 식재료 정보 업데이트
-//    int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest);
+    //    int updateIngredientInformation(Long id, IngredientInformationUpdateRequest ingredientInformationUpdateRequest);
 }

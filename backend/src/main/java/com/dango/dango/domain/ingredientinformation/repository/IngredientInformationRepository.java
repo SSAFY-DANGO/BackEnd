@@ -2,10 +2,10 @@ package com.dango.dango.domain.ingredientinformation.repository;
 
 import com.dango.dango.domain.ingredientinformation.entity.IngredientInformation;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Pageable;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
 
 public interface IngredientInformationRepository extends JpaRepository<IngredientInformation, Long> {
     Optional<IngredientInformation> findByName(String name);
@@ -15,4 +15,6 @@ public interface IngredientInformationRepository extends JpaRepository<Ingredien
     Page<IngredientInformation> findAllByTypeContaining(String type, Pageable pageable);
 
     Page<IngredientInformation> findAll(Pageable pageable);
+
+    IngredientInformation findByNameEquals(String name);
 }

@@ -7,6 +7,7 @@ import com.dango.dango.domain.log.dto.LogEditRequest;
 import com.dango.dango.domain.log.dto.LogRegisterRequest;
 import com.dango.dango.domain.log.entity.Log;
 import com.dango.dango.domain.log.exception.LogNotFoundException;
+import com.dango.dango.domain.log.repository.LogQueryRepository;
 import com.dango.dango.domain.log.repository.LogRepository;
 import com.dango.dango.domain.refrigerator.entity.Refrigerator;
 import com.dango.dango.domain.refrigerator.exception.RefrigeratorNotFoundException;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class LogServiceImpl implements LogService {
     private final LogRepository logRepository;
     private final RefrigeratorRepository refrigeratorRepository;
     private final IngredientInformationRepository ingredientInformationRepository;
+    private final LogQueryRepository logQueryRepository;
 
     @Override
     public Log findById(Long id) {
@@ -42,6 +45,7 @@ public class LogServiceImpl implements LogService {
                 .name(logRegisterRequest.getName())
                 .category(logRegisterRequest.getCategory())
                 .type(logRegisterRequest.getType())
+                .exist(true)
                 .build();
         logRepository.save(log);
         return log;
@@ -77,7 +81,8 @@ public class LogServiceImpl implements LogService {
         Log log = logRepository.findById(id)
                 .orElseThrow(() -> new LogNotFoundException(id + " 번 식재료 로그 없음"));
         // null이면 dto에 내용 추가 x
-        IngredientInformation ingredientInformation = ingredientInformationRepository.findByName(log.getName()).orElse(null);
+        IngredientInformation ingredientInformation = ingredientInformationRepository.findByName(log.getName())
+                .orElse(null);
 
         LogDetailResponse res = new LogDetailResponse(log);
         if (ingredientInformation != null) {
@@ -100,5 +105,10 @@ public class LogServiceImpl implements LogService {
         // logRepository.deleteById(id);
         log.setExist(false);
         log.setDeleteTime(LocalDateTime.now());
+    }
+
+    @Override
+    public List<Log> getItems(String device, Boolean exist) {
+        return logQueryRepository.findAllByRefrigeratorNickname(device, exist);
     }
 }
