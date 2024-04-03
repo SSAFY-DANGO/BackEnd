@@ -58,7 +58,7 @@ const imageMap = {
   랜덤: 랜덤,
 };
 
-function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
+function Groceries({ nameText, buttonText, itemid, detailbool, inputTime}) {
   const [timeDifferenceOutput, setTimeDifferenceOutput] = useState('');
   const [unitTime, setUnitTime] = useState('');
 
@@ -92,12 +92,25 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
   };
 
   const [foodItems, setFoodItems] = useState('');
+  const [itemType, setItemType] = useState("");
+  const [itemCalorie, setItemCalorie] = useState("");
+  const [itemProtein, setItemProtein] = useState("");
+  const [itemCarbs, setItemCarbs] = useState("");
+  const [itemFat, setItemFat] = useState("");
+  const [itemSugar, setItemSugar] = useState("");
+
 
   const openGroceryDetail = async () => {
     try {
       const response = await logAPI.getDetail(itemid, loginUser.accessToken);
       setFoodItems(response.data);
       console.log('식재료 상세 조회 성공', response.data);
+      setItemCalorie(response.data.data.calorie);
+      setItemProtein(response.data.data.protein);
+      setItemCarbs(response.data.data.carbs);
+      setItemType(response.data.data.type);
+      setItemFat(response.data.data.fat);
+      setItemSugar(response.data.data.sugar);
       openModal();
     } catch (error) {
       console.log('식재료 상세 조회 실패', error);
@@ -129,7 +142,13 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
         onClose={closeModal}
         nameText={nameText}
         buttonText={buttonText}
-        item={foodItems}
+        type={itemType}
+        calorie={itemCalorie}
+        itemid={itemid}
+        protein={itemProtein}
+        carbs={itemCarbs}
+        sugar={itemSugar}
+        fat={itemFat}
         detailbool={detailbool}
         inputTime={inputTime}
         unitTime={unitTime}

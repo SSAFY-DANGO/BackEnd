@@ -70,19 +70,7 @@ const imageMap = {
 };
 
 function Modal({
-  bool,
-  onClose,
-  nameText,
-  buttonText,
-  itemid,
-  type,
-  calorie,
-  protein,
-  carbs,
-  detailbool,
-  inputTime,
-  unitTime,
-  timeDifferenceOutput,
+  bool, onClose, nameText, buttonText, itemid, type, calorie, protein, carbs, sugar, fat, detailbool, inputTime, unitTime, timeDifferenceOutput 
 }) {
   const navigate = useNavigate();
   const loginUser = useRecoilValue(loginUserState);
@@ -166,9 +154,9 @@ function Modal({
             )}
             {detailboolshow && (
               <div className='mt-[7vh]'>
-                <div className='flex justify-center'>칼로리: {calorie}</div>
-                <div className='flex justify-center'>단백질: {protein}</div>
-                <div className='flex justify-center'>탄수화물: {carbs}</div>
+                <div className='flex justify-center'>칼로리: {calorie}kcal</div>
+                <div className='flex justify-center'>단백질: {protein}g 지방: {fat}g</div>
+                <div className='flex justify-center'>탄수화물: {carbs}g 설탕: {sugar}g</div>
               </div>
             )}
             <div className='flex justify-center items-center mt-[1vh]'>
