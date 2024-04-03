@@ -1,0 +1,50 @@
+spring:
+  profiles:
+    include: secret
+  datasource:
+    url: ${database.mariadb.dev.url}
+    username: ${database.mariadb.dev.username}
+    password: ${database.mariadb.dev.password}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+  data:
+    redis:
+      host: ${database.redis.host}
+      port: ${database.redis.port}
+    # 엘라스틱 서치 나중에 추가해야함
+  kafka:
+    consumer:
+      bootstrap-servers: ${database.kafka.host}
+      group-id: "consumer"
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          DEBUG
+jwt:
+  secret: ${jwt.secret}
+
+server:
+  port: 8081
+
+springdoc:
+  api-docs:
+    enabled: true
+    version: openapi_3_0
+
+  swagger-ui:
+    path: /swagger-ui/index.html
+    groups-order: DESC
+    doc-expansion: none
+    tags-sorter: alpha
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
