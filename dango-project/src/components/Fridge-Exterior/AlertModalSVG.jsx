@@ -49,7 +49,7 @@ export default function AlertModalSVG({ selectedImages }) {
               y='75'
               dy='1.2em'
               fill='white'
-              fontSize={10}
+              fontSize={8.5}
             >
               {text}
             </tspan>
