@@ -46,10 +46,8 @@ function AddModal({ bool, onClose, mainText, subText, buttonText, placeText, cus
         const getOptions = async () => {
             try {
                 const response = await ingredientAPI.getAll(loginUser.accessToken);
-                console.log(`전체 식재료 조회 성공 `, response);
                 setAllGroceries(response.data.data.content);
             } catch (error) {
-                console.log('전체 식재료 조회 실패', error);
             }
         }
         getOptions();

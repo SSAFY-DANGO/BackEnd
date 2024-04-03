@@ -12,9 +12,9 @@ import { isAuthed } from "../utils/authUtil";
 const isProd = process.env.NODE_ENV === "production";
 let rootUrl = "";
 if (isProd) {
-  rootUrl = "https://j10a106.p.ssafy.io";
+  rootUrl = import.meta.env.VITE_DANGO_URL_PROD;
 } else {
-  rootUrl = "http://localhost:3000";
+  rootUrl = import.meta.env.VITE_DANGO_URL_DEV;
 }
 
 // 로그인 안됐으면 첫화면으로

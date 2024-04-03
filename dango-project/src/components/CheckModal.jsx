@@ -13,12 +13,10 @@ function CheckModal({ bool, mainText, subText, onClose}) {
     const handleDelete = async() => {
         try {
             const response = await refrigeratorAPI.delete();
-            console.log('냉장고 삭제 성공', response)
             handleModalClose();
             navigate('/connect-fridge')
           } catch (error) {
             alert("삭제에 실패했습니다.")
-            console.log('냉장고 삭제 실패', error);
       
           }        
     }

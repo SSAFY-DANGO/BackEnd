@@ -15,12 +15,9 @@ export default function AlertButton() {
     const getRefrigeratorOpen = async() => {
         try {
             const response = await refrigeratorAPI.isDoorOpen();
-            console.log(response)
             const isOpen = response.data.data;
-            console.log(isOpen)
             setIsChecked(isOpen); // 상태를 업데이트합니다.
         } catch(error) {
-            console.log('냉장고 조회 실패', error);
         }
     }
 

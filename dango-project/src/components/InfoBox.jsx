@@ -33,14 +33,10 @@ function InfoBox({boxName, content, modifybool, deletebool, setName}) {
     const modifyRefrigerator = async(req) => {
         try {
             const response = await refrigeratorAPI.edit(req);
-            console.log('냉장고 수정 성공', response)
-            console.log(req);
             setName(req);
             closeModal();
           } catch (error) {
             alert("수정에 실패했습니다.")
-            console.log('냉장고 수정 실패', error);
-      
           } 
     }
 

@@ -104,7 +104,6 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime}) {
     try {
       const response = await logAPI.getDetail(itemid, loginUser.accessToken);
       setFoodItems(response.data);
-      console.log('식재료 상세 조회 성공', response.data);
       setItemCalorie(response.data.data.calorie);
       setItemProtein(response.data.data.protein);
       setItemCarbs(response.data.data.carbs);
@@ -113,7 +112,6 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime}) {
       setItemSugar(response.data.data.sugar);
       openModal();
     } catch (error) {
-      console.log('식재료 상세 조회 실패', error);
       openModal();
     }
   };

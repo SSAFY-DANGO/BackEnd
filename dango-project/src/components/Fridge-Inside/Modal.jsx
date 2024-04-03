@@ -92,24 +92,20 @@ function Modal({
       // const idValue = {id: item.log.id,};
       // const jsonStringID = JSON.stringify(idValue);
       const response = await logAPI.delete(itemid, loginUser.accessToken);
-      console.log('식재료 삭제 성공', response);
       handleModalClose();
       navigate('/fridge-trashcan');
     } catch (error) {
       alert('삭제에 실패했습니다.');
-      console.log('식재료 삭제 실패', error);
     }
   };
 
   const handleRecover = async () => {
     try {
       const response = await trashAPI.restore(itemid, loginUser.accessToken);
-      console.log('식재료 복원 성공', response);
       handleModalClose();
       navigate('/fridge-inside');
     } catch (error) {
       alert('식재료 복원에 성공했습니다.');
-      console.log('식재료 복원 실패', error);
     }
   };
 
@@ -121,7 +117,6 @@ function Modal({
     setBasicBool(!basicbool);
     setDetailBoolShow(!detailboolshow);
     setDynamicText('상세정보');
-    console.log(basicbool, detailboolshow);
   };
 
   let selectedImage = imageMap[nameText];

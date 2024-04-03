@@ -25,7 +25,6 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await userAPI.login({ username, password });
-      console.log("로그인 성공", response);
 
       const user = {
         nickname: response.data.data.nickname,
@@ -33,7 +32,6 @@ export default function Login() {
         accessToken: response.data.data.accessToken,
         refreshToken: response.data.data.refreshToken,
       };
-      console.log(user);
 
       localStorage.setItem("loginUser", JSON.stringify(user));
 
@@ -41,7 +39,6 @@ export default function Login() {
 
       navigate("/fridge-exterior");
     } catch (error) {
-      console.log("로그인 실패", error);
       alert;
     }
   };

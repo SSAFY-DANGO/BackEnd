@@ -35,7 +35,6 @@ tokenApi.interceptors.response.use(
     // if (1) {
       try {
         // 토큰 재발급 요청
-        console.log("재발급요청");
         const res = await noneTokenApi({
           method: "get",
           url: "users/reissue",
@@ -45,8 +44,6 @@ tokenApi.interceptors.response.use(
           },
         });
         // 잘 왔으면 토큰 갱신
-        console.log("재발급요청응답")
-        console.log(res)
         if (res.data.status === 200) {
           const refresh = res.data.data.refreshToken;
           const access = res.data.data.accessToken;
@@ -56,12 +53,10 @@ tokenApi.interceptors.response.use(
           loginUser.refreshToken = refresh;
 
           localStorage.setItem("loginUser", JSON.stringify(loginUser));
-          console.log("갱신완료");
 
           // 갱신한 토큰 기준으로 원래 요청 다시 보내기
           const originalRequest = err.config;
           originalRequest.headers["Authorization"] = `Bearer ${access}`;
-          console.log("다시보내기");
           return tokenApi(originalRequest);
         } else {
           alert("다시 로그인 해주세요");
@@ -69,15 +64,12 @@ tokenApi.interceptors.response.use(
           window.location.replace(import.meta.env.VITE_DANGO_URL_PROD);
         }
       } catch (reissueErr) {
-        console.log("토큰재발급요청오류");
-        console.log(reissueErr);
       }
     }
   }
 );
 
 export const createApiInstance = (accessToken) => {
-  console.log(accessToken);
   return axios.create({
     baseURL: HOST,
     headers: {
@@ -90,7 +82,6 @@ export const createApiInstance = (accessToken) => {
 export const getRefrigerator = async (accessToken) => {
   const api = createApiInstance(accessToken);
   try {
-    console.log(api);
     const response = await api.get("/refrigerator");
     return response.data;
   } catch (error) {

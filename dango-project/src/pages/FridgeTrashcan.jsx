@@ -16,10 +16,8 @@ function FridgeTrashcan() {
       // 랜더링될 때 백에서 냉장고 품목 정보 받아오기
     try {
       const res = await trashAPI.get(loginUser.refrigeratorNickname);
-      console.log('쓰레기통 품목 조회 성공', res.data);
       setTrashItems(res.data.data);
     } catch (err) { 
-      console.log(err)
       alert("쓰레기통 품목 가져오기 실패!")
     }
     return;

@@ -6,7 +6,6 @@ import { foodItemsState, userInputState} from '../../recoil/atoms/userState';
 function FridgeFrame({ buttonText, selectedCategory }) {
   const [userInput, setUserInput] = useRecoilState(userInputState);
   const [foodItems, setFoodItems] = useRecoilState(foodItemsState);
-  console.log(foodItems);
   
 
   return (

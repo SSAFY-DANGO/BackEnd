@@ -17,11 +17,6 @@ export default function AlertModal({
     }
   };
   const [foodOldItems, setFoodOldItems] = useRecoilState(foodOldItemsState);
-  // let selectedImages = props.selectedImages;
-  // console.log(selectedImages);
-  // foodOldItems.forEach((elem, i) => console.log(elem));
-
-  // foodOldItems.map((elem, i) => console.log(elem));
   return (
     <>
       {isOpen && (

@@ -22,7 +22,6 @@ export default function ConnectFridge() {
       }
     } catch (error) {
       alert("냉장고 연결 요청이 실패했습니다.");
-      console.log("냉장고 연결 요청 실패", error);
     }
   };
   return (

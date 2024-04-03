@@ -5,27 +5,15 @@ import { foodItemsState, userInputState } from '../../recoil/atoms/userState';
 function SearchComponent({}) {
   const [userInput, setUserInput] = useRecoilState(userInputState);
   const [foodItems, setFoodItems] = useRecoilState(foodItemsState);
-
-  // const handleChange = (e) => {
-  //   console.log(e.target.value);
-  //   setSearchTerm(e.target.value);
-
-  //   updateFilteredItems();
-  // };
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
   const updateFilteredItems = () => {
     const filteredItems = foodItems.filter((element) =>
-      // console.log(value.name.includes(searchTerm))
-      // console.log(value.name)
-      //element.toString().includes(searchTerm)
       element.name.includes(userInput)
     );
   };
-  // setFoodItems(filteredItems);
-
   return (
     <form onSubmit={handleSubmit}>
       <input

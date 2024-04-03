@@ -87,13 +87,9 @@ function FridgeExterior() {
         const res = await refrigeratorAPI.getOldItems(
           loginUser.refrigeratorNickname
         );
-        console.log("냉장고 오래된 품목 가져오기 성공: ", res);
-        console.log(res.data.data.map((item) => item.name));
         setFoodOldItems(res.data.data.map((item) => item.name));
         localStorage.setItem("id", res.data.id);
-        console.log(foodOldItems);
       } catch (err) {
-        console.log(err);
       }
       return;
     };
@@ -104,7 +100,6 @@ function FridgeExterior() {
         const isOpen = response.data.data;
         setIsRefrigeratorOpen(isOpen);
       } catch (error) {
-        console.log("냉장고 문열림 여부 조회 실패", error);
       }
     };
 
@@ -142,9 +137,6 @@ function FridgeExterior() {
     return selectedImage;
   });
 
-  // console.log(selectedImages);
-  // console.log(selectedImage);
-  // selectedImages.forEach((elem) => console.log(elem));
   // 현재 시간을 가져오는 함수
   const getCurrentTime = () => {
     const now = new Date();

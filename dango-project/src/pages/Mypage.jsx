@@ -25,13 +25,11 @@ function Mypage() {
   const getProfileInfo = async() => {
     try {
       const response = await userAPI.profile(loginUser.accessToken);
-      console.log("프로필 조회 성공", response)
       setEmail(response.data.data.username);
       setNickname(response.data.data.nickname);
 
 
     } catch (error) {
-      console.log("프로필 정보 조회 실패", error)
     }
   }
 

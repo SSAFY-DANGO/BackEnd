@@ -34,7 +34,6 @@ export default function SignUp() {
     }
 
     if (!regexLimit.test(password)) {
-      console.log(password)
       alert("비밀번호는 최소 8자, 최소 하나의 특수문자 및 하나의 숫자를 포함해야합니다.");
       return;
     }
@@ -47,7 +46,6 @@ export default function SignUp() {
         const loginRes = await userAPI.login({ username, password });
         // 로그인 잘 됐으면 냉장고 등록 페이지, 아니면 첫화면으로
         if (loginRes.data.status === 200) {
-          console.log(loginRes);
           const loginUser = loginRes.data.data;
           localStorage.setItem("loginUser", JSON.stringify(loginUser));
           navigate("/connect-fridge");
@@ -58,7 +56,6 @@ export default function SignUp() {
         alert(response.message);
       }
     } catch (error) {
-      console.log("로그인 실패", error);
     }
   };
 
@@ -72,7 +69,6 @@ export default function SignUp() {
         alert(res.data.message);
       }
     } catch (e) {
-      console.log(e);
       alert("이메일 중복 체크 실패");
     }
   }

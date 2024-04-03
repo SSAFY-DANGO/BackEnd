@@ -7,7 +7,6 @@ function DropDownComponent({ onSelectCategory }) {
   const options = ['전체', '과일류', '채소류', '기타']; // Define category options
 
   const optDropDown = (option) => {
-    console.log(`${option}`);
     setIsOpenDropDown(false);
     setSelectedOption(option);
     onSelectCategory(option);
