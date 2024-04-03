@@ -39,7 +39,8 @@ import 망고 from '../assets/imgs/groceries/망고.png';
 import 멜론 from '../assets/imgs/groceries/멜론.png';
 import 블루베리 from '../assets/imgs/groceries/블루베리.png';
 import 수박 from '../assets/imgs/groceries/수박.png';
-// import 랜덤 from '../assets/imgs/groceries/랜덤.png';
+import 랜덤 from '../assets/imgs/mark_question.png';
+
 function FridgeExterior() {
   const imageMap = {
     아보카도: 아보카도,
@@ -69,8 +70,8 @@ function FridgeExterior() {
     망고: 망고,
     멜론: 멜론,
     블루베리: 블루베리,
-    수박: 수박
-    // 랜덤: 랜덤,
+    수박: 수박,
+    랜덤: 랜덤,
   };
 
   const loginUser = useRecoilValue(loginUserState);
