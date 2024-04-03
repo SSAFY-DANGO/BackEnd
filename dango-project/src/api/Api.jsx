@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const DEV = import.meta.env.VITE_DANGO_API_DEV;
-const HOST = import.meta.env.VITE_DANGO_API_PROD;
+const HOST = import.meta.env.VITE_DANGO_API_DEV;
 
 export const noneTokenApi = axios.create({
   baseURL: HOST,
