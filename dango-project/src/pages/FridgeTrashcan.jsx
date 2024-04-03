@@ -32,7 +32,7 @@ function FridgeTrashcan() {
       <div className='flex-col ml-[9.5vw]'>
 
         <div className="mt-5 mx-auto">
-            예은이의 냉장고 휴지통 : 복원하고싶은 항목을 클릭하세요
+            냉장고 휴지통 : 복원하고싶은 항목을 클릭하세요
         </div>
 
         <div className="mb-[2vh]">

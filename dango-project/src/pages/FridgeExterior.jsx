@@ -156,7 +156,7 @@ function FridgeExterior() {
     <>
       <Header text={"예은이의 냉장고"} />
 
-      <div className="relative h-[590px] pt-[50px]">
+      <div className="relative h-[790px] pt-10 pb-[50px]">
         {/* relative h-screen */}
         {/* absolute left-1/2 transform -translate-x-1/2 translate-y-1/2 */}
         <div className="absolute left-1/2 transform -translate-x-1/2 ">
