@@ -60,7 +60,9 @@ const imageMap = {
 }
 
 
-function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTime, unitTime, timeDifferenceOutput }) {
+function Modal({ bool, onClose, nameText, buttonText, itemid, type, calorie, protein, carbs, detailbool, inputTime, unitTime, timeDifferenceOutput }) {
+
+    
     const navigate = useNavigate();
     const loginUser = useRecoilValue(loginUserState);
 
@@ -81,7 +83,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
         try {
             // const idValue = {id: item.log.id,};
             // const jsonStringID = JSON.stringify(idValue);
-            const response = await logAPI.delete(item.log.id, loginUser.accessToken);
+            const response = await logAPI.delete(itemid, loginUser.accessToken);
             console.log('식재료 삭제 성공', response);
             handleModalClose();
             navigate('/fridge-trashcan')
@@ -95,7 +97,7 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
 
     const handleRecover = async() => {
         try {
-            const response = await trashAPI.restore(item.log.id, loginUser.accessToken);
+            const response = await trashAPI.restore(itemid, loginUser.accessToken);
             console.log('식재료 복원 성공', response);
             handleModalClose();
             navigate('/fridge-inside')
@@ -145,18 +147,18 @@ function Modal({ bool, onClose, nameText, buttonText, item, detailbool, inputTim
                             들어온 시간: {inputTime.replace("T", " ")}
                         </div>
                         <div className="flex justify-center">
-                            종류: {item.log.category}
+                            종류: {type}
                         </div>                      
                         </div>)}
                         {detailboolshow &&(<div className="mt-[7vh]">
                         <div className="flex justify-center">
-                            단백질: {item.protein}
+                            칼로리: {calorie}
                         </div>
                         <div className="flex justify-center">
-                            설탕: {item.sugar}
+                            단백질: {protein}
                         </div>
                         <div className="flex justify-center">
-                           탄수화물: {item.carbs}
+                           탄수화물: {carbs}
                         </div>                      
                         </div>)}
                         <div className="flex justify-center items-center mt-[1vh]">

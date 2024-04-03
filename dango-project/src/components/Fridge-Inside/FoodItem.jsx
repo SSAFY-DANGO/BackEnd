@@ -91,13 +91,21 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
     setIsModalOpen(true);
   };
 
-  const [foodItems, setFoodItems] = useState('');
+  const [itemType, setItemType] = useState("");
+  const [itemCalorie, setItemCalorie] = useState("");
+  const [itemProtein, setItemProtein] = useState("");
+  const [itemCarbs, setItemCarbs] = useState("");
+  
 
   const openGroceryDetail = async () => {
     try {
       const response = await logAPI.getDetail(itemid, loginUser.accessToken);
-      setFoodItems(response.data);
       console.log('식재료 상세 조회 성공', response.data);
+      setItemCalorie(response.data.data.calorie);
+      setItemProtein(response.data.data.protein);
+      setItemCarbs(response.data.data.carbs);
+      setItemType(response.data.data.type);
+      console.log(itemType, itemCalorie, itemProtein, itemCarbs)
       openModal();
     } catch (error) {
       console.log('식재료 상세 조회 실패', error);
@@ -129,7 +137,11 @@ function Groceries({ nameText, buttonText, itemid, detailbool, inputTime }) {
         onClose={closeModal}
         nameText={nameText}
         buttonText={buttonText}
-        item={foodItems}
+        type={itemType}
+        calorie={itemCalorie}
+        itemid={itemid}
+        protein={itemProtein}
+        carbs={itemCarbs}
         detailbool={detailbool}
         inputTime={inputTime}
         unitTime={unitTime}
