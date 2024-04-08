@@ -39,7 +39,7 @@
 
 |[신온유]([https://github.com/tlsdhsdb](https://github.com/tlsdhsdb))|[전경향]([https://github.com/HappyHyang](https://github.com/HappyHyang))|[유호영]([https://github.com/Monami123321](https://github.com/Monami123321))|[이정민]([https://github.com/dangalee](https://github.com/dangalee))|[전예은]([https://github.com/yeeunjeon789](https://github.com/yeeunjeon789))|
 |---|---|---|---|---|
-|<img style="width:50px" src = "https://avatars.githubusercontent.com/tlsdhsdb"/>|<img style="width:50px" src = "https://avatars.githubusercontent.com/HappyHyang"/>|<img style="width:50px" src = "https://avatars.githubusercontent.com/Monami123321"/>|<img style="width:50px" src = "https://avatars.githubusercontent.com/dangalee"/>|<img style="width:50px" src = "https://avatars.githubusercontent.com/yeeunjeon789"/>|
+|<img style="width:100px" src = "https://avatars.githubusercontent.com/tlsdhsdb"/>|<img style="width:100px" src = "https://avatars.githubusercontent.com/HappyHyang"/>|<img style="width:100px" src = "https://avatars.githubusercontent.com/Monami123321"/>|<img style="width:100px" src = "https://avatars.githubusercontent.com/dangalee"/>|<img style="width:100px" src = "https://avatars.githubusercontent.com/yeeunjeon789"/>|
 |백엔드,AI|백엔드,인프라,IoT|백엔드,인프라|프론트|프론트|
 
 # 아키텍쳐
