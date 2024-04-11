@@ -44,7 +44,8 @@
 
 # 아키텍쳐
 
-![DANGO drawio (1)](https://github.com/SSAFY-DANGO/wiki/assets/42714724/e7d4fc80-5657-4859-84b9-1fea17e1552f)
+![DANGO drawio (1)](https://github.com/SSAFY-DANGO/BackEnd/assets/42714724/b97e3118-6d5b-4372-8f9d-564ceef5d18d)
+
 
 # 기술스택
 
